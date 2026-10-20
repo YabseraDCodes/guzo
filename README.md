@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GUZO — Ethiopian Tourism Platform
 
-## Getting Started
+Guzo is an open-source platform that helps travellers discover Ethiopia, explore tour packages, and book tours online.
 
-First, run the development server:
+The platform also provides a dashboard for travel agencies to manage destinations, tour packages, and customer bookings.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Explore Ethiopian destinations.
+- Browse and search tour packages.
+- View tour details, prices, and itineraries.
+- Book tours directly online.
+- Track booking status.
+- Manage tours, destinations, and bookings through an admin dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js
+- TypeScript
+- PostgreSQL or MySQL (to be decided)
+- Zod
+- Git and GitHub
+- Vercel
 
-## Learn More
+## Project Status
 
-To learn more about Next.js, take a look at the following resources:
+Currently in the planning stage. Development has not started yet.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions and ideas are welcome. More contribution guidelines will be added as the project develops.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project license will be decided before the first public release.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+**Guzo — Discover Ethiopia. Live the Journey.**
