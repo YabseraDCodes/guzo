@@ -1,0 +1,166 @@
+[
+  {
+    "slug": "lalibela-cultural-tour",
+    "title": "Lalibela Cultural Tour",
+    "category": "Cultural",
+    "destination": "Lalibela, Amhara Region",
+    "duration": "3 Days",
+    "price": 250,
+    "image": "https://i.pinimg.com/1200x/4e/1a/8f/4e1a8f9cfbb9278fa3bee11c639807d5.jpg",
+    "description": "Discover the incredible rock-hewn churches of Lalibela, experience Ethiopian culture, and explore one of the country's most remarkable historical destinations with a local guide.",
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival in Lalibela",
+        "description": "Meet your guide, settle into your accommodation, and explore the local area."
+      },
+      {
+        "day": "Day 2",
+        "title": "Explore the Rock-Hewn Churches",
+        "description": "Visit Lalibela's famous churches and learn about their history and cultural significance."
+      },
+      {
+        "day": "Day 3",
+        "title": "Local Culture and Departure",
+        "description": "Experience local traditions, enjoy the surrounding scenery, and conclude your tour."
+      }
+    ],
+    "includes": [
+      "Local tour guide",
+      "Guided sightseeing",
+      "Local transportation during the tour",
+      "Cultural experiences"
+    ]
+  },
+  {
+    "slug": "lalibela-guided-adventure",
+    "title": "Lalibela Guided Adventure",
+    "category": "Adventure",
+    "destination": "Lalibela, Amhara Region",
+    "duration": "2 Days",
+    "price": 180,
+    "image": "https://i.pinimg.com/1200x/bd/37/ca/bd37ca0c33131b3802edc87b3eda11ae.jpg",
+    "description": "Enjoy a guided adventure around Lalibela, discover historical landmarks, and experience the beauty of the surrounding landscape.",
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Discover Lalibela",
+        "description": "Explore important historical sites with your local guide."
+      },
+      {
+        "day": "Day 2",
+        "title": "Culture and Scenery",
+        "description": "Experience local culture and enjoy the surrounding landscape."
+      }
+    ],
+    "includes": [
+      "Local tour guide",
+      "Guided sightseeing",
+      "Local transportation during the tour"
+    ]
+  },
+  {
+    "slug": "simien-mountain-trek",
+    "title": "Simien Mountain Trek",
+    "category": "Trekking",
+    "destination": "Simien Mountains, Ethiopia",
+    "duration": "5 Days",
+    "price": 400,
+    "image": "https://i.pinimg.com/1200x/c4/f8/88/c4f8883f2fd479462ed631ad8eb4618d.jpg",
+    "description": "Explore spectacular mountain scenery, hike scenic trails, and discover the unique wildlife of the Simien Mountains.",
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival and Preparation",
+        "description": "Meet your guide and prepare for your mountain adventure."
+      },
+      {
+        "day": "Day 2",
+        "title": "Begin the Trek",
+        "description": "Explore mountain trails and enjoy breathtaking views."
+      },
+      {
+        "day": "Day 3",
+        "title": "Mountain Exploration",
+        "description": "Discover scenic viewpoints and look for native wildlife."
+      },
+      {
+        "day": "Day 4",
+        "title": "Explore the Highlands",
+        "description": "Continue your trek through the dramatic mountain landscape."
+      },
+      {
+        "day": "Day 5",
+        "title": "Return Journey",
+        "description": "Complete the trek and return from the mountains."
+      }
+    ],
+    "includes": [
+      "Local trekking guide",
+      "Guided hiking",
+      "Planned trekking itinerary",
+      "Local transportation as specified"
+    ]
+  },
+  {
+    "slug": "gondar-heritage-tour",
+    "title": "Gondar Heritage Tour",
+    "category": "Heritage",
+    "destination": "Gondar, Amhara Region",
+    "duration": "2 Days",
+    "price": 160,
+    "image": "https://i.pinimg.com/736x/94/16/95/94169589b1e7d9d59c0c99d5d17f6030.jpg",
+    "description": "Explore Gondar's historic castles, discover royal architecture, and learn about Ethiopia's fascinating imperial past.",
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Royal Gondar",
+        "description": "Explore historic royal sites and learn about Gondar's history."
+      },
+      {
+        "day": "Day 2",
+        "title": "Heritage and Culture",
+        "description": "Discover more historic landmarks and experience local culture."
+      }
+    ],
+    "includes": [
+      "Local tour guide",
+      "Guided sightseeing",
+      "Local transportation during the tour"
+    ]
+  },
+  {
+    "slug": "harar-cultural-tour",
+    "title": "Harar Cultural Tour",
+    "category": "Cultural",
+    "destination": "Harar, Harari Region, Ethiopia",
+    "duration": "3 Days",
+    "price": 220,
+    "image": "https://i.pinimg.com/736x/5e/01/4c/5e014c7e3a191eaf7e05724490b55c60.jpg",
+    "description": "Discover the historic walled city of Harar, explore its colorful markets and traditional Harari homes, visit important cultural landmarks, and experience the unique traditions of eastern Ethiopia with a local guide.",
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival in Harar",
+        "description": "Meet your local guide, settle into your accommodation, and explore Harar's historic streets and vibrant markets."
+      },
+      {
+        "day": "Day 2",
+        "title": "Explore the Old Walled City",
+        "description": "Discover Harar Jugol, visit historic mosques and traditional Harari houses, explore local markets, and learn about the city's rich cultural heritage."
+      },
+      {
+        "day": "Day 3",
+        "title": "Harari Traditions and Departure",
+        "description": "Experience local food and coffee traditions, discover more of Harar's cultural landmarks, and conclude your tour."
+      }
+    ],
+    "includes": [
+      "Local tour guide",
+      "Guided sightseeing",
+      "Local transportation during the tour",
+      "Cultural experiences",
+      "Visits to historical and cultural landmarks"
+    ]
+  }
+]

@@ -1,0 +1,53 @@
+
+[
+  {
+    "slug": "lalibela",
+    "name": "Lalibela",
+    "region": "Amhara Region, Ethiopia",
+    "description": "Discover Lalibela's extraordinary rock-hewn churches, historic landmarks, and rich cultural heritage.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxjEqrYcsbBrcXwXwI9ATrnahUvtn9FMMEDPrmbP7Pxw&s=10",
+    "highlights": [
+      "Rock-hewn churches",
+      "Ethiopian history",
+      "Local culture"
+    ]
+  },
+  {
+    "slug": "simien-mountains",
+    "name": "Simien Mountains",
+    "region": "Northern Ethiopia",
+    "description": "Explore spectacular mountain peaks, hiking trails, and unique Ethiopian wildlife.",
+    "image": "https://i.pinimg.com/736x/f7/bc/c4/f7bcc4bb5a5e745a19c20f9cd412f92f.jpg",
+    "highlights": [
+      "Mountain hiking",
+      "Wildlife watching",
+      "Scenic landscapes"
+    ]
+  },
+  {
+    "slug": "gondar",
+    "name": "Gondar",
+    "region": "Amhara Region, Ethiopia",
+    "description": "Explore royal castles, historic churches, and Ethiopia's imperial history.",
+    "image": "https://i.pinimg.com/1200x/53/78/74/53787475a8f10046b25bf5f95ec5b3df.jpg",
+    "highlights": [
+      "Royal castles",
+      "Historic churches",
+      "Cultural heritage"
+    ]
+  },
+  {
+    "slug": "harar",
+    "name": "Harar",
+    "region": "Harari Region, Eastern Ethiopia",
+    "description": "Discover Harar's ancient walled city, colorful traditional houses, historic mosques, vibrant markets, and rich Islamic heritage.",
+    "image": "https://i.pinimg.com/1200x/38/56/86/385686a089eb1ef8f2b14268a57b31d5.jpg",
+    "highlights": [
+      "Historic walled city (Jugol)",
+      "Traditional Harari houses",
+      "Historic mosques and Islamic heritage",
+      "Colorful markets and local culture",
+      "Hyena feeding tradition"
+    ]
+  }
+]
