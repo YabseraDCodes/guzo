@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { getDestinations } from "../../../lib/tour-data";
+import DestinationCard from "../components/DestinationCard";
 import "./destinations.css";
 
 export default function DestinationsPage() {
@@ -19,10 +20,7 @@ export default function DestinationsPage() {
           <Link href="/tours">Tours</Link>
         </div>
 
-        <Link
-          href="/tours"
-          className="destinations-nav-button"
-        >
+        <Link href="/tours" className="destinations-nav-button">
           Explore Tours
         </Link>
       </nav>
@@ -48,45 +46,10 @@ export default function DestinationsPage() {
 
         <div className="destinations-grid">
           {destinations.map((destination) => (
-            <article
-              className="destination-card"
+            <DestinationCard
               key={destination.slug}
-            >
-              <Link
-                href={`/destinations/${destination.slug}`}
-                className="destination-image-link"
-              >
-                <img
-                  src={destination.image}
-                  alt={destination.name}
-                />
-              </Link>
-
-              <div className="destination-card-body">
-                {destination.category && (
-                  <span className="destination-category">
-                    {destination.category}
-                  </span>
-                )}
-
-                <h3>{destination.name}</h3>
-
-                <p className="destination-region">
-                  📍 {destination.region}
-                </p>
-
-                <p className="destination-description">
-                  {destination.description}
-                </p>
-
-                <Link
-                  href={`/destinations/${destination.slug}`}
-                  className="destination-view-link"
-                >
-                  Explore destination →
-                </Link>
-              </div>
-            </article>
+              destination={destination}
+            />
           ))}
         </div>
       </section>
@@ -95,6 +58,7 @@ export default function DestinationsPage() {
         <Link href="/" className="destinations-logo">
           GUZO<span>.</span>
         </Link>
+
         <p>Discover Ethiopia. Live the Journey.</p>
       </footer>
     </main>
