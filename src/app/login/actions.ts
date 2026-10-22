@@ -25,3 +25,17 @@ export async function login( _previousState: LoginState, formData: FormData): Pr
 
   redirect("/admin");
 }
+
+
+export async function logout() {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    throw new Error("Unable to log out. Please try again.");
+  }
+
+  redirect("/login");
+}
+
