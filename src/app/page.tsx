@@ -28,10 +28,13 @@ const tours = [
 ];
 
 export default function Home() {
+
+
+    
   return (
     <main>
       <nav className="navbar">
-        <Link href="/" className="logo">
+        <Link href="process.env.NEXT_PUBLIC_SUPABASE_URL" className="logo">
           GUZO<span>.</span>
         </Link>
 
@@ -51,6 +54,8 @@ export default function Home() {
           <p className="eyebrow">DISCOVER THE LAND OF ORIGINS</p>
 
           <h1>
+    
+
             Your next
             <br />
             adventure starts
@@ -154,6 +159,7 @@ export default function Home() {
         </Link>
         <p>Discover Ethiopia. Live the Journey.</p>
         <p>© 2026 Guzo. Built with love for Ethiopia.</p>
+       
       </footer>
     </main>
   );
