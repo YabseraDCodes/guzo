@@ -241,7 +241,7 @@ export default function Home() {
       <section className="closing-banner">
         <p className="eyebrow"><span /> THE WORLD IS WIDE</p>
         <h2>Your next story starts <em>here.</em></h2>
-        <a className="banner-button" href="/tours">
+        <a className="banner-button" href="/countries">
           Find your journey <span aria-hidden="true">→</span>
         </a>
       </section>
