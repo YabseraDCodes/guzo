@@ -101,8 +101,11 @@ export default function DestinationDetailPage() {
           {destination.highlights.map((highlight) => (
             <p key={highlight}>✳ {highlight}</p>
           ))}
-          <a className="detail-button" href="/tours">
-            Explore tours →
+          <a
+            className="detail-button"
+            href={`/agencies?destination=${encodeURIComponent(destination.name)}`}
+          >
+            Explore travel agencies →
           </a>
         </div>
       </section>
