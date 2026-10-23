@@ -1,0 +1,112 @@
+
+.staff-header {
+  background: #f0f5f2;
+  padding: 0 23px 14px;
+  color: #102f32;
+  font-family: Arial, sans-serif;
+}
+
+.staff-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 36px;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #14745b;
+}
+
+.staff-heading {
+  margin-bottom: 32px;
+}
+
+.staff-label {
+  margin: 0 0 8px;
+  color: #e88b13;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.staff-heading h1 {
+  margin: 0 0 5px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 750;
+}
+
+.staff-description {
+  margin: 0;
+  color: #55777b;
+  font-size: 14px;
+}
+
+.staff-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid #d9e6e0;
+  border-radius: 40px;
+  background: #fff;
+}
+
+.staff-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  color: #334e50;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.staff-tab:hover {
+  background: #e6f1ec;
+}
+
+.staff-tab.active {
+  color: #fff;
+  background: #14745b;
+}
+
+@media (max-width: 600px) {
+  .staff-header {
+    padding: 0 14px 16px;
+  }
+
+  .staff-brand {
+    margin-bottom: 28px;
+  }
+
+  .staff-heading h1 {
+    font-size: 25px;
+  }
+
+  .staff-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .staff-tab {
+    padding: 11px 12px;
+    gap: 6px;
+    font-size: 12px;
+  }
+}
