@@ -1,9 +1,9 @@
-export async function fetcher<T>(url: string): Promise<T> {
-  const response = await fetch(url);
+export async function fetcher(url: string) {
+  const res = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
   }
 
-  return response.json() as Promise<T>;
+  return res.json();
 }
