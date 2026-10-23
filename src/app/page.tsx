@@ -76,6 +76,11 @@ const destinations = [
   },
 ];
 
+const featuredDestinations = [
+  destinations[0], // Morocco
+  destinations[5], // Kenya
+  destinations[8], // Ethiopia
+];
 
 export default function Home() {
   return (
@@ -171,7 +176,7 @@ export default function Home() {
         </div>
 
         <div className="destination-grid">
-          {destinations.map((destination) => (
+          {featuredDestinations.map((destination) => (
             <a
               className="destination-card"
               href={destination.slug}
