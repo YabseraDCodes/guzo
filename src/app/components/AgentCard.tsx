@@ -1,4 +1,5 @@
 import PackageCard from "./PackageCard";
+import "./AgentCard.css";
 
 type Package = {
     price: number;
@@ -36,20 +37,49 @@ export default function AgentCard({
     agent: Agent;
 }) {
     return (
-        <article>
-            <h3>{agent.name}</h3>
+        <article className="agent-card">
+            <header className="agent-card-header">
+                <div className="agent-info">
+                    <span className="agent-label">TOUR OPERATOR</span>
 
-            <p>{agent.description}</p>
-            <p>⭐ {agent.rating}</p>
-            <p>Contact: {agent.contact_info}</p>
+                    <h3>{agent.name}</h3>
 
-            <div>
+                    <p className="agent-description">
+                        {agent.description}
+                    </p>
+                </div>
+
+                <div className="agent-rating">
+                    <span>★</span>
+                    <strong>{agent.rating}</strong>
+                    <small>Rating</small>
+                </div>
+            </header>
+
+            <div className="agent-contact">
+                <span className="agent-contact-icon">✉</span>
+                <div>
+                    <small>Contact the agent</small>
+                    <p>{agent.contact_info}</p>
+                </div>
+            </div>
+
+            <div className="agent-packages-heading">
+                <div>
+                    <h4>Choose Your Experience</h4>
+                    <p>Find the package that suits your journey.</p>
+                </div>
+            </div>
+
+            <div className="agent-packages">
                 {Object.entries(agent.packages).map(
                     ([packageName, pkg]) => (
                         <PackageCard
                             key={packageName}
                             packageName={packageName}
                             pkg={pkg}
+                            agentId={agent.id}
+                            destinationId={agent.destination_id}
                         />
                     )
                 )}

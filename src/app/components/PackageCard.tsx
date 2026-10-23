@@ -1,3 +1,5 @@
+import "./PackageCard.css";
+
 type Package = {
     price: number;
     duration: string;
@@ -14,81 +16,124 @@ type Package = {
     }[];
 };
 
+type PackageCardProps = {
+    packageName: string;
+    pkg: Package;
+    agentId: number;
+    destinationId: number;
+};
+
 export default function PackageCard({
     packageName,
     pkg,
-}: {
-    packageName: string;
-    pkg: Package;
-}) {
+    agentId,
+    destinationId,
+}: PackageCardProps) {
+    const hotelRating = Math.max(
+        0,
+        Math.min(5, Number(pkg.hotel.ranking) || 0)
+    );
+
     return (
-        <section>
-            <h4>{packageName} Package</h4>
+        <article className={`package-card package-${packageName.toLowerCase()}`}>
+            <div className="package-card-top">
+                <span className="package-name">
+                    {packageName} Package
+                </span>
 
-            <p>${pkg.price}</p>
-            <p>Duration: {pkg.duration}</p>
-
-            <div>
-                <h5>Hotel</h5>
-
-                <p>
-                    Rating: {"⭐".repeat(
-                        Math.max(
-                            0,
-                            Math.min(
-                                5,
-                                Number(pkg.hotel.ranking) || 0
-                            )
-                        )
-                    )}
-                </p>
-
-                <p>{pkg.hotel.description}</p>
-
-                {pkg.hotel.image && (
-                    <img
-                        src={pkg.hotel.image}
-                        alt={`${packageName} package hotel`}
-                    />
+                {packageName.toLowerCase() === "golden" && (
+                    <span className="package-popular">
+                        PREMIUM CHOICE
+                    </span>
                 )}
             </div>
 
-            <div>
+            <div className="package-price">
+                <span className="package-currency">$</span>
+                <strong>{pkg.price.toLocaleString()}</strong>
+            </div>
+
+            <p className="package-duration">
+                <span aria-hidden="true">◷</span> {pkg.duration}
+            </p>
+
+            <div className="package-divider" />
+
+            <section className="package-hotel">
+                <h5>Accommodation</h5>
+
+                {pkg.hotel.image && (
+                    <div className="package-hotel-image">
+                        {/* TODO: Replace with next/image and configure
+                            remote image hosts when ready. */}
+                        <img
+                            src={pkg.hotel.image}
+                            alt={`${packageName} package hotel`}
+                        />
+                    </div>
+                )}
+
+                <div className="package-hotel-rating">
+                    <span aria-label={`${hotelRating} out of 5 stars`}>
+                        {"★".repeat(hotelRating)}
+                        {"☆".repeat(5 - hotelRating)}
+                    </span>
+                    <small>Hotel rating</small>
+                </div>
+
+                <p>{pkg.hotel.description}</p>
+            </section>
+
+            <section className="package-inclusions">
                 <h5>What's Included</h5>
 
                 <ul>
                     {pkg.includes.map((item, index) => (
-                        <li key={index}>{item}</li>
+                        <li key={index}>
+                            <span className="inclusion-check">✓</span>
+                            <span>{item}</span>
+                        </li>
                     ))}
                 </ul>
-            </div>
+            </section>
 
-            <div>
-                <h5>Itinerary</h5>
+            <details className="package-itinerary">
+                <summary>
+                    <span>View itinerary</span>
+                    <span className="itinerary-arrow">⌄</span>
+                </summary>
 
                 <ol>
                     {pkg.itinerary.map((day, index) => (
                         <li key={index}>
-                            <p>
-                                {day.day}: {day.title}
-                            </p>
+                            <div className="itinerary-day">
+                                {day.day}
+                            </div>
 
-                            <p>{day.description}</p>
+                            <div className="itinerary-content">
+                                <h6>{day.title}</h6>
+                                <p>{day.description}</p>
+                            </div>
                         </li>
                     ))}
                 </ol>
-            </div>
-            
+            </details>
+
             <button
                 type="button"
+                className="package-book-button"
                 onClick={() => {
-                    // TODO: Navigate to the bookings page.
-                    // Pass the destination ID, agent ID, and package name.
-                    // Coordinate the route with the bookings page implementation.
+                    // TODO: Connect to the bookings page when its route
+                    // is ready. Pass destinationId, agentId, and packageName.
+                    console.log("Booking selection:", {
+                        destinationId,
+                        agentId,
+                        packageName,
+                    });
                 }}
             >
-                Book this package
+                Book This Package <span aria-hidden="true">→</span>
             </button>
-        </section>
+        </article>
     );
 }
