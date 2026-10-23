@@ -1,10 +1,12 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
-  title: "GUZO | Discover Ethiopia",
-  description: "Discover Ethiopia. Live the Journey.",
+  title: "GUZO | Discover Africa",
+  description: "Discover Africa. Live the Journey.",
 };
 
 export default function RootLayout({
@@ -14,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

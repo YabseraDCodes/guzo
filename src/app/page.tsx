@@ -1,5 +1,5 @@
 
-
+"use client";
 
 const destinations = [
   {
@@ -160,7 +160,8 @@ export default function Home() {
           </h2>
         </div>
         <p className="intro-copy">
-          find the places, people, and experiences that make Africa extraordinary.
+           Discover the places, people, and experiences that make Africa extraordinary.
+           From ancient cities to wild landscapes, your next adventure begins here.
         </p>
       </section>
 
@@ -200,6 +201,60 @@ export default function Home() {
         </div>
       </section>
 
+      
+      <section className="trip-status-section">
+        <div className="trip-status-content">
+          <p className="eyebrow">
+            <span /> YOUR JOURNEY, YOUR WAY
+          </p>
+
+          <h2>
+            Already planning a trip?
+            <br />
+            <em>Check your status.</em>
+          </h2>
+
+          <p className="trip-status-description">
+            Enter your trip reference to check the progress of your journey.
+            No sign-in required.
+          </p>
+
+          <form
+            className="trip-status-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const form = event.currentTarget;
+              const data = new FormData(form);
+              const reference = String(data.get("reference") || "").trim();
+
+              if (reference) {
+              window.location.href =
+                  `/trip-status?reference=${encodeURIComponent(reference)}`;
+              }
+            }}
+          >
+            <input
+              type="text"
+              name="reference"
+              placeholder="Enter your trip reference"
+              aria-label="Trip reference"
+              required
+            />
+
+            <button type="submit">
+              Check Status <span aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
+
+        <div className="trip-status-decoration" aria-hidden="true">
+          <span>GUZO</span>
+          <span className="trip-status-compass">✳</span>
+          <span>YOUR NEXT STORY STARTS HERE</span>
+        </div>
+      </section>
+
+
       <section className="closing-banner">
         <p className="eyebrow"><span /> THE WORLD IS WIDE</p>
         <h2>Your next story starts <em>here.</em></h2>
@@ -207,14 +262,6 @@ export default function Home() {
           Find your journey <span aria-hidden="true">→</span>
         </a>
       </section>
-
-      <footer className="site-footer">
-        <a className="brand footer-brand" href="/">
-          GUZO<span>.</span>
-        </a>
-        <p>Discover Afica. Live the Journey.</p>
-        <span>Made for the curious · Africa</span>
-      </footer>
     </main>
   );
 }
