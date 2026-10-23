@@ -85,23 +85,6 @@ const featuredDestinations = [
 export default function Home() {
   return (
     <main>
-      <header className="site-header">
-        <a className="brand" href="/" aria-label="Guzo home">
-          GUZO<span>.</span>
-        </a>
-
-        <nav className="main-nav" aria-label="Main navigation">
-          <a className="nav-active" href="/">Home</a>
-          <a href="/destinations">Destinations</a>
-          <a href="/tours">Tours</a>
-          <a href="/about">About</a>
-        </nav>
-
-        <a className="header-cta" href="/destinations">
-          Explore Africa <span aria-hidden="true">↗</span>
-        </a>
-      </header>
-
       <section className="hero">
         <div className="hero-overlay" />
         <div className="hero-content">
