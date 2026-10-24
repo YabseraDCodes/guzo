@@ -63,7 +63,7 @@ export default function TourDetailClient({
                 const allAgents: Agent[] = await fetcher("/api/agents");
 
                 const selectedTour = tours.find(
-                    (item) => item.name === slug
+                    (item) => item.slug === slug
                 );
 
                 const selectedAgents = selectedTour
