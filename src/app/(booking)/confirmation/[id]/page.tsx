@@ -1,0 +1,81 @@
+
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { createClient } from "@/app/utils/supabase/server";
+import { getBookingById } from "@/features/bookings/queries";
+
+import BookingSummary from "@/features/bookings/components/BookingSummary";
+import TravellerDetails from "@/features/bookings/components/TravellerDetails";
+import BookingStatusBadge from "@/features/bookings/components/BookingStatusBadge";
+import GuideDetails from "@/features/bookings/components/GuideDetails";
+import ArrivalInformation from "@/features/bookings/components/ArrivalInformation";
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function ConfirmationPage({
+  params,
+}: PageProps) {
+  const { id } = await params;
+  const bookingId = Number(id);
+
+  if (
+    !Number.isSafeInteger(bookingId) ||
+    bookingId <= 0
+  ) {
+    notFound();
+  }
+
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const booking = await getBookingById(bookingId);
+
+  if (!booking) {
+    notFound();
+  }
+
+  return (
+    <main className="mx-auto max-w-3xl space-y-6 px-4 py-10">
+      <header className="space-y-2">
+        <p className="font-semibold text-emerald-700">
+          GUZO Booking
+        </p>
+
+        <h1 className="text-3xl font-bold">
+          Booking request received!
+        </h1>
+
+        <p>
+          Your reference is{" "}
+          <strong>GUZO-{booking.id}</strong>
+        </p>
+
+        <BookingStatusBadge status={booking.status} />
+      </header>
+
+      <BookingSummary booking={booking} />
+
+      <TravellerDetails booking={booking} />
+
+      <GuideDetails />
+
+      <ArrivalInformation />
+
+      <Link
+        href={`/bookings/status/${booking.id}`}
+        className="inline-block rounded-lg bg-emerald-700 px-5 py-3 text-white"
+      >
+        Track booking status
+      </Link>
+    </main>
+  );
+}
