@@ -1,0 +1,175 @@
+/* Main layout */
+
+.tour-detail {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 7% 80px;
+}
+
+/* Tour overview */
+
+.tour-overview {
+    margin-bottom: 72px;
+}
+
+.tour-overview-content {
+    max-width: 800px;
+    margin-bottom: 32px;
+}
+
+.tour-eyebrow {
+    margin: 0 0 12px;
+    color: var(--guzo-terracotta);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 1.6;
+}
+
+.tour-overview h1 {
+    margin: 0;
+    color: var(--guzo-green);
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.1;
+}
+
+.tour-location {
+    margin: 16px 0 0;
+    color: var(--guzo-muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.tour-description {
+    max-width: 700px;
+    margin: 20px 0 0;
+    color: var(--guzo-charcoal);
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+/* Tour image gallery */
+
+.tour-gallery {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: repeat(2, 210px);
+    gap: 16px;
+}
+
+.tour-gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #e9e5da;
+}
+
+.tour-gallery-item-1 {
+    grid-row: 1 / 3;
+}
+
+.tour-image {
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.tour-gallery-item:hover .tour-image {
+    transform: scale(1.04);
+}
+
+/* Tour agents section */
+
+.tour-agents-section {
+    padding-top: 40px;
+    border-top: 1px solid rgba(23, 76, 60, 0.15);
+}
+
+.tour-section-heading {
+    margin-bottom: 32px;
+}
+
+.tour-section-heading h2 {
+    margin: 0;
+    color: var(--guzo-green);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.tour-section-heading > p:last-child {
+    margin: 14px 0 0;
+    color: var(--guzo-muted);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.tour-agents-list {
+    display: grid;
+    gap: 28px;
+}
+
+/* Loading and empty states */
+
+.tour-message {
+    padding: 32px 24px;
+    border: 1px solid rgba(23, 76, 60, 0.15);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--guzo-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+    .tour-detail {
+        padding: 32px 5% 56px;
+    }
+
+    .tour-overview {
+        margin-bottom: 48px;
+    }
+
+    .tour-gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 260px 160px;
+        gap: 10px;
+    }
+
+    .tour-gallery-item-1 {
+        grid-column: 1 / 3;
+        grid-row: auto;
+    }
+
+    .tour-agents-section {
+        padding-top: 32px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .tour-detail {
+        padding: 24px 5% 40px;
+    }
+
+    .tour-overview h1 {
+        letter-spacing: -1px;
+    }
+
+    .tour-gallery {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 220px);
+        gap: 12px;
+    }
+
+    .tour-gallery-item-1 {
+        grid-column: auto;
+    }
+}
