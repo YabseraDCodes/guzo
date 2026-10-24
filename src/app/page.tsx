@@ -3,10 +3,13 @@ import { fetcher } from "@/lib/fetcher";
 import { type Destination } from "./components/DestinationCard";
 
 export default async function Home() {
- 
-    const res = await fetch('http://localhost:3000/api/countries');
-    const countries = await res.json()
 
+  const res = await fetch('http://localhost:3000/api/countries', {
+    next: { revalidate: 300 },
+  });
+  const countries = await res.json()
+
+  const featuredDestinations = countries.slice(0,3);
   return (
     <main>
       <section className="hero">
@@ -85,7 +88,7 @@ export default async function Home() {
         <div className="destination-grid">
           {featuredDestinations.map((destination) => (
             <HomeDestinationCard
-              key={destination.number}
+              key={destination.id}
               destination={destination}
             />
           ))}

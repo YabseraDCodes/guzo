@@ -1,44 +1,46 @@
-
+import Image from "next/image";
 import type { Destination } from "./DestinationCard";
 
 interface HomeDestinationCardProps {
-  destination: Destination;
+    destination: Destination;
 }
 
 export default function HomeDestinationCard({
-  destination,
+    destination,
 }: HomeDestinationCardProps) {
-  return (
-    <a
-      className="destination-card"
-      href={destination.slug}
-      key={destination.number}
-    >
-      <img
-        src={destination.image}
-        alt={destination.name}
-        className="destination-image"
-      />
+    return (
+        <a
+            className="destination-card"
+            href={destination.slug}
+        >
+            <Image
+                src={destination.cover_image_url}
+                alt={destination.name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="destination-image"
+                priority={false}
+            />
 
-      <div className="card-shade" />
+            <div className="card-shade" />
 
-      <span className="card-number">
-        {destination.number}
-      </span>
+            <span className="card-number">
+                {destination.id}
+            </span>
 
-      <div className="card-content">
-        <span className="card-region">
-          {destination.region}
-        </span>
+            <div className="card-content">
+                <span className="card-region">
+                    {destination.region}
+                </span>
 
-        <h3>{destination.name}</h3>
+                <h3>{destination.name}</h3>
 
-        <p>{destination.description}</p>
+                <p>{destination.short_description}</p>
 
-        <span className="card-link" aria-hidden="true">
-          ↗
-        </span>
-      </div>
-    </a>
-  );
+                <span className="card-link" aria-hidden="true">
+                    ↗
+                </span>
+            </div>
+        </a>
+    );
 }
