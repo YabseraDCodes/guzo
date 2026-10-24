@@ -3,6 +3,49 @@ import { NextResponse } from "next/server";
 import { bookingSchema } from "@/features/bookings/schemas";
 import { createClient } from "@/app/utils/supabase/server";
 
+
+export async function GET() {
+  try {
+    const supabase = await createClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Please sign in to view your bookings." },
+        { status: 401 }
+      );
+    }
+
+    const { data, error } = await supabase
+      .from("bookings")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Failed to fetch bookings:", error);
+
+      return NextResponse.json(
+        { error: "Could not retrieve bookings." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Unexpected bookings API error:", error);
+
+    return NextResponse.json(
+      { error: "Unexpected error while retrieving bookings." },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body: unknown = await request.json();

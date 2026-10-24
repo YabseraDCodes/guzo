@@ -23,7 +23,7 @@ export default function BookingTimeline({
 }) {
   if (status === "cancelled") {
     return (
-      <p className="rounded-lg bg-red-50 p-4 text-red-800">
+      <p className="booking cancelled">
         This booking has been cancelled.
       </p>
     );
@@ -37,9 +37,9 @@ export default function BookingTimeline({
         : 0;
 
   return (
-    <ol className="space-y-4">
+    <ol className="compleat">
       {steps.map((step, index) => (
-        <li key={step.key} className="flex items-start gap-3">
+        <li key={step.key} className="confirmed">
           <span
             className={`mt-1 h-3 w-3 shrink-0 rounded-full ${
               index <= currentIndex
@@ -60,7 +60,7 @@ export default function BookingTimeline({
             </p>
 
             {index === currentIndex && (
-              <p className="text-sm text-gray-500">
+              <p className="currant">
                 Current stage
               </p>
             )}

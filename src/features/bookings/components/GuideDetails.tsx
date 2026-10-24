@@ -12,7 +12,7 @@ export default function GuideDetails({
 }: GuideDetailsProps) {
   return (
     <section className="space-y-2 rounded-xl border p-5">
-      <h2 className="text-xl font-semibold">Guide details</h2>
+      <h2 className="details">Guide details</h2>
 
       {guideName ? (
         <>
@@ -29,7 +29,7 @@ export default function GuideDetails({
           ) : null}
         </>
       ) : (
-        <p className="text-gray-600">
+        <p className="assignment">
           Guide assignment is pending confirmation from the agency.
         </p>
       )}

@@ -68,10 +68,10 @@ export default function BookingForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto w-full max-w-xl space-y-5"
+      className="submit"
     >
       <div>
-        <label htmlFor="travellerName" className="mb-1 block">
+        <label htmlFor="travellerName" className="name">
           Full name
         </label>
         <input
@@ -81,12 +81,12 @@ export default function BookingForm({
           autoComplete="name"
           minLength={2}
           required
-          className="w-full rounded-lg border p-3"
+          className="travellername"
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-1 block">
+        <label htmlFor="email" className="emails">
           Email address
         </label>
         <input
@@ -96,12 +96,12 @@ export default function BookingForm({
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
           required
-          className="w-full rounded-lg border p-3"
+          className="travelleremail"
         />
       </div>
 
       <div>
-        <label htmlFor="phone" className="mb-1 block">
+        <label htmlFor="phone" className="phonenumber">
           Phone number
         </label>
         <input
@@ -112,12 +112,12 @@ export default function BookingForm({
           autoComplete="tel"
           minLength={7}
           required
-          className="w-full rounded-lg border p-3"
+          className="travellerphone"
         />
       </div>
 
       <div>
-        <label htmlFor="travelDate" className="mb-1 block">
+        <label htmlFor="travelDate" className="date">
           Travel date
         </label>
         <input
@@ -127,12 +127,12 @@ export default function BookingForm({
           onChange={(e) => setTravelDate(e.target.value)}
           min={new Date().toLocaleDateString("en-CA")}
           required
-          className="w-full rounded-lg border p-3"
+          className="travellerdate"
         />
       </div>
 
       <div>
-        <label htmlFor="travellers" className="mb-1 block">
+        <label htmlFor="travellers" className="numbertraveller">
           Number of travellers
         </label>
         <input
@@ -143,12 +143,12 @@ export default function BookingForm({
           value={travellers}
           onChange={(e) => setTravellers(Number(e.target.value))}
           required
-          className="w-full rounded-lg border p-3"
+          className="peoplenumber"
         />
       </div>
 
       {error && (
-        <p role="alert" className="rounded-lg bg-red-50 p-3 text-red-700">
+        <p role="alert" className="information">
           {error}
         </p>
       )}
@@ -156,12 +156,12 @@ export default function BookingForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white disabled:opacity-60"
+        className="informationLoding"
       >
         {loading ? "Submitting..." : "Submit booking"}
       </button>
 
-      <p className="text-sm text-gray-500">
+      <p className="submitbooking">
         You must be signed in to submit a booking.
       </p>
     </form>

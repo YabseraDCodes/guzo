@@ -11,8 +11,8 @@ export default function ArrivalInformation({
   instructions,
 }: ArrivalInformationProps) {
   return (
-    <section className="space-y-2 rounded-xl border p-5">
-      <h2 className="text-xl font-semibold">
+    <section className="arrive-info">
+      <h2 className="arrive">
         Arrival information
       </h2>
 

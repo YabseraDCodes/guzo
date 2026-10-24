@@ -44,13 +44,13 @@ export default async function ConfirmationPage({
   }
 
   return (
-    <main className="mx-auto max-w-3xl space-y-6 px-4 py-10">
-      <header className="space-y-2">
-        <p className="font-semibold text-emerald-700">
+    <main className="guzo booking">
+      <header className="booking header">
+        <p className="header">
           GUZO Booking
         </p>
 
-        <h1 className="text-3xl font-bold">
+        <h1 className="request">
           Booking request received!
         </h1>
 
@@ -72,7 +72,7 @@ export default async function ConfirmationPage({
 
       <Link
         href={`/bookings/status/${booking.id}`}
-        className="inline-block rounded-lg bg-emerald-700 px-5 py-3 text-white"
+        className="tracking"
       >
         Track booking status
       </Link>

@@ -41,8 +41,8 @@ export default async function BookingStatusPage({
   }
 
   return (
-    <main className="mx-auto max-w-2xl space-y-6 px-4 py-10">
-      <h1 className="text-3xl font-bold">
+    <main className="booking track">
+      <h1 className="Track">
         Track your booking
       </h1>
 
@@ -50,12 +50,12 @@ export default async function BookingStatusPage({
         Reference: <strong>GUZO-{booking.id}</strong>
       </p>
 
-      <section className="rounded-xl border p-5">
-        <p className="mb-3 font-medium">Current status</p>
+      <section className="currant status">
+        <p className="status">Current status</p>
 
         <BookingStatusBadge status={booking.status} />
 
-        <div className="mt-6">
+        <div className="Timeline">
           <BookingTimeline status={booking.status} />
         </div>
       </section>

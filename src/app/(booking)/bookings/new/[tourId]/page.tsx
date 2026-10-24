@@ -10,11 +10,11 @@ interface PageProps {
 
 export default function NewBookingPage({ params }: PageProps) {
   return (
-    <main className="mx-auto max-w-3xl space-y-6 px-4 py-10">
-      <h1 className="text-3xl font-bold">Book your tour</h1>
+    <main className="booking tour">
+      <h1 className="booking">Book your tour</h1>
       <Suspense
         fallback={
-          <p role="status" className="text-gray-600">
+          <p role="loading tour">
             Loading tour details...
           </p>
         }
@@ -55,11 +55,11 @@ async function BookingContent({ params }: PageProps) {
 
   return (
     <>
-      <section className="rounded-xl border p-5">
-        <h2 className="text-xl font-semibold">{tourPackage.name}</h2>
+      <section className="package name">
+        <h2 className="tourpackage">{tourPackage.name}</h2>
 
         {tourPackage.description && (
-          <p className="mt-2 text-gray-600">{tourPackage.description}</p>
+          <p className="tourpackage">{tourPackage.description}</p>
         )}
 
         <p className="mt-3">
