@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Destination } from "./DestinationCard";
+import Link from "next/link";
 
 interface HomeDestinationCardProps {
     destination: Destination;
@@ -9,9 +10,9 @@ export default function HomeDestinationCard({
     destination,
 }: HomeDestinationCardProps) {
     return (
-        <a
+        <Link
             className="destination-card"
-            href={destination.slug}
+            href={`/destinations/${destination.slug}`}
         >
             <Image
                 src={destination.cover_image_url}
@@ -41,6 +42,6 @@ export default function HomeDestinationCard({
                     ↗
                 </span>
             </div>
-        </a>
+        </Link>
     );
 }

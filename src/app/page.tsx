@@ -1,15 +1,25 @@
+import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
-import { fetcher } from "@/lib/fetcher";
-import { type Destination } from "./components/DestinationCard";
+import "./homePage.css"
+import TourCard from "./components/TourCard";
 
 export default async function Home() {
 
-  const res = await fetch('http://localhost:3000/api/countries', {
-    next: { revalidate: 300 },
-  });
-  const countries = await res.json()
+  const [countriesRes, toursRes] = await Promise.all([
+    fetch("http://localhost:3000/api/countries", {
+      next: { revalidate: 300 },
+    }),
+    fetch("http://localhost:3000/api/tours", {
+      next: { revalidate: 300 },
+    }),
+  ]);
 
-  const featuredDestinations = countries.slice(0,3);
+  const countries = await countriesRes.json();
+  const tours: Tour[] = await toursRes.json();
+
+  const featuredDestinations = countries.slice(0, 3);
+  const featuredTours = tours.slice(5, 8);
+
   return (
     <main>
       <section className="hero">
@@ -73,6 +83,22 @@ export default async function Home() {
           From ancient cities to wild landscapes, your next adventure begins here.
         </p>
       </section>
+      <section className="stats-strip" aria-label="The Guzo experience">
+        <div className="stat-item">
+          <span className="stat-number">01</span>
+          <span className="stat-label">Discover new places</span>
+        </div>
+
+        <div className="stat-item">
+          <span className="stat-number">02</span>
+          <span className="stat-label">Experience local culture</span>
+        </div>
+
+        <div className="stat-item">
+          <span className="stat-number">03</span>
+          <span className="stat-label">Create lasting memories</span>
+        </div>
+      </section>
 
       <section className="destinations-section" id="destinations">
         <div className="section-heading">
@@ -80,9 +106,9 @@ export default async function Home() {
             <p className="eyebrow"><span /> PLACES TO DISCOVER</p>
             <h2>Find your <em>somewhere.</em></h2>
           </div>
-          <a className="text-link" href="/destinations">
+          <Link className="text-link" href="/destinations">
             All destinations <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         </div>
 
         <div className="destination-grid">
@@ -91,6 +117,33 @@ export default async function Home() {
               key={destination.id}
               destination={destination}
             />
+          ))}
+        </div>
+      </section>
+      <section className="featured-tours-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              <span /> JOURNEYS WORTH TAKING
+            </p>
+            <h2>
+              Find your next <em>adventure.</em>
+            </h2>
+          </div>
+
+          <Link className="text-link" href="/tours">
+            All tours <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+
+        <p className="featured-tours-description">
+          From unforgettable landscapes to rich cultural encounters,
+          discover experiences that bring Africa closer.
+        </p>
+
+        <div className="featured-tours-grid">
+          {featuredTours.map((tour) => (
+            <TourCard key={tour.id} tour={tour} />
           ))}
         </div>
       </section>

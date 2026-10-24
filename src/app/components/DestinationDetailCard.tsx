@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo, useState } from "react";
@@ -6,7 +5,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import TourCard, { type Tour } from "./TourCard";
-import "./DestinationDetailPage.css";
+import "./DestinationDetailCard.css"
 
 type Attraction = {
     name: string;

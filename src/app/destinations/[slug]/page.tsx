@@ -1,4 +1,4 @@
-import DestinationDetailPage from "@/app/components/DestinationDetailPage";
+import DestinationDetailPage from "@/app/components/DestinationDetailCard";
 
 export default async function Page({
   params,
