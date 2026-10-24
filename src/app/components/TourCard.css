@@ -1,4 +1,8 @@
 
+/* =========================================
+   GUZO — TOUR CARD
+========================================= */
+
 .tour-card {
   min-width: 0;
   overflow: hidden;
@@ -188,7 +192,6 @@
   line-height: 1.8;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  line-clamp: 3;
 }
 
 /* =========================================

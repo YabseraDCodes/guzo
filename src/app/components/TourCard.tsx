@@ -1,69 +1,95 @@
+
 import Link from "next/link";
-import "./TourCard.css";
+import "./TourCard.css"
 
 export type Tour = {
-  id: number | string;
-  country_id: number | string;
-  name: string;
-  description: string;
-  image_urls?: string[] | string | null;
-  location?: string | null;
-  slug?: string | null;
+    id: number;
+    country_id: number;
+    name: string;
+    description: string;
+    image_urls: string[];
+    location: string;
+    slug: string;
 };
 
 type TourCardProps = {
-  tour: Tour;
+    tour: Tour;
 };
 
 export default function TourCard({ tour }: TourCardProps) {
-  // Select the first image if image_urls contains multiple images.
-  const image = Array.isArray(tour.image_urls)
-    ? tour.image_urls[0]
-    : tour.image_urls;
+    const image = tour.image_urls?.[0];
 
-  // Use the slug when available; otherwise use the tour ID.
-  const tourSlug =
-    tour.slug?.trim().toLowerCase().replace(/\s+/g, "-") ||
-    String(tour.id);
+    const tourSlug = tour.slug
+        // .trim()
+        // .toLowerCase()
+        // .replace(/[^a-z0-9]+/g, "-")
+        // .replace(/^-|-$/g, "");
 
-  return (
-    <article className="tour-card">
-      <Link
-        href={`/tours/${encodeURIComponent(tourSlug)}`}
-        className="tour-card__link"
-      >
-        <div className="tour-card__image-wrapper">
-          {image ? (
-            <img
-              src={image}
-              alt={tour.name}
-              className="tour-card__image"
-            />
-          ) : (
-            <div className="tour-card__image-placeholder">
-              <span>Explore Ethiopia</span>
-            </div>
-          )}
+    return (
+        <article className="tour-card">
+            <Link
+                href={`/tours/${tourSlug.replace(/\s+/g, "-")}`}
+                className="tour-card-link"
+                aria-label={`Explore ${tour.name}`}
+            >
+                <div className="tour-card-image">
+                    {image ? (
+                        <img
+                            src={image}
+                            alt={tour.name}
+                            loading="lazy"
+                        />
+                    ) : (
+                        <div className="tour-card-image-placeholder">
+                            <span aria-hidden="true">✦</span>
+                            <span>Discover somewhere new</span>
+                        </div>
+                    )}
 
-          {tour.location && (
-            <span className="tour-card__location">
-              {tour.location}
-            </span>
-          )}
-        </div>
+                    <div className="tour-card-image-overlay" />
 
-        <div className="tour-card__content">
-          <h3 className="tour-card__title">{tour.name}</h3>
+                    <span className="tour-card-explore">
+                        Explore tour <span aria-hidden="true">↗</span>
+                    </span>
+                </div>
 
-          <p className="tour-card__description">
-            {tour.description || "Discover the beauty of Ethiopia with GUZO."}
-          </p>
+                <div className="tour-card-body">
+                    <div className="tour-card-location">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                                stroke="currentColor"
+                                strokeWidth="1.7"
+                                strokeLinejoin="round"
+                            />
+                            <circle
+                                cx="12"
+                                cy="10"
+                                r="2.5"
+                                stroke="currentColor"
+                                strokeWidth="1.7"
+                            />
+                        </svg>
 
-          <span className="tour-card__button">
-            Explore Tour <span aria-hidden="true">→</span>
-          </span>
-        </div>
-      </Link>
-    </article>
-  );
+                        <span>{tour.location}</span>
+                    </div>
+
+                    <h3>{tour.name}</h3>
+
+                    <p>{tour.description}</p>
+
+                    <div className="tour-card-footer">
+                        <span>Discover this experience</span>
+                        <span className="tour-card-arrow" aria-hidden="true">
+                            →
+                        </span>
+                    </div>
+                </div>
+            </Link>
+        </article>
+    );
 }

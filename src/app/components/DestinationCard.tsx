@@ -72,7 +72,10 @@ export default function DestinationCard({
               className="destination-card-tour-icon"
               aria-hidden="true"
             >
-              <svg viewBox="0 0 24 24" fill="none">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+              >
                 <path
                   d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"
                   stroke="currentColor"
@@ -85,7 +88,8 @@ export default function DestinationCard({
 
             <span>
               <strong>{destination.tours_count}</strong>{" "}
-              {destination.tours_count === 1 ? "tour" : "tours"} available
+              {destination.tours_count === 1 ? "tour" : "tours"}
+              {" "}available
             </span>
           </div>
 
@@ -93,7 +97,10 @@ export default function DestinationCard({
             className="destination-card-arrow"
             aria-hidden="true"
           >
-            <svg viewBox="0 0 24 24" fill="none">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+            >
               <path
                 d="M5 12h14m-6-6 6 6-6 6"
                 stroke="currentColor"
