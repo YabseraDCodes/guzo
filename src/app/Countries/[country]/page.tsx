@@ -230,19 +230,20 @@ const countries: Record<string, Country> = {
     name: "Ethiopia",
     region: "East Africa",
     description: "Explore ancient heritage, mountain landscapes, and living traditions.",
-    destinations: [
-      {
-        name: "Lalibela",
-        description: "Discover extraordinary rock-hewn churches and centuries of history.",
-        image: "https://media.base44.com/images/public/6ad6842892d30e872fdb2f0c/df968d0f7_generated_02e14c4b.png",
-        slug: "lalibela",
-      },
-      {
-        name: "Axum",
-        description: "Discover ancient obelisks and Ethiopia's rich history.",
-        image: "https://media.base44.com/images/public/6ad6842892d30e872fdb2f0c/ed3d80b4e_generated_be15730c.png",
-        slug: "axum",
-      },
+    destinations: [  
+{
+  name: "Lalibela",
+  description: "Discover extraordinary rock-hewn churches and centuries of history.",
+  image: "https://media.base44.com/images/public/6ad6842892d30e872fdb2f0c/df968d0f7_generated_02e14c4b.png",
+  slug: "lalibela",
+},
+{
+  name: "Axum",
+  description: "Discover ancient obelisks and Ethiopia's rich history.",
+  image: "https://media.base44.com/images/public/6ad6842892d30e872fdb2f0c/ed3d80b4e_generated_be15730c.png",
+  slug: "axum",
+},
+
       {
         name: "Gondar",
         description: "Explore historic castles and the royal heritage of Ethiopia.",
@@ -286,15 +287,6 @@ export default function CountryPage() {
   if (!country) {
     return (
       <main className="country-page">
-        <header className="site-header">
-          <a className="brand" href="/">GUZO<span>.</span></a>
-          <nav className="main-nav">
-            <a href="/">Home</a>
-            <a href="/destinations">Destinations</a>
-            <a href="/tours">Tours</a>
-          </nav>
-          <a className="header-cta" href="/countries/ethiopia">Explore Africa ↗</a>
-        </header>
         <section className="country-hero">
           <p className="eyebrow">EXPLORE AFRICA</p>
           <h1>Discover a new <em>somewhere.</em></h1>
@@ -315,16 +307,6 @@ export default function CountryPage() {
 
   return (
     <main className="country-page">
-      <header className="site-header">
-        <a className="brand" href="/">GUZO<span>.</span></a>
-        <nav className="main-nav">
-          <a href="/">Home</a>
-          <a className="nav-active" href="/countries/ethiopia">Countries</a>
-          <a href="/tours">Tours</a>
-        </nav>
-        <a className="header-cta" href="/countries">Explore Africa ↗</a>
-      </header>
-
       <section className="country-hero">
         <p className="eyebrow">{country.region.toUpperCase()} · EXPLORE AFRICA</p>
         <h1>Discover <em>{country.name}.</em></h1>
@@ -375,11 +357,6 @@ export default function CountryPage() {
         </a>
       </section>
 
-      <footer className="site-footer">
-        <a className="brand footer-brand" href="/">GUZO<span>.</span></a>
-        <p>Discover Africa. Live the Journey.</p>
-        <span>Made for the curious · Africa</span>
-      </footer>
     </main>
   );
 }
