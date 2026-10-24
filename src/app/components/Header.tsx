@@ -10,7 +10,7 @@ export default function Header() {
 
       <nav className="main-nav" aria-label="Main navigation">
         <Link href="/">Home</Link>
-        <Link href="/countries">Destinations</Link>
+        <Link href="/destinations">Destinations</Link>
         <Link href="/tours">Tours</Link>
         <Link href="/trip-status">Trip Status</Link>
         <Link href="/about">About</Link>
