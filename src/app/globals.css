@@ -1609,3 +1609,166 @@ img {
     min-height: 150px;
   }
 }
+
+
+/* GUZO COUNTRY CARDS WITH PHOTOS */
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.country-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  min-width: 0;
+  min-height: 360px;
+  padding: 26px;
+  overflow: hidden;
+  background-color: #344c3d;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  text-decoration: none;
+  transition: background-size 0.3s ease, transform 0.3s ease;
+}
+
+.country-card:hover {
+  transform: translateY(-4px);
+}
+
+.country-region {
+  margin-bottom: 8px;
+  color: #f0d69d;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.country-card h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.country-card p {
+  max-width: 300px;
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.country-card .country-card-link {
+  display: inline-block;
+  padding: 10px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: white;
+  font-size: 12px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.country-card:hover .country-card-link {
+  background: white;
+  color: #174c3c;
+}
+
+@media (max-width: 900px) {
+  .country-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .country-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .country-card {
+    min-height: 320px;
+    padding: 22px;
+  }
+}
+
+.info-page {
+  min-height: 70vh;
+  background: var(--guzo-ivory, #faf8f2);
+}
+
+.info-hero {
+  padding: 90px 9% 75px;
+  background: var(--guzo-green, #174c3c);
+  color: white;
+}
+
+.info-hero .eyebrow {
+  color: var(--guzo-gold, #d9a441);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.info-hero h1 {
+  max-width: 800px;
+  margin: 20px 0;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1.08;
+}
+
+.info-hero h1 em {
+  color: var(--guzo-gold, #d9a441);
+}
+
+.info-hero > p:last-child {
+  max-width: 620px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.info-content {
+  max-width: 850px;
+  padding: 60px 9% 80px;
+}
+
+.info-content h2 {
+  color: var(--guzo-green, #174c3c);
+  font-size: 30px;
+}
+
+.info-content p {
+  color: var(--guzo-muted, #6b756f);
+  line-height: 1.8;
+}
+
+.info-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 22px;
+  background: var(--guzo-green, #174c3c);
+  color: white;
+  text-decoration: none;
+}
+
+.info-button:hover {
+  background: #23634e;
+}
+
+@media (max-width: 600px) {
+  .info-hero {
+    padding: 65px 7% 55px;
+  }
+
+  .info-content {
+    padding: 45px 7% 60px;
+  }
+}
