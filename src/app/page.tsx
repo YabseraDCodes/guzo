@@ -1,5 +1,5 @@
 
-
+"use client";
 
 const destinations = [
   {
@@ -76,27 +76,15 @@ const destinations = [
   },
 ];
 
+const featuredDestinations = [
+  destinations[0], // Morocco
+  destinations[5], // Kenya
+  destinations[8], // Ethiopia
+];
 
 export default function Home() {
   return (
     <main>
-      <header className="site-header">
-        <a className="brand" href="/" aria-label="Guzo home">
-          GUZO<span>.</span>
-        </a>
-
-        <nav className="main-nav" aria-label="Main navigation">
-          <a className="nav-active" href="/">Home</a>
-          <a href="/destinations">Destinations</a>
-          <a href="/tours">Tours</a>
-          <a href="/about">About</a>
-        </nav>
-
-        <a className="header-cta" href="/destinations">
-          Explore Africa <span aria-hidden="true">↗</span>
-        </a>
-      </header>
-
       <section className="hero">
         <div className="hero-overlay" />
         <div className="hero-content">
@@ -155,7 +143,8 @@ export default function Home() {
           </h2>
         </div>
         <p className="intro-copy">
-          find the places, people, and experiences that make Africa extraordinary.
+           Discover the places, people, and experiences that make Africa extraordinary.
+           From ancient cities to wild landscapes, your next adventure begins here.
         </p>
       </section>
 
@@ -171,7 +160,7 @@ export default function Home() {
         </div>
 
         <div className="destination-grid">
-          {destinations.map((destination) => (
+          {featuredDestinations.map((destination) => (
             <a
               className="destination-card"
               href={destination.slug}
@@ -198,18 +187,10 @@ export default function Home() {
       <section className="closing-banner">
         <p className="eyebrow"><span /> THE WORLD IS WIDE</p>
         <h2>Your next story starts <em>here.</em></h2>
-        <a className="banner-button" href="/tours">
+        <a className="banner-button" href="/countries">
           Find your journey <span aria-hidden="true">→</span>
         </a>
       </section>
-
-      <footer className="site-footer">
-        <a className="brand footer-brand" href="/">
-          GUZO<span>.</span>
-        </a>
-        <p>Discover Afica. Live the Journey.</p>
-        <span>Made for the curious · Africa</span>
-      </footer>
     </main>
   );
 }
