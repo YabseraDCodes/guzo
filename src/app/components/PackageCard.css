@@ -1,0 +1,362 @@
+/* Package card */
+
+.package-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid rgba(23, 76, 60, 0.14);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(32, 40, 36, 0.025);
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(23, 76, 60, 0.35);
+    box-shadow: 0 12px 28px rgba(32, 40, 36, 0.075);
+}
+
+/* Package title */
+
+.package-card-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.package-name {
+    color: var(--guzo-green);
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: capitalize;
+}
+
+.package-popular {
+    padding: 5px 7px;
+    border-radius: 5px;
+    background: rgba(217, 164, 65, 0.17);
+    color: #85601b;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+}
+
+/* Price */
+
+.package-price {
+    display: flex;
+    align-items: flex-start;
+    gap: 3px;
+    color: var(--guzo-green);
+    line-height: 1;
+}
+
+.package-currency {
+    margin-top: 4px;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.package-price strong {
+    font-size: clamp(27px, 3vw, 34px);
+    font-weight: 900;
+    letter-spacing: -1.2px;
+    overflow-wrap: anywhere;
+}
+
+.package-duration {
+    margin: 10px 0 0;
+    color: var(--guzo-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.package-duration span {
+    margin-right: 4px;
+    color: var(--guzo-terracotta);
+    font-size: 16px;
+}
+
+/* Divider */
+
+.package-divider {
+    height: 1px;
+    margin: 20px 0;
+    background: rgba(23, 76, 60, 0.12);
+}
+
+/* Hotel */
+
+.package-hotel h5,
+.package-inclusions h5 {
+    margin: 0 0 12px;
+    color: var(--guzo-green);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.package-hotel-image {
+    position: relative;
+    overflow: hidden;
+    height: 150px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: var(--guzo-ivory);
+}
+
+.package-hotel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.package-card:hover .package-hotel-image img {
+    transform: scale(1.035);
+}
+
+.package-hotel-rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.package-hotel-rating > span {
+    color: var(--guzo-gold);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.package-hotel-rating small {
+    color: var(--guzo-muted);
+    font-size: 10px;
+}
+
+.package-hotel > p {
+    margin: 0;
+    color: var(--guzo-muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* Inclusions */
+
+.package-inclusions {
+    margin-top: 24px;
+}
+
+.package-inclusions ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.package-inclusions li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: var(--guzo-charcoal);
+    font-size: 12px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.inclusion-check {
+    display: grid;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: rgba(23, 76, 60, 0.09);
+    color: var(--guzo-green);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+/* Itinerary */
+
+.package-itinerary {
+    margin-top: 24px;
+    border-top: 1px solid rgba(23, 76, 60, 0.12);
+    border-bottom: 1px solid rgba(23, 76, 60, 0.12);
+}
+
+.package-itinerary summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    color: var(--guzo-green);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+}
+
+.package-itinerary summary::-webkit-details-marker {
+    display: none;
+}
+
+.itinerary-arrow {
+    color: var(--guzo-terracotta);
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.package-itinerary[open] .itinerary-arrow {
+    transform: rotate(180deg);
+}
+
+.package-itinerary ol {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    padding: 0 0 18px;
+    list-style: none;
+}
+
+.package-itinerary li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.itinerary-day {
+    display: grid;
+    flex-shrink: 0;
+    min-width: 40px;
+    min-height: 36px;
+    place-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    background: var(--guzo-ivory);
+    color: var(--guzo-green);
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.itinerary-content {
+    min-width: 0;
+}
+
+.itinerary-content h6 {
+    margin: 0;
+    color: var(--guzo-charcoal);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+.itinerary-content p {
+    margin: 5px 0 0;
+    color: var(--guzo-muted);
+    font-size: 11px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* Booking button */
+
+.package-book-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 46px;
+    margin-top: auto;
+    padding: 12px 14px;
+    border: 1px solid var(--guzo-green);
+    border-radius: 9px;
+    background: var(--guzo-green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.package-book-button span {
+    color: var(--guzo-gold);
+    font-size: 17px;
+    transition: transform 0.2s ease;
+}
+
+.package-book-button:hover {
+    border-color: #103a2e;
+    background: #103a2e;
+}
+
+.package-book-button:hover span {
+    transform: translateX(3px);
+}
+
+.package-book-button:focus-visible,
+.package-itinerary summary:focus-visible {
+    outline: 3px solid var(--guzo-gold);
+    outline-offset: 3px;
+}
+
+/* Golden package accent */
+
+.package-golden {
+    border-color: rgba(217, 164, 65, 0.5);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(217, 164, 65, 0.07),
+            transparent 180px
+        ),
+        #fff;
+}
+
+.package-golden .package-name {
+    color: #85601b;
+}
+
+/* Silver package accent */
+
+.package-silver .package-name {
+    color: #5e6b68;
+}
+
+/* Economy package accent */
+
+.package-economy .package-name {
+    color: var(--guzo-terracotta);
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .package-card,
+    .package-hotel-image img,
+    .package-book-button,
+    .package-book-button span,
+    .itinerary-arrow {
+        transition: none;
+    }
+
+    .package-card:hover {
+        transform: none;
+    }
+}
