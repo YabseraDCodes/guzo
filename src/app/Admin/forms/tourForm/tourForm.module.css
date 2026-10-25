@@ -1,0 +1,114 @@
+/* ===== Whole form ===== */
+.form {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.agents-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.add-agent-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 22px;
+  color: #ffffff;
+  background: #245b3e;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.add-agent-button:hover {
+  background: #1b4a31;
+}
+
+/* ===== Layout ===== */
+.section {
+  margin-bottom: 32px;
+}
+
+/* two columns on big screens, one column on phones */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+/* ===== Labels and inputs ===== */
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+/* ===== Submit button ===== */
+.submitBtn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background: #1d4ed8;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== Messages ===== */
+.success {
+  color: #16a34a;
+  margin-bottom: 12px;
+}
+
+.error {
+  color: #dc2626;
+  margin-bottom: 12px;
+}

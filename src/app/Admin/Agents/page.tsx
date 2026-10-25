@@ -1,7 +1,8 @@
 "use client";
 import {fetcher} from "@/lib/fetcher"
 import useSWR from "swr";
-import { Pencil, Trash2, MapPin, Globe } from "lucide-react";
+import Link from "next/link";
+import { Pencil, Trash2, MapPin, Globe, Plus } from "lucide-react";
 import "./agent.css";
 
 type Agent = {
@@ -39,16 +40,23 @@ export default function PackagesPage() {
 
   return (
     <section className="agents-page">
-      <div className="agents-heading">
-        <div>
-          <h1>Tour Agents</h1>
-          <p>Manage your registered tour agents.</p>
-        </div>
+    <div className="agents-heading">
+  <div>
+    <h1>Tour Agents</h1>
+    <p>Manage your registered tour agents.</p>
+  </div>
 
-        <span className="agents-count">
-          {agents.length} {agents.length === 1 ? "Agent" : "Agents"}
-        </span>
-      </div>
+  <div className="agents-heading-actions">
+    <span className="agents-count">
+      {agents.length} {agents.length === 1 ? "Agent" : "Agents"}
+    </span>
+
+    <Link href="/../Admin/forms/agentForm" className="add-agent-button">
+      <Plus size={16} />
+      Add agency
+    </Link>
+  </div>
+</div>
 
       <div className="agents-list">
         {agents.map((agent) => (

@@ -1,9 +1,9 @@
 "use client";
 import {fetcher} from "@/lib/fetcher"
 import useSWR from "swr";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 ,Plus} from "lucide-react";
 import "./TourPlaces.css";
-
+import Link from "next/link";
 type Package = {
   id: number;
   name: string;
@@ -37,13 +37,25 @@ export default function PackagesPage() {
 
   return (
     <section className="packages-page">
-      <div className="packages-heading">
-        <div>
-          <h1>Tour Packages</h1>
-          <p>Manage your available tour packages.</p>
-        </div>
-      </div>
-
+      <div className="agents-heading">
+       <div>
+         <h1>Tour Packages</h1>
+         <p>Manage your available tour packages.</p>
+       </div>
+     
+       <div className="agents-heading-actions">
+         <span className="agents-count">
+           {packages.length} {packages.length === 1 ? "Agent" : "Agents"}
+         </span>
+     
+         <Link href="/../Admin/forms/tourForm" className="add-agent-button">
+           <Plus size={16} />
+           Add agency
+         </Link>
+       </div>
+     </div>
+     
+ 
       <div className="packages-grid">
         {packages.map((item) => (
           <article className="package-card" key={item.id}>
