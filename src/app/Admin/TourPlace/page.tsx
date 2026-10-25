@@ -45,12 +45,12 @@ export default function PackagesPage() {
      
        <div className="agents-heading-actions">
          <span className="agents-count">
-           {packages.length} {packages.length === 1 ? "Agent" : "Agents"}
+           {packages.length} {packages.length === 1 ? "Tour" : "Tours"}
          </span>
      
          <Link href="/../admin/forms/tourForm" className="add-agent-button">
            <Plus size={16} />
-           Add agency
+           Add Tour
          </Link>
        </div>
      </div>

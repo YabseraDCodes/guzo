@@ -37,7 +37,7 @@ export default function AdminOverviewPage() {
           </div>
         </div>
 
-        <Link href="/admin/packages" className="welcome-button">
+        <Link href="/admin/agents" className="welcome-button">
           Explore tour agents <ArrowRight size={18} />
         </Link>
 
