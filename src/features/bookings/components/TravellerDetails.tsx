@@ -16,4 +16,5 @@ export default function TravellerDetails({ booking }: Props) {
     </section>
   );
 }
-//it display traveler information
+//it display traveler information 
+
