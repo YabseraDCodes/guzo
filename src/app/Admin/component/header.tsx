@@ -25,21 +25,21 @@ export default function Header() {
       </div>
 
       <nav className="staff-tabs">
-        <Link href="/Admin" className="staff-tab active">
+        <Link href="/admin" className="staff-tab active">
           <LayoutGrid size={16} />
           <span>Overview</span>
         </Link>
 
-        <Link href="/Admin/BookingShow" className="staff-tab">
+        <Link href="/admin/bookingShow" className="staff-tab">
           <ListChecks size={16} />
           <span>Bookings</span>
         </Link>
 
-        <Link href="/Admin/TourPlace" className="staff-tab">
+        <Link href="/admin/tourPlace" className="staff-tab">
           <Map size={16} />
           <span>Tour Packages</span>
         </Link>
-        <Link href="/Admin/Agents" className="staff-tab">
+        <Link href="/admin/agents" className="staff-tab">
           <Map size={16} />
           <span>Agents</span>
         </Link>
