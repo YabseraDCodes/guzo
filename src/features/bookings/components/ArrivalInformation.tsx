@@ -1,5 +1,5 @@
 
-interface ArrivalInformationProps {
+interface ArrivalInformationProps {//this part desplay were they are mitting, person arrive time assign person for the agent
   meetingPoint?: string | null;
   arrivalTime?: string | null;
   instructions?: string | null;
@@ -34,3 +34,4 @@ export default function ArrivalInformation({
     </section>
   );
 }
+//this code display the travelers arrival details 

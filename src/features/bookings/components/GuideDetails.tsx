@@ -36,3 +36,5 @@ export default function GuideDetails({
     </section>
   );
 }
+
+//It lets travelers see who their tour guide is and how to contact them once the agency assigns a guide

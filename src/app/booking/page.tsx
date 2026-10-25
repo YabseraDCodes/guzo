@@ -41,3 +41,4 @@ export default async function BookingPage({
 
   redirect(`/bookings/new/${tourPackage.id}`);
 }
+//This page takes the tour the traveler selected, finds its matching package in Supabase, and sends them to the correct booking form.

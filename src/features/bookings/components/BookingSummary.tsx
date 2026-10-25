@@ -22,3 +22,4 @@ export default function BookingSummary({ booking }: Props) {
     </section>
   );
 }
+//it show the traveler summary of booking total price , how many people are go, tour place

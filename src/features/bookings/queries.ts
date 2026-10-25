@@ -51,3 +51,9 @@ export async function getBookingById(
       : null,
   } as BookingWithPackage;
 }
+//creates the Supabase client
+//checks who is signed in. If nobody is signed in, the function returns null
+//.eq("id", id) — matches the requested booking.
+//.eq("user_id", user.id) — ensures the booking belongs to the signed-in user.
+//if the database query fails or no matching booking is found, it returns null
+//retrieving its name, description, price, duration, and agent ID.

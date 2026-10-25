@@ -20,3 +20,5 @@ export default function BookingStatusBadge({
     </span>
   );
 }
+//it is for booking ststus 
+//it give if the booking is pending , confirmed, ....

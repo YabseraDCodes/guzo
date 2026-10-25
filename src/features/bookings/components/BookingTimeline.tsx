@@ -70,3 +70,5 @@ export default function BookingTimeline({
     </ol>
   );
 }
+//this code show to travelers where there booking is 
+//means it is complet or cancelled
