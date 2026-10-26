@@ -20,14 +20,20 @@ export default function TourCard({ tour }: TourCardProps) {
     const image = tour.image_urls?.[0];
 
     const tourSlug = tour.slug
+<<<<<<< HEAD
     ?.trim()
     .toLowerCase()
     .replace(/\s+/g, "-") || String(tour.id);
+=======
+        ?.trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-") || String(tour.id);
+>>>>>>> 4fa382c627387b15b4e004ee548b360c5cf5362a
 
     return (
         <article className="tour-card">
             <Link
-                href={`/tours/${tourSlug.replace(/\s+/g, "-")}`}
+                href={`/tours/${tourSlug}`}
                 className="tour-card-link"
                 aria-label={`Explore ${tour.name}`}
             >
