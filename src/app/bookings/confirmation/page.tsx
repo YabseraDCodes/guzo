@@ -2,22 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  bookingConfirmationSchema,
-  type BookingConfirmation,
-} from "@/lib/booking-schema";
+import {bookingConfirmationSchema, type BookingConfirmation,} from "@/lib/booking-schema";
 import "../booking.css";
 
 export default function BookingConfirmationPage() {
   const [booking, setBooking] = useState<BookingConfirmation | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+// loads the saved booking information from the browser and 
+// checks whether it is valid before displaying it on the confirmation page
   useEffect(() => {
     let isActive = true;
 
     queueMicrotask(() => {
       if (!isActive) return;
-      try {
+      try {//saved booking information and checks whether it is valid before displaying it
         const storedBooking = sessionStorage.getItem("bookingConfirmation");
         if (storedBooking) {
           const result = bookingConfirmationSchema.safeParse(JSON.parse(storedBooking));
@@ -37,7 +35,7 @@ export default function BookingConfirmationPage() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, []);//It stops the scheduled code from running if the user leaves the confirmation page before it starts
 
   return (
     <main className="booking-page">

@@ -15,7 +15,7 @@ export default function BookingsPage() {
   useEffect(() => {
     let isActive = true;
 
-    Promise.all([
+    Promise.all([//fetch agents and tours together
       fetcher("/api/agents") as Promise<Agent[]>,
       fetcher("/api/tours") as Promise<Tour[]>,
     ])
@@ -23,10 +23,10 @@ export default function BookingsPage() {
         if (!isActive) return;
         setAgents(agentData);
         setTours(tourData);
-      })
+      })//receives the agents and tours from the API and saves them in the page's state.
       .catch(() => {
         if (isActive) setOptionsError(true);
-      })
+      })//show an error if fetching fails
       .finally(() => {
         if (isActive) setIsLoadingOptions(false);
       });

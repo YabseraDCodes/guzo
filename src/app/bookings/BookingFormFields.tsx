@@ -38,8 +38,8 @@ export function BookingFormFields({
           autoComplete="name"
           placeholder="Your name"
           required
-          aria-invalid={Boolean(fieldErrors.user_name)}
-          aria-describedby={fieldErrors.user_name ? "booking-user-name-error" : undefined}
+          aria-invalid={Boolean(fieldErrors.user_name)}//indicates whether the field has an error.
+          aria-describedby={fieldErrors.user_name ? "booking-user-name-error" : undefined} //connects the field to its error message.
           onChange={() => onFieldChange("user_name")}
         />
         {fieldErrors.user_name && <span className="booking-field-error" id="booking-user-name-error">{fieldErrors.user_name}</span>}
@@ -103,19 +103,20 @@ export function BookingFormFields({
             name="agent_id"
             value={selectedAgentId}
             required
-            disabled={isLoadingOptions || !agents.length}
-            aria-invalid={Boolean(fieldErrors.agent_id)}
-            aria-describedby={fieldErrors.agent_id ? "booking-agent-id-error" : undefined}
+            disabled={isLoadingOptions || !agents.length} // it see the agency list is still loading and - there are no agencies available by using or condition
+            aria-invalid={Boolean(fieldErrors.agent_id)} //indicates whether the field has an error.
+            aria-describedby={fieldErrors.agent_id ? "booking-agent-id-error" : undefined} //connects the field to its error message.
             onChange={(event) => onAgentChange(event.target.value)}
           >
             <option value="" disabled>
-              {isLoadingOptions ? "Loading agents..." : "Select an agent"}
+              {isLoadingOptions ? "Loading agents..." : "Select an agent"}//it is for tour agent box show
             </option>
             {agents.map((agent) => (
               <option key={agent.id} value={agent.id}>{agent.name}</option>
             ))}
           </select>
           {fieldErrors.agent_id && <span className="booking-field-error" id="booking-agent-id-error">{fieldErrors.agent_id}</span>}
+          {/* //this part displays an error message only fieldErrors.agent_id have error */}
         </label>
       </div>
 

@@ -1,10 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import {
-  bookingSchema,
-  getBookingFieldErrors,
-  type BookingField,
-} from "@/lib/booking-schema";
+import {bookingSchema,getBookingFieldErrors,type BookingField,} from "@/lib/booking-schema";
 import { BookingFormFields, type Agent, type Tour } from "./BookingFormFields";
 
 type Props = {
@@ -23,12 +19,12 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
 
   function clearFieldError(field: BookingField) {
     setFieldErrors((current) => {
-      if (!current[field]) return current;
+      if (!current[field]) return current;//it see if the error exist
       const next = { ...current };
       delete next[field];
       return next;
     });
-  }
+  }//The system detects errors when the user submits the form, and clearFieldError() removes the error for a field when the user corrects it.
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,14 +49,14 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
     setFieldErrors({});
     setIsSubmitting(true);
     let bookingId: string | null = null;
-    try {
+    try {//for all it do The user submits the form → the validated data is sent to the booking API → the server processes the booking and responds.
       const response = await fetch("/api/bookingPost", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(validation.data),
+        method: "POST",//tells the server to process the submitted data to create a booking.
+        headers: { "Content-Type": "application/json" },//tells the server the data format is JSON.
+        body: JSON.stringify(validation.data),//converts the validated booking information into JSON text to send.
       });
 
-      const payload = await response.json();
+      const payload = await response.json();//checks the server's response after the user submits a booking.
       if (!response.ok) {
         throw new Error(payload.error || "Your booking could not be saved.");
       }
@@ -79,7 +75,7 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
         agent_name: agents.find((agent) => agent.id === validation.data.agent_id)?.name ?? "Not assigned",
       };
       sessionStorage.setItem("bookingConfirmation", JSON.stringify(confirmation));
-      router.push("/bookings/confirmation");
+      router.push("/bookings/confirmation");//prepares the booking confirmation information, saves it temporarily in the browser, and opens the confirmation page.
     } catch (error) {
       setResult({
         message: bookingId
@@ -102,7 +98,7 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
         </div>
 
         <form className="booking-form" onSubmit={handleSubmit} noValidate>
-          <BookingFormFields
+          <BookingFormFields // by using sher stste we passe part to BookingFormFields
             agents={agents}
             tours={tours}
             isLoadingOptions={isLoadingOptions}

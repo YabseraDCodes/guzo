@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+//uses Zod to validate booking data, define the booking confirmation structure, and collect form errors.
 export const bookingSchema = z.object({
   agent_id: z
     .string()
