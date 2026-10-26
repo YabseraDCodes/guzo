@@ -57,14 +57,17 @@ export default function TourDetailClient({
     useEffect(() => {
         async function getData() {
             setLoading(true);
-
+            console.log("SLUG",slug);
             try {
                 const tours: Tour[] = await fetcher("/api/tours");
                 const allAgents: Agent[] = await fetcher("/api/agents");
-
+                // console.log("ALL TOURS", tours);
+                // console.log("ALL Agents", allAgents)
                 const selectedTour = tours.find(
                     (item) => item.slug === slug
                 );
+                console.log("selected-tour",selectedTour)
+
 
                 const selectedAgents = selectedTour
                     ? allAgents.filter(
