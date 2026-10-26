@@ -39,7 +39,7 @@ export default function PackagesPage() {
     <section className="packages-page">
       <div className="agents-heading">
        <div>
-         <h1>Tour Packages</h1>
+         <h1>Tour Packages</h1>   
          <p>Manage your available tour packages.</p>
        </div>
      
@@ -48,11 +48,7 @@ export default function PackagesPage() {
            {packages.length} {packages.length === 1 ? "Tour" : "Tours"}
          </span>
      
-<<<<<<< HEAD
-         <Link href="/../admin/forms/tourForm" className="add-agent-button">
-=======
          <Link href="/../Admin/forms/tourForm" className="add-agent-button">
->>>>>>> 18ba0727469bdd1260bc4be3e88e951ff079b166
            <Plus size={16} />
            Add Tour
          </Link>
