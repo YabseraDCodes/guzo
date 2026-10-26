@@ -51,7 +51,11 @@ export default function PackagesPage() {
       {agents.length} {agents.length === 1 ? "Agent" : "Agents"}
     </span>
 
+<<<<<<< HEAD
     <Link href="/../admin/forms/agentForm" className="add-agent-button">
+=======
+    <Link href="/../Admin/forms/agentForm" className="add-agent-button">
+>>>>>>> 18ba0727469bdd1260bc4be3e88e951ff079b166
       <Plus size={16} />
       Add agency
     </Link>
