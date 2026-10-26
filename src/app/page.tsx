@@ -2,6 +2,7 @@ import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
 import "./homePage.css"
 import TourCard from "./components/TourCard";
+import TourSearch from "./components/TourSearch";
 
 export default async function Home() {
 
@@ -40,23 +41,7 @@ export default async function Home() {
             traditions. Discover Africa, one unforgettable journey at a time.
           </p>
 
-          <form className="search-panel" action="/destinations">
-            <label className="search-field">
-              <span className="search-icon" aria-hidden="true">⌕</span>
-              <span className="search-input-wrap">
-                <span className="field-label">WHERE TO?</span>
-                <input
-                  type="search"
-                  name="search"
-                  placeholder="Search destinations"
-                  aria-label="Search destinations"
-                />
-              </span>
-            </label>
-            <button type="submit" className="search-button">
-              Explore <span aria-hidden="true">→</span>
-            </button>
-          </form>
+          <TourSearch />
 
           <p className="hero-note">
             <span aria-hidden="true">✳</span>Made for the curious. Rooted in Africa.
