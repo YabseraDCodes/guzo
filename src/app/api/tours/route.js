@@ -6,9 +6,10 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("destinations")
-    .select("*")
+    .select(`id,name,description,image_urls,location,countries(name)`)
     .order("name");
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
