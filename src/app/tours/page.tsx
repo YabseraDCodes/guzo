@@ -1,12 +1,28 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
-import TourCard, { type Tour }  from "../components/TourCard";
+import TourCard, { type Tour } from "../components/TourCard";
 import "./TourPage.css";
+import TourSearch from "../components/TourSearch";
 
 const PAGE_SIZE = 9;
+
+const CATEGORIES = [
+  "All",
+  "Safari",
+  "Culture",
+  "History",
+  "Nature",
+  "City",
+  "Beach",
+  "Coastal",
+  "Religion",
+  "Trekking",
+  "Adventure",
+];
 
 export default function ToursPage() {
   const {
@@ -17,29 +33,55 @@ export default function ToursPage() {
   } = useSWR<Tour[]>("/api/tours", fetcher);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const totalTours = tours?.length ?? 0;
+  // Filter tours by the selected category.
+  const filteredTours = useMemo(() => {
+    if (!tours) return [];
+
+    if (selectedCategory === "All") {
+      return tours;
+    }
+
+    return tours.filter(
+      (tour) =>
+        tour.category?.toLowerCase() ===
+        selectedCategory.toLowerCase()
+    );
+  }, [tours, selectedCategory]);
+
+  const totalTours = filteredTours.length;
   const totalPages = Math.ceil(totalTours / PAGE_SIZE);
 
-  // Keep the current page valid if the API data changes.
+  // Reset pagination when the category changes.
   useEffect(() => {
-    if (totalPages > 0 && currentPage > totalPages) {
-      setCurrentPage(totalPages);
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
+  // Keep the current page valid if the filtered data changes.
+  useEffect(() => {
+    if (currentPage > Math.max(1, totalPages)) {
+      setCurrentPage(Math.max(1, totalPages));
     }
   }, [currentPage, totalPages]);
 
+  // Paginate the filtered tours.
   const currentTours = useMemo(() => {
-    if (!tours) return [];
-
     const startIndex = (currentPage - 1) * PAGE_SIZE;
 
-    return tours.slice(startIndex, startIndex + PAGE_SIZE);
-  }, [tours, currentPage]);
+    return filteredTours.slice(
+      startIndex,
+      startIndex + PAGE_SIZE
+    );
+  }, [filteredTours, currentPage]);
 
   // Generate compact page numbers with ellipses.
   const pageNumbers = useMemo(() => {
     if (totalPages <= 5) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
+      return Array.from(
+        { length: totalPages },
+        (_, i) => i + 1
+      );
     }
 
     const pages: (number | "...")[] = [1];
@@ -65,16 +107,27 @@ export default function ToursPage() {
   }, [currentPage, totalPages]);
 
   function goToPage(page: number) {
-    if (page < 1 || page > totalPages || page === currentPage) {
+    if (
+      page < 1 ||
+      page > totalPages ||
+      page === currentPage
+    ) {
       return;
     }
 
     setCurrentPage(page);
 
-    // Bring the listing back into view after changing pages.
     document
       .getElementById("tours-list")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }
+
+  function handleCategoryChange(category: string) {
+    setSelectedCategory(category);
+    setCurrentPage(1);
   }
 
   return (
@@ -99,15 +152,21 @@ export default function ToursPage() {
 
           {!isLoading && !error && (
             <div className="tours-page-total">
-              <strong>{totalTours}</strong>
+              <strong>{tours?.length ?? 0}</strong>
               <span>
-                {totalTours === 1 ? "tour" : "tours"} to explore
+                {(tours?.length ?? 0) === 1
+                  ? "tour"
+                  : "tours"}{" "}
+                to explore
               </span>
             </div>
           )}
         </div>
 
-        <div className="tours-page-hero-decoration" aria-hidden="true">
+        <div
+          className="tours-page-hero-decoration"
+          aria-hidden="true"
+        >
           <span className="tours-hero-circle" />
           <span className="tours-hero-dot" />
         </div>
@@ -132,17 +191,47 @@ export default function ToursPage() {
             </p>
           </div>
 
-          {!isLoading && !error && totalTours > 0 && (
+          {!isLoading && !error && (
             <span className="tours-page-result-count">
-              Showing{" "}
-              {Math.min((currentPage - 1) * PAGE_SIZE + 1, totalTours)}
-              {"–"}
-              {Math.min(currentPage * PAGE_SIZE, totalTours)}
-              {" "}of {totalTours}
+              {selectedCategory === "All"
+                ? `Showing ${Math.min(
+                    (currentPage - 1) * PAGE_SIZE + 1,
+                    totalTours
+                  )}–${Math.min(
+                    currentPage * PAGE_SIZE,
+                    totalTours
+                  )} of ${totalTours}`
+                : `${totalTours} ${
+                    totalTours === 1 ? "tour" : "tours"
+                  } in ${selectedCategory}`}
             </span>
           )}
         </div>
+          <TourSearch/>
+        {/* Category filter bar */}
+        {!isLoading && !error && (tours?.length ?? 0) > 0 && (
+          <div
+            className="tours-category-bar"
+            role="group"
+            aria-label="Filter tours by category"
+          >
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                type="button"
+                className={`tours-category-button ${
+                  selectedCategory === category ? "active" : ""
+                }`}
+                onClick={() => handleCategoryChange(category)}
+                aria-pressed={selectedCategory === category}
+              >
+                {category === "All" ? "All Tours" : category}
+              </button>
+            ))}
+          </div>
+        )}
 
+        {/* Loading state */}
         {isLoading && (
           <div className="tours-page-state" role="status">
             <span className="tours-page-loader" />
@@ -151,8 +240,12 @@ export default function ToursPage() {
           </div>
         )}
 
+        {/* Error state */}
         {error && (
-          <div className="tours-page-state tours-page-error" role="alert">
+          <div
+            className="tours-page-state tours-page-error"
+            role="alert"
+          >
             <h3>We couldn't load the tours.</h3>
             <p>Please check your connection and try again.</p>
 
@@ -166,13 +259,37 @@ export default function ToursPage() {
           </div>
         )}
 
-        {!isLoading && !error && totalTours === 0 && (
+        {/* No tours available */}
+        {!isLoading && !error && (tours?.length ?? 0) === 0 && (
           <div className="tours-page-state">
             <h3>No tours available just yet.</h3>
             <p>Check back soon for new adventures.</p>
           </div>
         )}
 
+        
+        {/* No category matches */}
+        {!isLoading &&
+          !error &&
+          (tours?.length ?? 0) > 0 &&
+          totalTours === 0 && (
+            <div className="tours-page-state">
+              <h3>No {selectedCategory} tours found.</h3>
+              <p>
+                Try another category to discover more adventures.
+              </p>
+
+              <button
+                type="button"
+                className="tours-page-retry"
+                onClick={() => handleCategoryChange("All")}
+              >
+                View all tours
+              </button>
+            </div>
+          )}
+
+        {/* Tour cards and pagination */}
         {!isLoading && !error && currentTours.length > 0 && (
           <>
             <div className="tours-page-grid" aria-live="polite">

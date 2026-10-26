@@ -507,3 +507,63 @@
     transition: none;
   }
 }
+
+
+/* Category filter bar */
+.tours-category-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 32px;
+}
+
+.tours-category-button {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border: 1px solid #deded8;
+  border-radius: 999px;
+  background: #fff;
+  color: #45483f;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tours-category-button:hover {
+  border-color: var(--guzo-green);
+  color: var(--guzo-green);
+}
+
+.tours-category-button.active {
+  background: var(--guzo-green);
+  border-color: var(--guzo-green);
+  color: #fff;
+}
+
+.tours-category-button:focus-visible {
+  outline: 2px solid var(--guzo-green);
+  outline-offset: 3px;
+}
+
+/* Mobile category scrolling */
+@media (max-width: 640px) {
+  .tours-category-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 22px -4px 26px;
+    padding: 4px 4px 10px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tours-category-button {
+    padding: 9px 15px;
+    font-size: 13px;
+  }
+}
