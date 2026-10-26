@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
         hostname: "i.pinimg.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "commons.wikimedia.org",
+        pathname: "/wiki/Special:FilePath/**",
+      },
+      {
+      protocol: "https",
+      hostname: "upload.wikimedia.org",
+      pathname: "/wikipedia/commons/**"
+      }
     ],
   },
 };
