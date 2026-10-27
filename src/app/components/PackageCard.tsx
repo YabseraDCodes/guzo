@@ -1,4 +1,6 @@
+import Link from "next/link";
 import "./PackageCard.css";
+
 
 type Package = {
     price: number;

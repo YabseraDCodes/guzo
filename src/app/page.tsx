@@ -1,7 +1,8 @@
 import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
-import "./homePage.css"
-import TourCard from "./components/TourCard";
+import type { Destination } from "./components/DestinationCard";
+import "./homePage.css";
+import type { Tour } from "./components/TourCard";import TourCard from "./components/TourCard";
 import TourSearch from "./components/TourSearch";
 
 export default async function Home() {
@@ -18,7 +19,7 @@ export default async function Home() {
   const countries = await countriesRes.json();
   const tours: Tour[] = await toursRes.json();
 
-  const featuredDestinations = countries.slice(0, 3);
+  const featuredDestinations: Destination[] = countries.slice(0, 3);
   const featuredTours = tours.slice(5, 8);
 
   return (
