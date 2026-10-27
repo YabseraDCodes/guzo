@@ -2,11 +2,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import TourCard, { type Tour } from "../components/TourCard";
 import "./TourPage.css";
-import TourSearch from "../components/TourSearch";
 
 const PAGE_SIZE = 9;
 
@@ -24,48 +24,82 @@ const CATEGORIES = [
   "Adventure",
 ];
 
+type SearchableTour = Tour & {
+  location?: string | null;
+  description?: string | null;
+  slug?: string | null;
+  image_urls?: string[] | null;
+  countries?: { name: string } | null;
+};
+
 export default function ToursPage() {
   const {
     data: tours,
     error,
     isLoading,
     mutate,
-  } = useSWR<Tour[]>("/api/tours", fetcher);
+  } = useSWR<SearchableTour[]>("/api/tours", fetcher);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
 
-  // Filter tours by the selected category.
+    return () => clearTimeout(timer);
+  }, [query]);
+
+
+  // Filter tours by category and search query.
   const filteredTours = useMemo(() => {
     if (!tours) return [];
+    const searchText = debouncedQuery.trim().toLowerCase();
 
-    if (selectedCategory === "All") {
-      return tours;
-    }
-
-    return tours.filter(
-      (tour) =>
+    return tours.filter((tour) => {
+      const matchesCategory =
+        selectedCategory === "All" ||
         tour.category?.toLowerCase() ===
-        selectedCategory.toLowerCase()
-    );
-  }, [tours, selectedCategory]);
+        selectedCategory.toLowerCase();
+
+      const searchableText = [
+        tour.name,
+        tour.category,
+        tour.location,
+        tour.countries?.name,
+        tour.description,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch =
+        !searchText || searchableText.includes(searchText);
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [tours, selectedCategory, debouncedQuery]);
+
+
 
   const totalTours = filteredTours.length;
   const totalPages = Math.ceil(totalTours / PAGE_SIZE);
 
-  // Reset pagination when the category changes.
+  // Reset to the first page when search or category changes.
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory]);
+  }, [selectedCategory, debouncedQuery]);
 
-  // Keep the current page valid if the filtered data changes.
+  // Keep the page number valid when data changes.
   useEffect(() => {
     if (currentPage > Math.max(1, totalPages)) {
       setCurrentPage(Math.max(1, totalPages));
     }
   }, [currentPage, totalPages]);
 
-  // Paginate the filtered tours.
+  // Paginate after filtering.
   const currentTours = useMemo(() => {
     const startIndex = (currentPage - 1) * PAGE_SIZE;
 
@@ -75,20 +109,18 @@ export default function ToursPage() {
     );
   }, [filteredTours, currentPage]);
 
-  // Generate compact page numbers with ellipses.
+  // Compact pagination numbers.
   const pageNumbers = useMemo(() => {
     if (totalPages <= 5) {
       return Array.from(
         { length: totalPages },
-        (_, i) => i + 1
+        (_, index) => index + 1
       );
     }
 
     const pages: (number | "...")[] = [1];
 
-    if (currentPage > 3) {
-      pages.push("...");
-    }
+    if (currentPage > 3) pages.push("...");
 
     const start = Math.max(2, currentPage - 1);
     const end = Math.min(totalPages - 1, currentPage + 1);
@@ -97,9 +129,7 @@ export default function ToursPage() {
       pages.push(page);
     }
 
-    if (currentPage < totalPages - 2) {
-      pages.push("...");
-    }
+    if (currentPage < totalPages - 2) pages.push("...");
 
     pages.push(totalPages);
 
@@ -125,14 +155,19 @@ export default function ToursPage() {
       });
   }
 
-  function handleCategoryChange(category: string) {
+  function selectCategory(category: string) {
     setSelectedCategory(category);
     setCurrentPage(1);
   }
 
+  function clearSearch() {
+    setQuery("");
+    setIsSearchOpen(false);
+  }
+
   return (
     <main className="tours-page">
-      {/* Page introduction */}
+      {/* Hero */}
       <section className="tours-page-hero">
         <div className="tours-page-hero-content">
           <span className="tours-page-eyebrow">
@@ -193,22 +228,80 @@ export default function ToursPage() {
 
           {!isLoading && !error && (
             <span className="tours-page-result-count">
-              {selectedCategory === "All"
-                ? `Showing ${Math.min(
-                    (currentPage - 1) * PAGE_SIZE + 1,
-                    totalTours
-                  )}–${Math.min(
-                    currentPage * PAGE_SIZE,
-                    totalTours
-                  )} of ${totalTours}`
-                : `${totalTours} ${
-                    totalTours === 1 ? "tour" : "tours"
-                  } in ${selectedCategory}`}
+              {totalTours}{" "}
+              {totalTours === 1 ? "tour" : "tours"} found
             </span>
           )}
         </div>
-          <TourSearch/>
-        {/* Category filter bar */}
+
+        {/* Search bar */}
+
+        {/* Search bar */}
+        {!isLoading && !error && (
+          <div className="tours-search-section">
+            <div className="tours-search">
+              <form
+                className="tours-search-form"
+                role="search"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setCurrentPage(1);
+                }}
+              >
+                <span
+                  className="tours-search-icon"
+                  aria-hidden="true"
+                >
+                  ⌕
+                </span>
+
+                <div className="tours-search-field">
+                  <label htmlFor="tours-search-input">
+                    FIND YOUR EXPERIENCE
+                  </label>
+
+                  <input
+                    id="tours-search-input"
+                    type="search"
+                    placeholder="Search destinations, countries..."
+                    autoComplete="off"
+                    value={query}
+                    onChange={(event) => {
+                      setQuery(event.target.value);
+                    }}
+                  />
+                </div>
+
+                {query && (
+                  <button
+                    type="button"
+                    className="tours-search-clear"
+                    onClick={clearSearch}
+                    aria-label="Clear search"
+                  >
+                    ×
+                  </button>
+                )}
+
+                <button
+                  type="submit"
+                  className="tours-search-submit"
+                >
+                  Search <span aria-hidden="true">→</span>
+                </button>
+              </form>
+            </div>
+
+            {query.trim() !== "" && (
+              <p className="tours-search-result-hint">
+                {totalTours} matching{" "}
+                {totalTours === 1 ? "tour" : "tours"}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Category filters */}
         {!isLoading && !error && (tours?.length ?? 0) > 0 && (
           <div
             className="tours-category-bar"
@@ -219,10 +312,9 @@ export default function ToursPage() {
               <button
                 key={category}
                 type="button"
-                className={`tours-category-button ${
-                  selectedCategory === category ? "active" : ""
-                }`}
-                onClick={() => handleCategoryChange(category)}
+                className={`tours-category-button ${selectedCategory === category ? "active" : ""
+                  }`}
+                onClick={() => selectCategory(category)}
                 aria-pressed={selectedCategory === category}
               >
                 {category === "All" ? "All Tours" : category}
@@ -259,7 +351,7 @@ export default function ToursPage() {
           </div>
         )}
 
-        {/* No tours available */}
+        {/* No tours */}
         {!isLoading && !error && (tours?.length ?? 0) === 0 && (
           <div className="tours-page-state">
             <h3>No tours available just yet.</h3>
@@ -267,24 +359,27 @@ export default function ToursPage() {
           </div>
         )}
 
-        
-        {/* No category matches */}
+        {/* No search or category matches */}
         {!isLoading &&
           !error &&
           (tours?.length ?? 0) > 0 &&
           totalTours === 0 && (
             <div className="tours-page-state">
-              <h3>No {selectedCategory} tours found.</h3>
+              <h3>No matching tours found.</h3>
               <p>
-                Try another category to discover more adventures.
+                Try another search or choose a different category.
               </p>
 
               <button
                 type="button"
                 className="tours-page-retry"
-                onClick={() => handleCategoryChange("All")}
+                onClick={() => {
+                  setQuery("");
+                  setSelectedCategory("All");
+                  setCurrentPage(1);
+                }}
               >
-                View all tours
+                Clear filters
               </button>
             </div>
           )}
@@ -298,7 +393,6 @@ export default function ToursPage() {
               ))}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <nav
                 className="tours-pagination"
@@ -329,9 +423,8 @@ export default function ToursPage() {
                       <button
                         type="button"
                         key={page}
-                        className={`tours-pagination-number ${
-                          currentPage === page ? "active" : ""
-                        }`}
+                        className={`tours-pagination-number ${currentPage === page ? "active" : ""
+                          }`}
                         onClick={() => goToPage(page)}
                         aria-label={`Go to page ${page}`}
                         aria-current={
