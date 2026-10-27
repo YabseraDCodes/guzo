@@ -4,6 +4,8 @@ import useSWR from "swr";
 import DestinationCard, { type Destination } from "../components/DestinationCard";
 import { fetcher } from "@/lib/fetcher";
 import "./destinations.css"
+import type { Tour } from "@/types/tour";
+
 
 export default function DestinationPage() {
   const {
@@ -11,6 +13,8 @@ export default function DestinationPage() {
     error,
     isLoading,
   } = useSWR<Destination[]>("/api/countries", fetcher);
+
+  const { data: tours } = useSWR<Tour[]>("/api/tours", fetcher);
 
   return (
     <main className="destinations-page">
@@ -121,12 +125,19 @@ export default function DestinationPage() {
           destinations &&
           destinations.length > 0 && (
             <div className="destinations-grid">
-              {destinations.map((destination) => (
-                <DestinationCard
-                  key={destination.id}
-                  destination={destination}
-                />
-              ))}
+              {destinations.map((destination) => {
+                const toursCount = (tours ?? []).filter(
+                  (tour) => tour.country_id === destination.id
+                ).length;
+
+                return (
+                  <DestinationCard
+                    key={destination.id}
+                    destination={destination}
+                    toursCount={toursCount}
+                  />
+                );
+              })}
             </div>
           )}
       </section>

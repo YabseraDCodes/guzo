@@ -16,6 +16,9 @@ type Booking = {
   package: string;
   status: string;
   created_at: string;
+  agents?: {
+    name: string;
+  } | null;
 };
 
 const filters = ["All", "Pending", "Confirmed", "Cancelled"];
@@ -156,7 +159,7 @@ export default function BookingsPage() {
                     </div>
                   </td>
 
-                  <td>{booking.agents.name}</td>
+                  <td>{booking.agents?.name}</td>
 
                   <td>{booking.team_number}</td>
 

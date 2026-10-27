@@ -8,17 +8,17 @@ export type Destination = {
   cover_image_url: string;
   region: string;
   is_featured: boolean;
-  tours_count: number;
   slug: string;
 };
 
 type DestinationCardProps = {
   destination: Destination;
+  toursCount: number;
 };
 
 export default function DestinationCard({
-  destination,
-}: DestinationCardProps) {
+  destination, toursCount
+}: DestinationCardProps) {  
   return (
     <Link href={`/destinations/${destination.slug}`}>
       <article className="destination-card">
@@ -90,8 +90,8 @@ export default function DestinationCard({
               </span>
 
               <span>
-                <strong>{destination.tours_count}</strong>{" "}
-                {destination.tours_count === 1 ? "tour" : "tours"}
+                <strong>{toursCount}</strong>{" "}
+                {toursCount === 1 ? "tour" : "tours"}
                 {" "}available
               </span>
             </div>

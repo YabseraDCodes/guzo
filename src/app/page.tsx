@@ -3,6 +3,8 @@ import HomeDestinationCard from "./components/HomeDestinationCard";
 import "./homePage.css"
 import TourCard from "./components/TourCard";
 import TourSearch from "./components/TourSearch";
+import type { Country } from "@/types/country";
+import type { Tour } from "@/types/tour";
 
 export default async function Home() {
 
@@ -15,7 +17,7 @@ export default async function Home() {
     }),
   ]);
 
-  const countries = await countriesRes.json();
+  const countries: Country[] = await countriesRes.json();
   const tours: Tour[] = await toursRes.json();
 
   const featuredDestinations = countries.slice(0, 3);

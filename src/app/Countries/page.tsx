@@ -1,48 +1,48 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetcher } from "@/lib/fetcher";
-import DestinationCard, {
-    type Destination,
-} from "@/app/components/DestinationCard";
+// import { useEffect, useState } from "react";
+// import { fetcher } from "@/lib/fetcher";
+// import DestinationCard, {
+//     type Destination,
+// } from "@/app/components/DestinationCard";
 
 export default function DestinationsPage() {
-    const [destinations, setDestinations] = useState<Destination[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [destinations, setDestinations] = useState<Destination[]>([]);
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function getDestinations() {
-            try {
-                const data: Destination[] = await fetcher(
-                    "/api/destinations"
-                );
+    // useEffect(() => {
+    //     async function getDestinations() {
+    //         try {
+    //             const data: Destination[] = await fetcher(
+    //                 "/api/destinations"
+    //             );
 
-                setDestinations(data);
-            } catch (error) {
-                console.error("Failed to fetch destinations:", error);
-                setDestinations([]);
-            } finally {
-                setLoading(false);
-            }
-        }
+    //             setDestinations(data);
+    //         } catch (error) {
+    //             console.error("Failed to fetch destinations:", error);
+    //             setDestinations([]);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     }
 
-        getDestinations();
-    }, []);
+    //     getDestinations();
+    // }, []);
 
-    if (loading) {
-        return (
-            <main className="destination-page">
-                <p className="destination-message">
-                    Loading destinations...
-                </p>
-            </main>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <main className="destination-page">
+    //             <p className="destination-message">
+    //                 Loading destinations...
+    //             </p>
+    //         </main>
+    //     );
+    // }
 
     return (
         <main className="destination-page">
-            <section className="destination-hero">
+            {/* <section className="destination-hero">
                 <p className="eyebrow">EXPLORE AFRICA</p>
 
                 <h1>
@@ -69,7 +69,7 @@ export default function DestinationsPage() {
                         ))}
                     </div>
                 )}
-            </section>
+            </section> */}
         </main>
     );
 }

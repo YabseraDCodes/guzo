@@ -25,6 +25,7 @@ const CATEGORIES = [
 ];
 
 type SearchableTour = Tour & {
+  category?: string | null;
   location?: string | null;
   description?: string | null;
   slug?: string | null;
@@ -162,7 +163,6 @@ export default function ToursPage() {
 
   function clearSearch() {
     setQuery("");
-    setIsSearchOpen(false);
   }
 
   return (
