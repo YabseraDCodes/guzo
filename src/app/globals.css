@@ -84,7 +84,7 @@ img {
 
 .main-nav a:hover,
 .main-nav .nav-active {
-  /* color: var(--guzo-green); */
+  color: var(--guzo-green);
 }
 
 .header-cta,
