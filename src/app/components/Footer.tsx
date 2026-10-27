@@ -53,7 +53,8 @@ export default function Footer() {
           GUZO<span>.</span>
         </Link>
 
-        {/* <p>© {new Date().getFullYear()} GUZO. Made for the curious.</p> */}
+        © 2026 GUZO. All rights reserved.
+
 
         <a className="footer-back-top" href="#top">
           Back to top <span aria-hidden="true">↑</span>

@@ -11,7 +11,7 @@ export default function Footer() {
       </Link>
 
       <p>
-        © {new Date().getFullYear()} GUZO. All rights reserved.
+        © 2026 GUZO. All rights reserved.
       </p>
 
       <span className="footer-caption">

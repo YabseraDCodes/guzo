@@ -1,21 +1,26 @@
+
+import { Suspense } from "react";
 import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
-import "./homePage.css"
+import "./homePage.css";
 import TourCard from "./components/TourCard";
 import TourSearch from "./components/TourSearch";
 import type { Country } from "@/types/country";
 import type { Tour } from "@/types/tour";
 
-export default async function Home() {
-
+async function FeaturedContent() {
   const [countriesRes, toursRes] = await Promise.all([
-    fetch("http://localhost:3000/api/countries", {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/countries`, {
       next: { revalidate: 300 },
     }),
-    fetch("http://localhost:3000/api/tours", {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/tours`, {
       next: { revalidate: 300 },
     }),
   ]);
+
+  if (!countriesRes.ok || !toursRes.ok) {
+    throw new Error("Failed to load featured destinations and tours.");
+  }
 
   const countries: Country[] = await countriesRes.json();
   const tours: Tour[] = await toursRes.json();
@@ -23,6 +28,61 @@ export default async function Home() {
   const featuredDestinations = countries.slice(0, 3);
   const featuredTours = tours.slice(5, 8);
 
+  return (
+    <>
+      <section className="destinations-section" id="destinations">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow"><span /> PLACES TO DISCOVER</p>
+            <h2>Find your <em>somewhere.</em></h2>
+          </div>
+          <Link className="text-link" href="/destinations">
+            All destinations <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+
+        <div className="destination-grid">
+          {featuredDestinations.map((destination) => (
+            <HomeDestinationCard
+              key={destination.id}
+              destination={destination}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="featured-tours-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              <span /> JOURNEYS WORTH TAKING
+            </p>
+            <h2>
+              Find your next <em>adventure.</em>
+            </h2>
+          </div>
+
+          <Link className="text-link" href="/tours">
+            All tours <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+
+        <p className="featured-tours-description">
+          From unforgettable landscapes to rich cultural encounters,
+          discover experiences that bring Africa closer.
+        </p>
+
+        <div className="featured-tours-grid">
+          {featuredTours.map((tour) => (
+            <TourCard key={tour.id} tour={tour} />
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default function Home() {
   return (
     <main>
       <section className="hero">
@@ -70,70 +130,31 @@ export default async function Home() {
           From ancient cities to wild landscapes, your next adventure begins here.
         </p>
       </section>
+
       <section className="stats-strip" aria-label="The Guzo experience">
         <div className="stat-item">
           <span className="stat-number">01</span>
           <span className="stat-label">Discover new places</span>
         </div>
-
         <div className="stat-item">
           <span className="stat-number">02</span>
           <span className="stat-label">Experience local culture</span>
         </div>
-
         <div className="stat-item">
           <span className="stat-number">03</span>
           <span className="stat-label">Create lasting memories</span>
         </div>
       </section>
 
-      <section className="destinations-section" id="destinations">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow"><span /> PLACES TO DISCOVER</p>
-            <h2>Find your <em>somewhere.</em></h2>
+      <Suspense
+        fallback={
+          <div className="destination-grid" aria-live="polite">
+            Loading destinations and tours...
           </div>
-          <Link className="text-link" href="/destinations">
-            All destinations <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
-
-        <div className="destination-grid">
-          {featuredDestinations.map((destination) => (
-            <HomeDestinationCard
-              key={destination.id}
-              destination={destination}
-            />
-          ))}
-        </div>
-      </section>
-      <section className="featured-tours-section">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              <span /> JOURNEYS WORTH TAKING
-            </p>
-            <h2>
-              Find your next <em>adventure.</em>
-            </h2>
-          </div>
-
-          <Link className="text-link" href="/tours">
-            All tours <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
-
-        <p className="featured-tours-description">
-          From unforgettable landscapes to rich cultural encounters,
-          discover experiences that bring Africa closer.
-        </p>
-
-        <div className="featured-tours-grid">
-          {featuredTours.map((tour) => (
-            <TourCard key={tour.id} tour={tour} />
-          ))}
-        </div>
-      </section>
+        }
+      >
+        <FeaturedContent />
+      </Suspense>
 
       <section className="closing-banner">
         <p className="eyebrow"><span /> THE WORLD IS WIDE</p>

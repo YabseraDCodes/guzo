@@ -1,9 +1,10 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import "./Header.css"
+import { useState, Suspense } from "react";
+import "./Header.css";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -13,7 +14,7 @@ const navItems = [
   { label: "About", href: "/about" },
 ];
 
-export default function Header() {
+function HeaderContent() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -71,5 +72,21 @@ export default function Header() {
         </Link>
       </nav>
     </header>
+  );
+}
+
+export default function Header() {
+  return (
+    <Suspense
+      fallback={
+        <header className="site-header">
+          <Link href="/" className="brand" aria-label="GUZO home">
+            GUZO<span>.</span>
+          </Link>
+        </header>
+      }
+    >
+      <HeaderContent />
+    </Suspense>
   );
 }
