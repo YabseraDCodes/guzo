@@ -45,3 +45,34 @@ export default function BookingsPage() {
     />
   );
 }
+interface BookingPageProps {
+  searchParams: Promise<{
+    destinationId?: string;
+    agentId?: string;
+    packageName?: string;
+  }>;
+}
+
+export default async function BookingPage({
+  searchParams,
+}: BookingPageProps) {
+  const { destinationId, agentId, packageName } = await searchParams;
+
+  return (
+    <main className="info-page">
+      <section className="info-hero">
+        <h1>Book Your Trip</h1>
+        <p>You're one step closer to your next adventure!</p>
+      </section>
+
+      <section className="info-content">
+        <h2>Your Selected Package</h2>
+
+        <p>Package Name: {packageName || "No package selected"}</p>
+        <p>Destination ID: {destinationId || "Not provided"}</p>
+        <p>Agent ID: {agentId || "Not provided"}</p>
+
+      </section>
+    </main>
+  );
+}
