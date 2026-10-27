@@ -87,7 +87,7 @@ export default function PackageCard({
             </section>
 
             <section className="package-inclusions">
-                <h5>What's Included</h5>
+                <h5>What&apos;s Included</h5>
 
                 <ul>
                     {pkg.includes.map((item, index) => (
@@ -122,7 +122,7 @@ export default function PackageCard({
             </details>
 
             <Link
-    href={`/booking?destinationId=${destinationId}&agentId=${agentId}&packageName=${packageName}`}
+    href={`/bookings?destinationId=${destinationId}&agentId=${agentId}&packageName=${packageName}`}
     className="package-book-button"
 >
     Book This Package <span aria-hidden="true">→</span>

@@ -1,21 +1,44 @@
+"use client";
+
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import {bookingSchema,getBookingFieldErrors,type BookingField,} from "@/lib/booking-schema";
-import { BookingFormFields, type Agent, type Tour } from "./BookingFormFields";
+import {
+  bookingSchema,
+  getBookingFieldErrors,
+  type BookingField,
+} from "@/lib/booking-schema";
+import { BookingFormFields } from "./BookingFormFields";
 
 type Props = {
-  agents: Agent[];
-  tours: Tour[];
-  isLoadingOptions: boolean;
-  optionsError: boolean;
+  initialAgentId: string;
+  initialAgentName: string;
+  initialPackageName: string;
+  initialPackagePrice: number | null;
 };
 
-export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: Props) {
+function formatBookingPrice(price: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+}
+
+export function BookingForm({
+  initialAgentId,
+  initialAgentName,
+  initialPackageName,
+  initialPackagePrice,
+}: Props) {
   const router = useRouter();
   const [result, setResult] = useState<{ message: string; isError: boolean } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedAgentId, setSelectedAgentId] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<BookingField, string>>>({});
+  const [teamNumber, setTeamNumber] = useState("2");
+  const travelerCount = /^[1-9]\d*$/.test(teamNumber) ? Number(teamNumber) : 0;
+  const estimatedTotal =
+    initialPackagePrice !== null && travelerCount > 0
+      ? initialPackagePrice * travelerCount
+      : null;
 
   function clearFieldError(field: BookingField) {
     setFieldErrors((current) => {
@@ -72,7 +95,11 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
       const confirmation = {
         booking_id: bookingId,
         ...validation.data,
-        agent_name: agents.find((agent) => agent.id === validation.data.agent_id)?.name ?? "Not assigned",
+        agent_name: initialAgentName || `Agent ${initialAgentId}`,
+        total_price:
+          initialPackagePrice === null
+            ? null
+            : initialPackagePrice * validation.data.team_number,
       };
       sessionStorage.setItem("bookingConfirmation", JSON.stringify(confirmation));
       router.push("/bookings/confirmation");//prepares the booking confirmation information, saves it temporarily in the browser, and opens the confirmation page.
@@ -97,23 +124,35 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
           <p>Share a few details and our team will help plan your trip.</p>
         </div>
 
+        <dl className="booking-selection">
+          <div>
+            <dt>Agent ID</dt>
+            <dd>{initialAgentId || "Not provided"}</dd>
+          </div>
+          <div>
+            <dt>Tour agent</dt>
+            <dd>{initialAgentName || "Not provided"}</dd>
+          </div>
+          <div>
+            <dt>Selected package</dt>
+            <dd>{initialPackageName || "Not provided"}</dd>
+          </div>
+        </dl>
+
         <form className="booking-form" onSubmit={handleSubmit} noValidate>
-          <BookingFormFields // by using sher stste we passe part to BookingFormFields
-            agents={agents}
-            tours={tours}
-            isLoadingOptions={isLoadingOptions}
-            selectedAgentId={selectedAgentId}
+          <input type="hidden" name="agent_id" value={initialAgentId} />
+          <input type="hidden" name="package" value={initialPackageName} />
+          <BookingFormFields
             fieldErrors={fieldErrors}
-            onAgentChange={(agentId) => {
-              setSelectedAgentId(agentId);
-              clearFieldError("agent_id");
-            }}
+            teamNumber={teamNumber}
+            onTeamNumberChange={setTeamNumber}
             onFieldChange={clearFieldError}
           />
 
-          {optionsError && (
-            <p className="booking-message booking-message-error" role="alert">
-              Agents or packages could not be loaded. Refresh the page and try again.
+          {initialPackagePrice !== null && (
+            <p className="booking-message booking-message-success" aria-live="polite">
+              Estimated total: {estimatedTotal === null ? "—" : formatBookingPrice(estimatedTotal)}
+              {" "}({formatBookingPrice(initialPackagePrice)} per traveler)
             </p>
           )}
 
@@ -126,7 +165,7 @@ export function BookingForm({ agents, tours, isLoadingOptions, optionsError }: P
           <button
             className="booking-submit"
             type="submit"
-            disabled={isSubmitting || isLoadingOptions || !agents.length || !tours.length}
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Submit booking"}
             <span aria-hidden="true">↗</span>

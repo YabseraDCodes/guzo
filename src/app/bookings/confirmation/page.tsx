@@ -2,11 +2,25 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {bookingConfirmationSchema, type BookingConfirmation,} from "@/lib/booking-schema";
+import { z } from "zod";
+import { bookingConfirmationSchema } from "@/lib/booking-schema";
 import "../booking.css";
 
+const confirmationPageSchema = bookingConfirmationSchema.extend({
+  total_price: z.number().nonnegative().nullable().optional(),
+});
+
+type Confirmation = z.infer<typeof confirmationPageSchema>;
+
+function formatBookingPrice(price: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+}
+
 export default function BookingConfirmationPage() {
-  const [booking, setBooking] = useState<BookingConfirmation | null>(null);
+  const [booking, setBooking] = useState<Confirmation | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 // loads the saved booking information from the browser and 
 // checks whether it is valid before displaying it on the confirmation page
@@ -18,7 +32,7 @@ export default function BookingConfirmationPage() {
       try {//saved booking information and checks whether it is valid before displaying it
         const storedBooking = sessionStorage.getItem("bookingConfirmation");
         if (storedBooking) {
-          const result = bookingConfirmationSchema.safeParse(JSON.parse(storedBooking));
+          const result = confirmationPageSchema.safeParse(JSON.parse(storedBooking));
           if (result.success) {
             setBooking(result.data);
           } else {
@@ -60,6 +74,9 @@ export default function BookingConfirmationPage() {
               <div><dt>Tour package</dt><dd>{booking.package}</dd></div>
               <div><dt>Tour agent</dt><dd>{booking.agent_name}</dd></div>
               <div><dt>Travelers</dt><dd>{booking.team_number}</dd></div>
+              {booking.total_price != null && (
+                <div><dt>Estimated total</dt><dd>{formatBookingPrice(booking.total_price)}</dd></div>
+              )}
             </dl>
 
             <Link className="booking-confirmation-link" href="/bookings">

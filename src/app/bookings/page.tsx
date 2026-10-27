@@ -1,65 +1,67 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { fetcher } from "@/lib/fetcher";
 import { BookingForm } from "./BookingForm";
-import type { Agent, Tour } from "./BookingFormFields";
+import { createClient } from "@/app/utils/supabase/server";
 import "./booking.css";
 
-export default function BookingsPage() {
-  const searchParams = useSearchParams();
+export const instant = false;
 
-  const destinationId = searchParams.get("destinationId") || "";
-  const agentId = searchParams.get("agentId") || "";
-  const packageName = searchParams.get("packageName") || "";
+type BookingSearchParams = {
+  agentId?: string | string[];
+  packageName?: string | string[];
+};
 
-  const [agents, setAgents] = useState<Agent[]>([]);
-  const [tours, setTours] = useState<Tour[]>([]);
-  const [isLoadingOptions, setIsLoadingOptions] = useState(true);
-  const [optionsError, setOptionsError] = useState(false);
+function firstValue(value: string | string[] | undefined): string {
+  return Array.isArray(value) ? value[0] ?? "" : value ?? "";
+}
 
-  useEffect(() => {
-    let isActive = true;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
-    Promise.all([
-      fetcher("/api/agents") as Promise<Agent[]>,
-      fetcher("/api/tours") as Promise<Tour[]>,
-    ])
-      .then(([agentData, tourData]) => {
-        if (!isActive) return;
-        setAgents(agentData);
-        setTours(tourData);
-      })
-      .catch(() => {
-        if (isActive) setOptionsError(true);
-      })
-      .finally(() => {
-        if (isActive) setIsLoadingOptions(false);
-      });
+function getPackagePrice(packages: unknown, packageName: string): number | null {
+  if (!isRecord(packages)) return null;
 
-    return () => {
-      isActive = false;
-    };
-  }, []);
+  const selectedPackage = packages[packageName.toLowerCase()];
+  if (!isRecord(selectedPackage)) return null;
+
+  const price = selectedPackage.price;
+  return typeof price === "number" && Number.isFinite(price) && price >= 0
+    ? price
+    : null;
+}
+
+export default async function BookingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<BookingSearchParams>;
+}) {
+  const selected = await searchParams;
+  const initialAgentId = firstValue(selected.agentId);
+  const initialPackageName = firstValue(selected.packageName);
+  let initialAgentName = "";
+  let initialPackagePrice: number | null = null;
+
+  if (/^\d+$/.test(initialAgentId)) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("agents")
+      .select("name, packages")
+      .eq("id", Number(initialAgentId))
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(`Unable to load the selected tour agent: ${error.message}`);
+    }
+
+    initialAgentName = data?.name ?? "";
+    initialPackagePrice = getPackagePrice(data?.packages, initialPackageName);
+  }
 
   return (
-    <>
-      {packageName && (
-        <section className="info-content">
-          <h2>Your Selected Package</h2>
-          <p>Package Name: {packageName}</p>
-          <p>Destination ID: {destinationId || "Not provided"}</p>
-          <p>Agent ID: {agentId || "Not provided"}</p>
-        </section>
-      )}
-
-      <BookingForm
-        agents={agents}
-        tours={tours}
-        isLoadingOptions={isLoadingOptions}
-        optionsError={optionsError}
-      />
-    </>
+    <BookingForm
+      initialAgentId={initialAgentId}
+      initialAgentName={initialAgentName}
+      initialPackageName={initialPackageName}
+      initialPackagePrice={initialPackagePrice}
+    />
   );
 }

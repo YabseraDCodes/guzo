@@ -1,32 +1,18 @@
 import type { BookingField } from "@/lib/booking-schema";
 
-export type Agent = {
-  id: number;
-  name: string;
-};
 
-export type Tour = {
-  id: number;
-  name: string;
-};
 
 type Props = {
-  agents: Agent[];
-  tours: Tour[];
-  isLoadingOptions: boolean;
-  selectedAgentId: string;
   fieldErrors: Partial<Record<BookingField, string>>;
-  onAgentChange: (agentId: string) => void;
+  teamNumber: string;
+  onTeamNumberChange: (value: string) => void;
   onFieldChange: (field: BookingField) => void;
 };
 
 export function BookingFormFields({
-  agents,
-  tours,
-  isLoadingOptions,
-  selectedAgentId,
   fieldErrors,
-  onAgentChange,
+  teamNumber,
+  onTeamNumberChange,
   onFieldChange,
 }: Props) {
   return (
@@ -76,50 +62,6 @@ export function BookingFormFields({
         </label>
       </div>
 
-      <div className="booking-field-row">
-        <label>
-          Tour package
-          <select
-            name="package"
-            defaultValue=""
-            required
-            disabled={isLoadingOptions || !tours.length}
-            aria-invalid={Boolean(fieldErrors.package)}
-            aria-describedby={fieldErrors.package ? "booking-package-error" : undefined}
-            onChange={() => onFieldChange("package")}
-          >
-            <option value="" disabled>
-              {isLoadingOptions ? "Loading packages..." : "Select a package"}
-            </option>
-            {tours.map((tour) => (
-              <option key={tour.id} value={tour.name}>{tour.name}</option>
-            ))}
-          </select>
-          {fieldErrors.package && <span className="booking-field-error" id="booking-package-error">{fieldErrors.package}</span>}
-        </label>
-        <label>
-          Tour agent
-          <select
-            name="agent_id"
-            value={selectedAgentId}
-            required
-            disabled={isLoadingOptions || !agents.length} // it see the agency list is still loading and - there are no agencies available by using or condition
-            aria-invalid={Boolean(fieldErrors.agent_id)} //indicates whether the field has an error.
-            aria-describedby={fieldErrors.agent_id ? "booking-agent-id-error" : undefined} //connects the field to its error message.
-            onChange={(event) => onAgentChange(event.target.value)}
-          >
-            <option value="" disabled>
-              {isLoadingOptions ? "Loading agents..." : "Select an agent"}//it is for tour agent box show
-            </option>
-            {agents.map((agent) => (
-              <option key={agent.id} value={agent.id}>{agent.name}</option>
-            ))}
-          </select>
-          {fieldErrors.agent_id && <span className="booking-field-error" id="booking-agent-id-error">{fieldErrors.agent_id}</span>}
-          {/* //this part displays an error message only fieldErrors.agent_id have error */}
-        </label>
-      </div>
-
       <label className="booking-team-field">
         Number of travelers
         <input
@@ -127,11 +69,14 @@ export function BookingFormFields({
           type="number"
           min="1"
           step="1"
-          defaultValue="2"
+          value={teamNumber}
           required
           aria-invalid={Boolean(fieldErrors.team_number)}
           aria-describedby={fieldErrors.team_number ? "booking-team-number-error" : undefined}
-          onChange={() => onFieldChange("team_number")}
+          onChange={(event) => {
+            onTeamNumberChange(event.target.value);
+            onFieldChange("team_number");
+          }}
         />
         {fieldErrors.team_number && <span className="booking-field-error" id="booking-team-number-error">{fieldErrors.team_number}</span>}
       </label>

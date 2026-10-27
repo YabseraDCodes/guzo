@@ -11,15 +11,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
   }
 
-  const { error } = await supabase.from("bookings").insert({
-    agent_id,
-    user_name,
-    user_email,
-    user_phone,
-    team_number: Number(team_number),
-    package: pkg,
-  });
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert({
+      agent_id,
+      user_name,
+      user_email,
+      user_phone,
+      team_number: Number(team_number),
+      package: pkg,
+    })
+    .select("id")
+    .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ message: "Booking submitted" }, { status: 201 });
+  return NextResponse.json(
+    { message: "Booking submitted", booking_id: data.id },
+    { status: 201 },
+  );
 }
