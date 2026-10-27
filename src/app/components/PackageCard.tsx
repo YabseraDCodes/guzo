@@ -1,4 +1,6 @@
+import Link from "next/link";
 import "./PackageCard.css";
+
 
 type Package = {
     price: number;
@@ -119,21 +121,12 @@ export default function PackageCard({
                 </ol>
             </details>
 
-            <button
-                type="button"
-                className="package-book-button"
-                onClick={() => {
-                    // TODO: Connect to the bookings page when its route
-                    // is ready. Pass destinationId, agentId, and packageName.
-                    console.log("Booking selection:", {
-                        destinationId,
-                        agentId,
-                        packageName,
-                    });
-                }}
-            >
-                Book This Package <span aria-hidden="true">→</span>
-            </button>
+            <Link
+    href={`/booking?destinationId=${destinationId}&agentId=${agentId}&packageName=${packageName}`}
+    className="package-book-button"
+>
+    Book This Package <span aria-hidden="true">→</span>
+</Link>
         </article>
     );
 }
