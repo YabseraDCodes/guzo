@@ -2,8 +2,14 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
+<<<<<<< HEAD
 import "./homePage.css";
 import TourCard from "./components/TourCard";
+=======
+import type { Destination } from "./components/DestinationCard";
+import "./homePage.css";
+import type { Tour } from "./components/TourCard";import TourCard from "./components/TourCard";
+>>>>>>> feature/package-booking-navigation
 import TourSearch from "./components/TourSearch";
 import type { Country } from "@/types/country";
 import type { Tour } from "@/types/tour";
@@ -25,7 +31,7 @@ async function FeaturedContent() {
   const countries: Country[] = await countriesRes.json();
   const tours: Tour[] = await toursRes.json();
 
-  const featuredDestinations = countries.slice(0, 3);
+  const featuredDestinations: Destination[] = countries.slice(0, 3);
   const featuredTours = tours.slice(5, 8);
 
   return (
