@@ -1,14 +1,12 @@
 import Link from "next/link";
 import "./PackageCard.css";
 
-
 type Package = {
     price: number;
     duration: string;
     hotel: {
         ranking: number;
         description: string;
-        image?: string;
     };
     includes: string[];
     itinerary: {
@@ -25,25 +23,39 @@ type PackageCardProps = {
     destinationId: number;
 };
 
+const hotelImages: Record<string, string> = {
+    golden: "/images/hotels/golden.jpg",
+    silver: "/images/hotels/silver.jpg",
+    economy: "/images/hotels/economy.jpg",
+};
+
 export default function PackageCard({
     packageName,
     pkg,
     agentId,
     destinationId,
 }: PackageCardProps) {
+    const normalizedPackageName = packageName.toLowerCase();
+
+    const hotelImage =
+        hotelImages[normalizedPackageName] ??
+        "/images/hotels/economy.jpg";
+
     const hotelRating = Math.max(
         0,
         Math.min(5, Number(pkg.hotel.ranking) || 0)
     );
 
     return (
-        <article className={`package-card package-${packageName.toLowerCase()}`}>
+        <article
+            className={`package-card package-${normalizedPackageName}`}
+        >
             <div className="package-card-top">
                 <span className="package-name">
                     {packageName} Package
                 </span>
 
-                {packageName.toLowerCase() === "golden" && (
+                {normalizedPackageName === "golden" && (
                     <span className="package-popular">
                         PREMIUM CHOICE
                     </span>
@@ -64,16 +76,12 @@ export default function PackageCard({
             <section className="package-hotel">
                 <h5>Accommodation</h5>
 
-                {pkg.hotel.image && (
-                    <div className="package-hotel-image">
-                        {/* TODO: Replace with next/image and configure
-                            remote image hosts when ready. */}
-                        <img
-                            src={pkg.hotel.image}
-                            alt={`${packageName} package hotel`}
-                        />
-                    </div>
-                )}
+                <div className="package-hotel-image">
+                    <img
+                        src={hotelImage}
+                        alt={`${packageName} package hotel`}
+                    />
+                </div>
 
                 <div className="package-hotel-rating">
                     <span aria-label={`${hotelRating} out of 5 stars`}>
@@ -87,7 +95,7 @@ export default function PackageCard({
             </section>
 
             <section className="package-inclusions">
-                <h5>What&apos;s Included</h5>
+                <h5>What's Included</h5>
 
                 <ul>
                     {pkg.includes.map((item, index) => (
@@ -122,11 +130,11 @@ export default function PackageCard({
             </details>
 
             <Link
-    href={`/bookings?destinationId=${destinationId}&agentId=${agentId}&packageName=${packageName}`}
-    className="package-book-button"
->
-    Book This Package <span aria-hidden="true">→</span>
-</Link>
+                href={`/bookings?destinationId=${destinationId}&agentId=${agentId}&packageName=${encodeURIComponent(packageName)}`}
+                className="package-book-button"
+            >
+                Book This Package <span aria-hidden="true">→</span>
+            </Link>
         </article>
     );
 }
