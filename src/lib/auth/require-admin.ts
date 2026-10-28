@@ -1,4 +1,3 @@
-
 import "server-only";
 
 import { redirect } from "next/navigation";
@@ -6,9 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export type StaffRole = "admin" | "staff";
 
-export async function requireRole(
-  allowedRoles: StaffRole[]
-) {
+export async function requireRole(allowedRoles: StaffRole[]) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getClaims();
@@ -20,15 +17,23 @@ export async function requireRole(
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("role")
+    .select("role, agent_id")
     .eq("id", claims.sub)
     .maybeSingle();
 
-  if (profileError || !profile || !allowedRoles.includes(profile.role as StaffRole)) {
+  if (
+    profileError ||
+    !profile ||
+    !allowedRoles.includes(profile.role as StaffRole)
+  ) {
     redirect("/unauthorized");
   }
 
-  return { userId: claims.sub, role: profile.role as StaffRole };
+  return {
+    userId: claims.sub,
+    role: profile.role as StaffRole,
+    agentId: profile.agent_id as number | null,
+  };
 }
 
 export async function requireAdmin() {

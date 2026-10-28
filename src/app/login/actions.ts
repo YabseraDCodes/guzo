@@ -35,7 +35,7 @@ export async function login( _previousState: LoginState, formData: FormData): Pr
   }
 
   if (data.role === "admin") {
-    redirect("/admin");
+    redirect("/Admin");
   }
 
   if (data.role === "staff") {

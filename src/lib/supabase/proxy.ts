@@ -33,15 +33,19 @@ export async function updateSession(request: NextRequest) {
   );
 
   const { data, error } = await supabase.auth.getClaims();
+  const claims = data?.claims;
 
-const claims = data?.claims;
+  const pathname = request.nextUrl.pathname;
 
-  const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+  const isProtectedRoute =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/staff");
 
-  if (isAdminRoute && (error || !claims)) {
-    const loginUrl = new URL("/login", request.url);
+  if (isProtectedRoute && (error || !claims)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
 
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(url);
   }
 
   return supabaseResponse;
