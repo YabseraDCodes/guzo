@@ -1,18 +1,21 @@
-
 import Link from "next/link";
 import { MapPin, Compass, ArrowRight } from "lucide-react";
 import "./overview.css";
+import { requireAdmin } from "@/lib/auth/require-admin";
 
-export default function AdminOverviewPage() {
+export default async function AdminOverviewPage() {
+  await requireAdmin();
+
   return (
     <section className="overview-page">
+
       <div className="admin-welcome">
         <div className="welcome-icon">
           <Compass size={32} />
         </div>
 
         <p className="welcome-eyebrow">WELCOME TO GUZO</p>
-
+    
         <h1>
           Every journey begins
           <br />
