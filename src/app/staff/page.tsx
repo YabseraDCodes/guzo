@@ -1,3 +1,5 @@
+export const instant = false;
+
 import { requireStaff } from "@/lib/auth/require-admin";
 import { logout } from "@/app/login/actions";
 

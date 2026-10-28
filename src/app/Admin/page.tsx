@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Link from "next/link";
 import { MapPin, Compass, ArrowRight } from "lucide-react";
 import "./overview.css";
