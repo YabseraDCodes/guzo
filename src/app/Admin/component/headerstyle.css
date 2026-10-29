@@ -1,102 +1,161 @@
-
 .staff-header {
-  background: #f0f5f2;
-  padding: 0 23px 14px;
-  color: #102f32;
-  font-family: Arial, sans-serif;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "brand heading logout"
+    "nav nav nav";
+  align-items: center;
+  column-gap: clamp(20px, 4vw, 56px);
+  row-gap: 28px;
+  padding: 25px 7% 20px;
+  border-bottom: 1px solid rgba(23, 76, 60, 0.12);
+  background: var(--guzo-ivory, #faf8f2);
+  color: var(--guzo-charcoal, #202824);
 }
 
 .staff-brand {
+  grid-area: brand;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 700;
+  gap: 11px;
+  color: var(--guzo-green, #174c3c);
   text-decoration: none;
-  margin-bottom: 36px;
 }
 
 .brand-icon {
   display: grid;
+  width: 42px;
+  height: 42px;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #14745b;
+  border-radius: 3px;
+  background: var(--guzo-green, #174c3c);
+  color: #fff;
+}
+
+.staff-brand-name {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -1.8px;
+}
+
+.staff-brand-name span {
+  color: var(--guzo-terracotta, #c76f43);
 }
 
 .staff-heading {
-  margin-bottom: 32px;
+  grid-area: heading;
 }
 
 .staff-label {
-  margin: 0 0 8px;
-  color: #e88b13;
-  font-size: 12px;
-  letter-spacing: 3px;
+  margin: 0 0 7px;
+  color: var(--guzo-terracotta, #c76f43);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
 }
 
 .staff-heading h1 {
   margin: 0 0 5px;
-  font-size: 30px;
+  color: var(--guzo-green, #174c3c);
+  font-size: clamp(20px, 2vw, 27px);
   line-height: 1.2;
-  font-weight: 750;
+  letter-spacing: -0.7px;
 }
 
 .staff-description {
   margin: 0;
-  color: #55777b;
-  font-size: 14px;
+  color: var(--guzo-muted, #6b756f);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.staff-logout-form {
+  grid-area: logout;
+  justify-self: end;
+}
+
+.staff-logout {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 15px;
+  border: 1px solid rgba(23, 76, 60, 0.22);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--guzo-green, #174c3c);
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.staff-logout:hover {
+  border-color: var(--guzo-green, #174c3c);
+  background: var(--guzo-green, #174c3c);
+  color: #fff;
+}
+
+.staff-logout:focus-visible,
+.staff-tab:focus-visible,
+.staff-brand:focus-visible {
+  outline: 2px solid var(--guzo-terracotta, #c76f43);
+  outline-offset: 4px;
 }
 
 .staff-tabs {
+  grid-area: nav;
   display: flex;
-  align-items: center;
-  gap: 4px;
   width: fit-content;
   max-width: 100%;
-  padding: 6px;
-  border: 1px solid #d9e6e0;
-  border-radius: 40px;
-  background: #fff;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid rgba(23, 76, 60, 0.12);
+  border-radius: 3px;
+  background: #fffefa;
 }
 
 .staff-tab {
   display: inline-flex;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 30px;
-  color: #334e50;
-  font-size: 13px;
-  font-weight: 600;
+  gap: 9px;
+  padding: 0 16px;
+  border-radius: 2px;
+  color: var(--guzo-muted, #6b756f);
+  font-size: 12px;
+  font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .staff-tab:hover {
-  background: #e6f1ec;
+  background: #f1f4ed;
+  color: var(--guzo-green, #174c3c);
 }
 
 .staff-tab.active {
+  background: var(--guzo-green, #174c3c);
   color: #fff;
-  background: #14745b;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .staff-header {
-    padding: 0 14px 16px;
-  }
-
-  .staff-brand {
-    margin-bottom: 28px;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand logout"
+      "heading heading"
+      "nav nav";
+    row-gap: 18px;
+    padding: 18px 5% 16px;
   }
 
   .staff-heading h1 {
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .staff-tabs {
@@ -105,8 +164,25 @@
   }
 
   .staff-tab {
-    padding: 11px 12px;
-    gap: 6px;
-    font-size: 12px;
+    min-height: 40px;
+    padding: 0 12px;
+    gap: 7px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  .staff-tab {
+    padding: 0 9px;
+    gap: 5px;
+  }
+
+  .staff-tab svg {
+    width: 14px;
+  }
+
+  .staff-logout {
+    min-height: 40px;
+    padding: 0 10px;
   }
 }

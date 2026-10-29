@@ -5,11 +5,10 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
-  padding: 22px 24px;
-  border-top: 1px solid #d9e6e0;
-  background: #f0f5f2;
-  color: #55777b;
-  font-family: Arial, sans-serif;
+  padding: 20px 7%;
+  border-top: 1px solid rgba(23, 76, 60, 0.12);
+  background: var(--guzo-ivory, #faf8f2);
+  color: var(--guzo-muted, #6b756f);
   font-size: 12px;
 }
 
@@ -17,7 +16,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #14745b;
+  color: var(--guzo-green, #174c3c);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
@@ -28,13 +27,13 @@
 }
 
 .footer-caption {
-  color: #78908d;
+  color: var(--guzo-muted, #6b756f);
 }
 
 @media (max-width: 600px) {
   .staff-footer {
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px 14px;
+    padding: 20px 5%;
   }
 }

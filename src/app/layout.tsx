@@ -1,8 +1,7 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import SiteChrome from "./components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "GUZO | Discover Africa",
@@ -17,9 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
+        <SiteChrome placement="header" />
         {children}
-        <Footer />
+        <SiteChrome placement="footer" />
       </body>
     </html>
   );

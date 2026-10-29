@@ -1,6 +1,6 @@
 import Header from "./component/header";
 import Footer from "./component/footer";
-import { logout } from "@/app/login/actions";
+import "./adminLayout.css";
 
 
 export default function AdminLayout({
@@ -11,10 +11,6 @@ export default function AdminLayout({
   return (
     <div className="admin-layout">
       <Header />
-      <form action={logout}>
-        <button type="submit">Log out</button>
-      </form>
-
       <main className="admin-main">
         {children}
       </main>

@@ -1,0 +1,10 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: var(--guzo-ivory, #faf8f2);
+}
+
+.admin-main {
+  flex: 1;
+}
