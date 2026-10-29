@@ -1423,3 +1423,103 @@
   font-size: 12px;
   font-weight: 400;
 }
+
+.booking-field-error {
+  display: block;
+  margin-top: 6px;
+  color: #984b29;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.booking-form input[aria-invalid="true"] {
+  border-color: var(--guzo-terracotta);
+}
+
+.booking-form input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(199, 111, 67, 0.12);
+}
+
+
+/* =========================================
+   GUZO — TRAVEL DATE FIELD
+========================================= */
+
+.booking-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 6px;
+}
+
+.booking-date-label {
+  color: var(--guzo-green, #174c3c);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.booking-date-hint {
+  margin-top: -4px;
+  color: var(--guzo-muted, #6b756f);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.booking-date-input {
+  width: 100%;
+  min-height: 55px;
+  padding: 0 16px;
+  border: 1px solid rgba(23, 76, 60, 0.19);
+  border-radius: 4px;
+  background: #fffefa;
+  color: var(--guzo-charcoal, #202824);
+  font: inherit;
+  font-size: 14px;
+  color-scheme: light;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.booking-date-input:hover {
+  border-color: rgba(23, 76, 60, 0.45);
+}
+
+.booking-date-input:focus-visible {
+  outline: none;
+  border-color: var(--guzo-green, #174c3c);
+  box-shadow: 0 0 0 3px rgba(23, 76, 60, 0.1);
+}
+
+.booking-date-input[aria-invalid="true"] {
+  border-color: var(--guzo-terracotta, #c76f43);
+}
+
+.booking-date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.booking-date-note {
+  color: var(--guzo-muted, #6b756f);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+@media (max-width: 600px) {
+  .booking-date-field {
+    gap: 8px;
+  }
+
+  .booking-date-input {
+    min-height: 53px;
+    padding-inline: 13px;
+    font-size: 14px;
+  }
+}

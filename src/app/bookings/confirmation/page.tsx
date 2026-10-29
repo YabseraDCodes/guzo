@@ -23,6 +23,16 @@ function formatBookingPrice(price: number): string {
   }).format(price);
 }
 
+function formatTravelDate(value: string): string {
+  const [year, month, day] = value.split("-").map(Number);
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(year, month - 1, day));
+}
+
 function readStoredBooking(): Confirmation | null {
   try {
     const storedBooking = sessionStorage.getItem("bookingConfirmation");
@@ -216,10 +226,18 @@ export default function BookingConfirmationPage() {
             <dd>{booking.user_phone}</dd>
           </div>
 
+
           <div>
             <dt>Tour agent</dt>
             <dd>{booking.agent_name}</dd>
           </div>
+
+          
+            <div>
+              <dt>Travel date</dt>
+              <dd>{formatTravelDate(booking.travel_date)}</dd>
+            </div>
+          
 
           {displayedTotal !== null && (
             <div className="confirmation-total-row">

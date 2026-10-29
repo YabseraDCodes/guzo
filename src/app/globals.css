@@ -500,11 +500,7 @@ img {
 .footer-brand {
   font-size: 25px;
 }
-.site-footer p,
-.site-footer > span {
-  color: #4f5d55;
-  font-size: 12px;
-}
+
 
 @media (max-width: 800px) {
   .site-header {

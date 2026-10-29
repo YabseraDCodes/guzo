@@ -16,7 +16,9 @@ export async function GET() {
     team_number,
     package,
     status,
-    created_at`)
+    created_at,
+    user_phone,
+    travel_date`)
     
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

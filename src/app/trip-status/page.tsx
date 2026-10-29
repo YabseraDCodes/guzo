@@ -1,8 +1,9 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import "./TripStatusPage.css"
+import "./TripStatusPage.css";
 
 type Booking = {
   id: string;
@@ -14,7 +15,22 @@ type Booking = {
   package: string;
   status: string;
   created_at: string;
+  travel_date?: string | null;
 };
+
+function formatDate(value: string): string {
+  const [year, month, day] = value.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return "Not specified";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(year, month - 1, day));
+}
 
 export default function TripStatusPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -37,7 +53,9 @@ export default function TripStatusPage() {
         setBookings(data);
       } catch (err) {
         console.error("Error fetching bookings:", err);
-        setError("Unable to load booking information. Please try again later.");
+        setError(
+          "Unable to load booking information. Please try again later."
+        );
       } finally {
         setFetching(false);
       }
@@ -67,7 +85,9 @@ export default function TripStatusPage() {
     if (foundBooking) {
       setBooking(foundBooking);
     } else {
-      setError("No booking found with that reference. Please check and try again.");
+      setError(
+        "No booking found with that reference. Please check and try again."
+      );
     }
 
     setLoading(false);
@@ -147,12 +167,21 @@ export default function TripStatusPage() {
             </p>
 
             <p>
-              <strong>Team Number:</strong> {booking.team_number}
+              <strong>Travelers:</strong> {booking.team_number}
+            </p>
+
+            <p>
+              <strong>Travel Date:</strong>{" "}
+              {booking.travel_date
+                ? formatDate(booking.travel_date)
+                : "Not specified"}
             </p>
 
             <p>
               <strong>Status:</strong>{" "}
-              <span className={`booking-status ${booking.status.toLowerCase()}`}>
+              <span
+                className={`booking-status ${booking.status.toLowerCase()}`}
+              >
                 {booking.status.charAt(0).toUpperCase() +
                   booking.status.slice(1)}
               </span>
@@ -160,7 +189,11 @@ export default function TripStatusPage() {
 
             <p>
               <strong>Booking Date:</strong>{" "}
-              {new Date(booking.created_at).toLocaleDateString()}
+              {new Date(booking.created_at).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </p>
           </div>
         )}

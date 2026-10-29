@@ -7,6 +7,8 @@ type Props = {
   teamNumber: string;
   onTeamNumberChange: (value: string) => void;
   onFieldChange: (field: BookingField) => void;
+  travelDate: string;
+  onTravelDateChange: (value: string) => void;
 };
 
 export function BookingFormFields({
@@ -14,6 +16,8 @@ export function BookingFormFields({
   teamNumber,
   onTeamNumberChange,
   onFieldChange,
+  travelDate,
+  onTravelDateChange,
 }: Props) {
   return (
     <>
@@ -101,6 +105,54 @@ export function BookingFormFields({
         />
         {fieldErrors.team_number && <span className="booking-field-error" id="booking-team-number-error">{fieldErrors.team_number}</span>}
       </label>
+
+      <label className="booking-date-field">
+        <span className="booking-date-label">
+          Preferred travel date
+        </span>
+
+        <span className="booking-date-hint">
+          When would you like your journey to begin?
+        </span>
+
+        <input
+          className="booking-date-input"
+          type="date"
+          name="travel_date"
+          value={travelDate}
+          min={new Date().getFullYear() + "-" +
+            String(new Date().getMonth() + 1).padStart(2, "0") + "-" +
+            String(new Date().getDate()).padStart(2, "0")}
+          required
+          aria-invalid={Boolean(fieldErrors.travel_date)}
+          aria-describedby={
+            fieldErrors.travel_date
+              ? "booking-travel-date-error"
+              : "booking-travel-date-hint"
+          }
+          onChange={(event) => {
+            onTravelDateChange(event.target.value);
+            onFieldChange("travel_date");
+          }}
+        />
+
+        {fieldErrors.travel_date ? (
+          <span
+            className="booking-field-error"
+            id="booking-travel-date-error"
+          >
+            {fieldErrors.travel_date}
+          </span>
+        ) : (
+          <span
+            className="booking-date-note"
+            id="booking-travel-date-hint"
+          >
+            Your tour agent can help finalize the itinerary.
+          </span>
+        )}
+      </label>
+
     </>
   );
 }

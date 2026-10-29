@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const body = await request.json();
 
-  const { agent_id, user_name, user_email, user_phone, team_number, package: pkg } = body;
+  const { agent_id, user_name, user_email, user_phone, team_number, package: pkg, travel_date } = body;
 
   if (!agent_id || !user_name || !user_email || !user_phone || !team_number || !pkg) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       user_phone,
       team_number: Number(team_number),
       package: pkg,
+      travel_date,
     })
     .select("id")
     .single();

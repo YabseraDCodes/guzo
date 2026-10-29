@@ -68,6 +68,8 @@ export function BookingForm({
 
   const [teamNumber, setTeamNumber] = useState("2");
 
+  const [travelDate, setTravelDate] = useState("");
+
   const travelerCount = /^[1-9]\d*$/.test(teamNumber)
     ? Number(teamNumber)
     : 0;
@@ -130,6 +132,7 @@ export function BookingForm({
       user_phone: formData.get("user_phone"),
       team_number: formData.get("team_number"),
       package: formData.get("package"),
+      travel_date: formData.get("travel_date")
     });
 
     if (!validation.success) {
@@ -387,6 +390,8 @@ export function BookingForm({
             teamNumber={teamNumber}
             onTeamNumberChange={setTeamNumber}
             onFieldChange={clearFieldError}
+            travelDate={travelDate}
+            onTravelDateChange={setTravelDate}
           />
 
           {initialPackage && (
