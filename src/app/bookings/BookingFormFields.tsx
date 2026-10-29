@@ -52,22 +52,43 @@ export function BookingFormFields({
             name="user_phone"
             type="tel"
             autoComplete="tel"
-            placeholder="+251 ..."
+            placeholder="+251912345678"
+            pattern="\+[1-9][0-9]{6,14}"
+            title="Enter an international phone number starting with +"
             required
             aria-invalid={Boolean(fieldErrors.user_phone)}
-            aria-describedby={fieldErrors.user_phone ? "booking-user-phone-error" : undefined}
+            aria-describedby={
+              fieldErrors.user_phone
+                ? "booking-user-phone-error"
+                : "booking-phone-hint"
+            }
             onChange={() => onFieldChange("user_phone")}
           />
-          {fieldErrors.user_phone && <span className="booking-field-error" id="booking-user-phone-error">{fieldErrors.user_phone}</span>}
+          {fieldErrors.user_phone ? (
+            <span
+              className="booking-field-error"
+              id="booking-user-phone-error"
+            >
+              {fieldErrors.user_phone}
+            </span>
+          ) : (
+            <span className="booking-field-hint" id="booking-phone-hint">
+              Include your country code, starting with +.
+            </span>
+          )}
         </label>
       </div>
 
       <label className="booking-team-field">
         Number of travelers
+        <span className="booking-field-hint">
+          Groups can include 1–12 travelers.
+        </span>
         <input
           name="team_number"
           type="number"
           min="1"
+          max="12"
           step="1"
           value={teamNumber}
           required

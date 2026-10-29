@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -208,18 +207,25 @@ export function BookingForm({
         className="booking-panel"
         aria-labelledby="booking-title"
       >
+
+
         <div className="booking-heading">
           <span className="booking-eyebrow">
-            GUZO / YOUR JOURNEY
+            <span aria-hidden="true" />
+            YOUR NEXT ADVENTURE
           </span>
 
-          <h1 id="booking-title">Make a booking</h1>
+          <h1 id="booking-title">
+            Let's plan your <em>journey.</em>
+          </h1>
 
           <p>
-            Review your selected tour, choose your group size, and
-            share a few details to get your journey started.
+            Your African experience starts here. Review your tour and
+            complete your booking details below.
           </p>
         </div>
+
+
 
         <div className="booking-selections">
           {/* Selected tour card */}
@@ -418,11 +424,10 @@ export function BookingForm({
 
           {result && (
             <p
-              className={`booking-message ${
-                result.isError
-                  ? "booking-message-error"
-                  : "booking-message-success"
-              }`}
+              className={`booking-message ${result.isError
+                ? "booking-message-error"
+                : "booking-message-success"
+                }`}
               role="status"
             >
               {result.message}
@@ -448,7 +453,7 @@ export function BookingForm({
         <p>Good journeys begin with a conversation.</p>
 
         <span className="booking-note-caption">
-          ETHIOPIA, AT YOUR PACE
+          AFRICA, AT YOUR PACE
         </span>
       </aside>
     </main>

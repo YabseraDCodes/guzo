@@ -12,12 +12,28 @@ export const bookingSchema = z.object({
     .trim()
     .min(1, "Enter your name."),
   user_email: z.string().trim().email("Enter a valid email address."),
-  user_phone: z.string().trim().min(1, "Enter your phone number."),
+  user_phone: z.string().trim().regex(
+    /^\+[1-9]\d{6,14}$/,
+    "Enter a valid international phone number starting with +."
+  ),
   team_number: z
     .string()
-    .regex(/^[1-9]\d*$/, "Enter a whole number of travelers greater than zero.")
+    .regex(
+      /^[1-9]\d*$/,
+      "Enter a whole number of travelers between 1 and 12."
+    )
+    .refine(
+      (value) => Number(value) <= 12,
+      "A booking cannot have more than 12 travelers."
+    )
     .transform(Number)
-    .pipe(z.number().int().positive("Enter at least one traveler.")),
+    .pipe(
+      z
+        .number()
+        .int()
+        .min(1, "Enter at least one traveler.")
+        .max(12, "A booking cannot have more than 12 travelers.")
+    ),
   package: z.string().trim().min(1, "Please select a tour package."),
 });
 
