@@ -8,3 +8,8 @@
 .admin-main {
   flex: 1;
 }
+
+body:has(.admin-layout) > header.site-header,
+body:has(.admin-layout) > footer.site-footer {
+  display: none;
+}
