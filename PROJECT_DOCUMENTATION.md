@@ -1,29 +1,53 @@
 # GUZO: African Tourism Discovery and Multi-Agency Booking Platform
 
-## 1. Project overview
+## 1. Project Overview
 
-GUZO is a web application for discovering tourism experiences across Africa and connecting travelers with travel agencies that provide them. Its central idea combines country and destination discovery, agency-specific tour packages, booking submission, and booking administration in one platform. It is intended to serve both travelers planning a trip and the organizations that publish and fulfill travel offerings.
+GUZO is a web-based African tourism discovery and multi-agency booking platform designed to connect travelers with independent tourism agencies through a centralized digital marketplace. Its primary purpose is to bring together tourism services from different providers, allowing travelers to explore African destinations, discover tourism experiences, compare available tour packages, and submit bookings without having to navigate multiple agency platforms individually.
 
-The source code implements a public-facing discovery and booking experience alongside separate staff and administrator workspaces. Content is retrieved from a Supabase database, while booking records move from traveler submission to agency review and status updates. The platform's continental scope is its organizing vision; the destinations actually displayed depend on the countries, destination records, tours, and agencies configured in the connected database.
+Unlike conventional tourism websites that primarily represent a single travel agency and promote its own services, GUZO provides a shared environment where multiple independent agencies can showcase and manage their tourism offerings. Each participating agency can publish tours, create different packages, present its services, and manage booking requests received through the platform. This creates an ecosystem in which travelers can evaluate different providers and their offerings before selecting the experience that best matches their preferences.
 
-## 2. Context, motivation, and objectives
+The platform combines country and destination discovery, attraction exploration, agency-specific tour listings, package comparison, booking submission, and administrative management within a unified experience. It serves three primary groups: travelers seeking tourism experiences, agencies offering travel services, and platform administrators responsible for overseeing the broader marketplace.
 
-Travel planning often requires people to move between destination research, attraction information, agency websites, package descriptions, and booking communications. GUZO brings these related steps into one destination-centered experience. It gives travelers a path from learning about a place to reviewing available service providers and requesting a package. For agencies, it provides a shared channel to present offers and receive booking requests. For administrators, it provides tools to maintain central catalog information and oversee platform activity.
+The implemented application provides a public-facing discovery and booking experience alongside dedicated workspaces for agency staff and administrators. Platform content and operational records are managed through a Supabase database, while booking requests follow a provider-oriented workflow in which the relevant agency reviews and updates the status of its assigned bookings. Although GUZO's organizing vision covers tourism across the African continent, the destinations and services currently available depend on the countries, destinations, tours, packages, and agencies configured in the connected database.
 
-The project has four practical objectives:
+## 2. Context, Motivation, and Objectives
 
-1. Make African destinations and tourism experiences easier to discover.
-2. Present offerings from multiple agencies within a common browsing experience.
-3. Support booking requests and agency-managed decisions about those requests.
-4. Give platform administrators tools to maintain agency, tour, and booking information.
+Discovering and arranging tourism experiences often requires travelers to consult multiple sources for destination information, attraction details, travel agencies, tour packages, accommodation options, and booking arrangements. When these services are distributed across separate agency websites and communication channels, comparing available experiences and identifying suitable providers can become fragmented and time-consuming.
 
-## 3. Platform concept and value
+At the same time, independent tourism agencies need accessible channels through which they can present their services, reach potential customers, and manage incoming booking requests. Smaller or less digitally established agencies may face additional challenges in making their offerings visible to a wider audience.
 
-GUZO is conceived as a centralized discovery platform and multi-agency marketplace, rather than a catalog for a single operator. Travelers can begin with a country, continue to places and tours associated with it, then inspect the agencies and package options shown for a selected experience. Agency identity and package details matter because the same experience may be presented by different providers with different prices, durations, accommodation details, itineraries, and inclusions.
+GUZO addresses these challenges by introducing a centralized multi-agency tourism marketplace that brings travelers and independent tourism providers together within one platform. Rather than functioning as an individual agency's website, the platform provides a common environment where multiple agencies can independently publish their tourism services and reach travelers exploring destinations across Africa.
 
-This structure lets the traveler evaluate both *what* to do and *who* will provide it. It also connects the discovery side of the product to actual operations: a booking is assigned to an agency, and that agency's staff can review it and update its status. Administrators maintain shared catalog content and can monitor bookings across the platform, while the service provider handles the operational decision on an assigned request.
+For travelers, GUZO simplifies the journey from destination discovery to booking by providing access to different agencies and their respective offerings in one place. For participating agencies, it provides dedicated tools to present tours, organize packages, and manage customer booking requests. For platform administrators, it offers centralized capabilities for maintaining shared platform information, managing participating agencies, and overseeing overall marketplace activity.
 
-## 4. Discovery experience
+The project is guided by the following practical objectives:
+
+1. **Centralize African tourism discovery:** Make countries, destinations, attractions, and tourism experiences easier to explore through a unified platform.
+
+2. **Connect multiple independent tourism agencies:** Provide a shared marketplace where different agencies can register, present their services, and reach potential travelers.
+
+3. **Enable package discovery and comparison:** Allow travelers to examine offerings from different agencies, including their prices, durations, itineraries, accommodation arrangements, and included services.
+
+4. **Support agency-managed bookings:** Facilitate booking submissions and provide agencies with dedicated tools to review, manage, and update requests associated with their services.
+
+5. **Provide centralized platform administration:** Equip administrators with tools to manage shared destination information, oversee participating agencies, and monitor platform-wide booking activity.
+
+## 3. Platform Concept and Value
+
+GUZO is conceived as a centralized tourism discovery platform and multi-agency marketplace rather than a digital storefront for a single tourism operator. Its defining concept is the integration of multiple independent tourism providers into one shared ecosystem, where each agency retains responsibility for its own services while benefiting from a common platform for visibility and customer engagement.
+
+The platform organizes the discovery process around countries, destinations, and tourism experiences. Travelers can begin by exploring a country, continue to its destinations and attractions, and discover tours associated with a particular experience. Where multiple agencies provide similar or related experiences, travelers can examine their respective offerings and compare available packages before making a booking decision.
+
+Package comparison is an important part of this model because different agencies may offer different arrangements for the same destination or experience. These differences may include pricing, tour duration, itineraries, accommodation standards, transportation, included activities, and additional services. By presenting agency-specific offerings within a common browsing environment, GUZO helps travelers evaluate not only the experience they want but also the provider and package that best suit their needs.
+
+The platform also establishes a distinction between marketplace-wide administration and individual agency operations. Participating agencies manage their own tours, packages, and assigned booking requests through dedicated workspaces. When a traveler submits a booking, the request is associated with the relevant service provider, allowing that agency to review the request and make the appropriate booking-status decisions. Platform administrators, meanwhile, maintain shared catalog information, oversee agency participation, and monitor activity across the marketplace.
+
+This separation of responsibilities is central to GUZO's multi-agency architecture. It allows the platform to operate as a common discovery and booking environment without requiring all participating agencies to function as a single tourism business.
+
+Ultimately, GUZO aims to improve the accessibility and visibility of African tourism services by creating a centralized digital environment that connects travelers with multiple independent providers, encourages informed package selection, and supports the operational activities involved in managing tourism bookings.
+
+## 4. Discovery Experience
+
 
 ### Homepage
 
