@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/app/utils/supabase/server";
 
+export async function GET() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("countries")
+    .select(`*,destinations(*,agents(*))`)
+    .order("id");
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data);
+}
+
 export async function POST(request) {
   const supabase = await createClient();
   const body = await request.json();

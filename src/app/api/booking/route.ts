@@ -1,6 +1,34 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/app/utils/supabase/server";
 
+// 1. Handle GET requests
+export async function GET() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(`
+      id,
+      user_name,
+      user_email,
+      agent_id,
+      agents (
+        name
+      ),
+      team_number,
+      package,
+      status,
+      created_at
+    `);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
+}
+
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const body = await request.json();
@@ -24,9 +52,12 @@ export async function POST(request: Request) {
     .select("id")
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
   return NextResponse.json(
     { message: "Booking submitted", booking_id: data.id },
-    { status: 201 },
+    { status: 201 }
   );
 }
