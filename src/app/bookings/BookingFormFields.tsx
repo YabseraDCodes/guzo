@@ -1,11 +1,13 @@
 import type { BookingField } from "@/lib/booking-schema";
-
+import { PhoneInput } from "react-international-phone";
 
 
 type Props = {
   fieldErrors: Partial<Record<BookingField, string>>;
   teamNumber: string;
   onTeamNumberChange: (value: string) => void;
+  phoneNumber: string;
+  onPhoneNumberChange: (value: string) => void;
   onFieldChange: (field: BookingField) => void;
 };
 
@@ -13,6 +15,8 @@ export function BookingFormFields({
   fieldErrors,
   teamNumber,
   onTeamNumberChange,
+  phoneNumber,
+  onPhoneNumberChange,
   onFieldChange,
 }: Props) {
   return (
@@ -47,19 +51,48 @@ export function BookingFormFields({
           {fieldErrors.user_email && <span className="booking-field-error" id="booking-user-email-error">{fieldErrors.user_email}</span>}
         </label>
         <label>
-          Phone number
-          <input
-            name="user_phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder="+251 ..."
-            required
-            aria-invalid={Boolean(fieldErrors.user_phone)}
-            aria-describedby={fieldErrors.user_phone ? "booking-user-phone-error" : undefined}
-            onChange={() => onFieldChange("user_phone")}
-          />
-          {fieldErrors.user_phone && <span className="booking-field-error" id="booking-user-phone-error">{fieldErrors.user_phone}</span>}
-        </label>
+  Phone number
+
+  <PhoneInput
+    defaultCountry="et"
+    value={phoneNumber}
+    onChange={(phone) => {
+      onPhoneNumberChange(phone);
+      onFieldChange("user_phone");
+    }}
+    forceDialCode
+    inputProps={{
+      name: "user_phone_display",
+      autoComplete: "tel",
+      placeholder: "911 234 567",
+      "aria-label": "Phone number",
+      "aria-invalid": Boolean(fieldErrors.user_phone),
+      "aria-describedby": fieldErrors.user_phone
+        ? "booking-user-phone-error"
+        : "booking-phone-hint",
+    }}
+  />
+
+  <input
+    type="hidden"
+    name="user_phone"
+    value={phoneNumber}
+  />
+
+  {fieldErrors.user_phone ? (
+    <span
+      className="booking-field-error"
+      id="booking-user-phone-error"
+    >
+      {fieldErrors.user_phone}
+    </span>
+  ) : (
+    <span className="booking-field-hint" id="booking-phone-hint">
+      Select your country and enter your phone number.
+    </span>
+  )}
+</label>
+       
       </div>
 
       <label className="booking-team-field">

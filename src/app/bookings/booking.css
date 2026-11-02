@@ -95,8 +95,8 @@
 
 .booking-field-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
 .booking-form input,
@@ -131,7 +131,7 @@
 }
 
 .booking-team-field {
-  max-width: calc(50% - 8px);
+  max-width: none;
 }
 
 .booking-submit {
@@ -355,5 +355,78 @@
 
   .booking-team-field {
     max-width: none;
+  }
+}
+
+.booking-form .react-international-phone-input-container {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
+  gap: 10px;
+}
+
+/* Left country selector box */
+
+.booking-form .react-international-phone-country-selector-button {
+  height: 46px;
+  min-width: 112px;
+  padding: 0 12px;
+  border: 1px solid rgba(32, 40, 36, 0.17);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--guzo-charcoal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-form .react-international-phone-country-selector-button:hover {
+  border-color: rgba(23, 76, 60, 0.4);
+}
+
+/* Right phone number box */
+
+.booking-form .react-international-phone-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 12px 13px;
+  border: 1px solid rgba(32, 40, 36, 0.17);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--guzo-charcoal);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.booking-form .react-international-phone-input:focus {
+  border-color: var(--guzo-green);
+  box-shadow: 0 0 0 3px rgba(23, 76, 60, 0.09);
+}
+
+/* Country dropdown list */
+
+.booking-form .react-international-phone-country-selector-dropdown {
+  z-index: 100;
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid rgba(32, 40, 36, 0.15);
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 25px rgba(32, 40, 36, 0.12);
+}
+
+/* Mobile */
+
+@media (max-width: 380px) {
+  .booking-form .react-international-phone-input-container {
+    gap: 7px;
+  }
+
+  .booking-form .react-international-phone-country-selector-button {
+    min-width: 100px;
+    padding: 0 8px;
   }
 }

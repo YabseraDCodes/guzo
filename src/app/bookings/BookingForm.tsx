@@ -33,7 +33,8 @@ export function BookingForm({
   const [result, setResult] = useState<{ message: string; isError: boolean } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<BookingField, string>>>({});
-  const [teamNumber, setTeamNumber] = useState("2");
+  const [teamNumber, setTeamNumber] = useState("1");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const travelerCount = /^[1-9]\d*$/.test(teamNumber) ? Number(teamNumber) : 0;
   const estimatedTotal =
     initialPackagePrice !== null && travelerCount > 0
@@ -146,6 +147,8 @@ export function BookingForm({
             fieldErrors={fieldErrors}
             teamNumber={teamNumber}
             onTeamNumberChange={setTeamNumber}
+            phoneNumber={phoneNumber}
+            onPhoneNumberChange={setPhoneNumber}
             onFieldChange={clearFieldError}
           />
 
