@@ -38,7 +38,8 @@ export default function PackageCard({
     const normalizedPackageName = packageName.toLowerCase();
 
     const hotelImage =
-        hotelImages[normalizedPackageName] ??
+        pkg.hotel.image ||
+        hotelImages[normalizedPackageName] ||
         "/images/hotels/economy.jpg";
 
     const hotelRating = Math.max(

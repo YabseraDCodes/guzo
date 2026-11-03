@@ -6,19 +6,12 @@ import { fetcher } from "@/lib/fetcher";
 import AgentCard from "@/app/components/AgentCard";
 import "./TourDetailClient.css";
 
-type Tour = {
+type TourPackage = {
     id: number;
-    slug: string;
-    name: string;
-    location: string;
-    description: string;
-    image_urls: string[];
-};
-
-type Package = {
     price: number;
     duration: string;
     hotel: {
+        name?: string;
         ranking: number;
         description: string;
         image?: string;
@@ -31,106 +24,75 @@ type Package = {
     }[];
 };
 
-type Agent = {
+type Agency = {
     id: number;
-    destination_id: number;
     name: string;
-    description: string;
-    rating: number;
-    packages: {
-        golden: Package;
-        silver: Package;
-        economy: Package;
-    };
-    contact_info: string;
+    description: string | null;
+    rating: number | null;
+    contact_info: string | null;
+    packages: Record<string, TourPackage>;
 };
 
-export default function TourDetailClient({
-    slug,
-}: {
+type Tour = {
+    id: number;
     slug: string;
-}) {
+    name: string;
+    location: string;
+    description: string;
+    image_urls: string[];
+    agency: Agency | null;
+};
+
+export default function TourDetailClient({ slug }: { slug: string }) {
     const [tour, setTour] = useState<Tour | null>(null);
-    const [agents, setAgents] = useState<Agent[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function getData() {
+        let cancelled = false;
+
+        async function getTour() {
             setLoading(true);
-            console.log("SLUG",slug);
             try {
                 const tours: Tour[] = await fetcher("/api/tours");
-                const allAgents: Agent[] = await fetcher("/api/agents");
-                // console.log("ALL TOURS", tours);
-                // console.log("ALL Agents", allAgents)
-                const selectedTour = tours.find(
-                    (item) => item.slug === slug
-                );
-                console.log("selected-tour",selectedTour)
-
-
-                const selectedAgents = selectedTour
-                    ? allAgents.filter(
-                        (agent) =>
-                            Number(agent.destination_id) ===
-                            Number(selectedTour.id)
-                    )
-                    : [];
-
-                setTour(selectedTour ?? null);
-                setAgents(selectedAgents);
+                const selectedTour = tours.find((item) => item.slug === slug);
+                if (!cancelled) setTour(selectedTour ?? null);
             } catch (error) {
                 console.error("Failed to fetch tour details:", error);
-                setTour(null);
-                setAgents([]);
+                if (!cancelled) setTour(null);
             } finally {
-                setLoading(false);
+                if (!cancelled) setLoading(false);
             }
-        }
+        } 
 
-        getData();
+        getTour();
+        return () => { cancelled = true; };
     }, [slug]);
 
     if (loading) {
-        return (
-            <main className="tour-detail">
-                <p className="tour-message">Loading tour details...</p>
-            </main>
-        );
+        return <main className="tour-detail"><p className="tour-message">Loading tour details...</p></main>;
     }
 
     if (!tour) {
-        return (
-            <main className="tour-detail">
-                <p className="tour-message">Tour not found.</p>
-            </main>
-        );
+        return <main className="tour-detail"><p className="tour-message">Tour not found.</p></main>;
     }
+
+    const agency = tour.agency;
+    const hasPackages = agency && Object.keys(agency.packages).length > 0;
 
     return (
         <main className="tour-detail">
             <section className="tour-overview">
                 <div className="tour-overview-content">
-                    <p className="tour-eyebrow">DISCOVER YOUR NEXT DESTINATION</p>
-
+                    <p className="tour-eyebrow">DISCOVER YOUR NEXT EXPERIENCE</p>
                     <h1>{tour.name}</h1>
-
-                    <p className="tour-location">
-                        <span aria-hidden="true">📍</span> {tour.location}
-                    </p>
-
-                    <p className="tour-description">
-                        {tour.description}
-                    </p>
+                    <p className="tour-location"><span aria-hidden="true">📍</span> {tour.location}</p>
+                    <p className="tour-description">{tour.description}</p>
                 </div>
 
                 {tour.image_urls?.length > 0 && (
                     <div className="tour-gallery">
                         {tour.image_urls.map((image, index) => (
-                            <div
-                                className={`tour-gallery-item tour-gallery-item-${index + 1}`}
-                                key={`${image}-${index}`}
-                            >
+                            <div className={`tour-gallery-item tour-gallery-item-${index + 1}`} key={`${image}-${index}`}>
                                 <Image
                                     src={image}
                                     alt={`${tour.name} - Image ${index + 1}`}
@@ -148,27 +110,25 @@ export default function TourDetailClient({
             <section className="tour-agents-section">
                 <div className="tour-section-heading">
                     <p className="tour-eyebrow">PLAN YOUR EXPERIENCE</p>
-
-                    <h2>Available Tour Agents</h2>
-
-                    <p>
-                        Explore packages and find the right experience
-                        for your journey.
-                    </p>
+                    <h2>Offered by {agency?.name ?? "Our Tour Partner"}</h2>
+                    <p>Explore the available packages for this experience.</p>
                 </div>
 
-                {agents.length === 0 ? (
-                    <p className="tour-message">
-                        No agents found for this tour.
-                    </p>
+                {!agency ? (
+                    <p className="tour-message">No agency is currently assigned to this tour.</p>
+                ) : !hasPackages ? (
+                    <p className="tour-message">This agency has not added any active packages for this tour yet.</p>
                 ) : (
                     <div className="tour-agents-list">
-                        {agents.map((agent) => (
-                            <AgentCard
-                                key={agent.id}
-                                agent={agent}
-                            />
-                        ))}
+                        <AgentCard
+                            agent={{
+                                ...agency,
+                                destination_id: tour.id,
+                                description: agency.description ?? "",
+                                rating: agency.rating ?? 0,
+                                contact_info: agency.contact_info ?? "",
+                            }}
+                        />
                     </div>
                 )}
             </section>

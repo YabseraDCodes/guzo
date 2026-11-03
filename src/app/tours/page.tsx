@@ -39,7 +39,7 @@ export default function ToursPage() {
     error,
     isLoading,
     mutate,
-  } = useSWR<SearchableTour[]>("/api/tours", fetcher);
+  } = useSWR<SearchableTour[]>("/api/destinations", fetcher);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
