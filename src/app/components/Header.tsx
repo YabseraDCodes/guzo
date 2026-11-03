@@ -8,7 +8,7 @@ import "./Header.css";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Destinations", href: "/destinations" },
+  { label: "Countries", href: "/Countries" },
   { label: "Tours", href: "/tours" },
   { label: "Trip Status", href: "/trip-status" },
   { label: "About", href: "/about" },
@@ -64,7 +64,7 @@ function HeaderContent() {
         ))}
 
         <Link
-          href="/destinations"
+          href="/Countries"
           className="header-cta"
           onClick={() => setMenuOpen(false)}
         >

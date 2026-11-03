@@ -1,38 +1,29 @@
 import Link from "next/link";
-import "./DestinationCard.css";
+import "./CountryCard.css";
+import type { Country } from "@/types/country";
 
-export type Destination = {
-  id: number;
-  name: string;
-  short_description: string;
-  cover_image_url: string;
-  region: string;
-  is_featured: boolean;
-  slug: string;
-};
-
-type DestinationCardProps = {
-  destination: Destination;
+type CountryCardProps = {
+  country: Country;
   toursCount: number;
 };
 
-export default function DestinationCard({
-  destination, toursCount
-}: DestinationCardProps) {  
+export default function CountryCard({
+  country, toursCount
+}: CountryCardProps) {  
   return (
-    <Link href={`/destinations/${destination.slug}`}>
-      <article className="destination-card">
-        <div className="destination-card-image">
+    <Link href={`/Countries/${country.slug}`}>
+      <article className="country-listing-card">
+        <div className="country-listing-card-image">
           <img
-            src={destination.cover_image_url}
-            alt={destination.name}
+            src={country.cover_image_url}
+            alt={country.name}
             loading="lazy"
           />
 
-          <div className="destination-card-image-overlay" />
+          <div className="country-listing-card-image-overlay" />
 
-          {destination.is_featured && (
-            <span className="destination-card-featured">
+          {country.is_featured && (
+            <span className="country-listing-card-featured">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -50,29 +41,29 @@ export default function DestinationCard({
             </span>
           )}
 
-          <span className="destination-card-region">
-            {destination.region}
+          <span className="country-listing-card-region">
+            {country.region}
           </span>
         </div>
 
-        <div className="destination-card-body">
-          <div className="destination-card-heading">
-            <h3>{destination.name}</h3>
+        <div className="country-listing-card-body">
+          <div className="country-listing-card-heading">
+            <h3>{country.name}</h3>
 
             <span
-              className="destination-card-accent"
+              className="country-listing-card-accent"
               aria-hidden="true"
             />
           </div>
 
-          <p className="destination-card-description">
-            {destination.short_description}
+          <p className="country-listing-card-description">
+            {country.short_description}
           </p>
 
-          <div className="destination-card-footer">
-            <div className="destination-card-tour-info">
+          <div className="country-listing-card-footer">
+            <div className="country-listing-card-tour-info">
               <span
-                className="destination-card-tour-icon"
+                className="country-listing-card-tour-icon"
                 aria-hidden="true"
               >
                 <svg
@@ -97,7 +88,7 @@ export default function DestinationCard({
             </div>
 
             <span
-              className="destination-card-arrow"
+              className="country-listing-card-arrow"
               aria-hidden="true"
             >
               <svg

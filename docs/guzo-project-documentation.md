@@ -54,7 +54,7 @@ src/
 │   ├── api/                # Next.js Route Handlers
 │   ├── bookings/           # Public booking form and confirmation
 │   ├── components/         # Shared public UI components
-│   ├── destinations/       # Destination catalogue and detail pages
+│   ├── Countries/          # Country catalogue and detail pages
 │   ├── login/              # Sign-in form and authentication actions
 │   ├── trip-status/        # Booking lookup/status page
 │   ├── tours/              # Tour catalogue and detail pages
@@ -76,9 +76,9 @@ docs/
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home page with featured destinations and tours |
-| `/destinations` | Destination catalogue |
-| `/destinations/[slug]` | Destination details |
+| `/` | Home page with featured countries and tours |
+| `/Countries` | Country catalogue |
+| `/Countries/[slug]` | Country details |
 | `/tours` | Tour catalogue |
 | `/tours/[slug]` | Tour details and associated agents |
 | `/bookings` | Submit a booking |

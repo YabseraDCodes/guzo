@@ -1,19 +1,19 @@
 import { Suspense } from "react";
-import DestinationDetailPage from "@/app/components/DestinationDetailCard";
+import CountryDetail from "@/app/components/CountryDetail";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-async function DestinationContent({ params }: PageProps) {
+async function CountryContent({ params }: PageProps) {
   const { slug } = await params;
-  return <DestinationDetailPage slug={slug} />;
+  return <CountryDetail slug={slug} />;
 }
 
 export default function Page({ params }: PageProps) {
   return (
-    <Suspense fallback={<p>Loading destination...</p>}>
-      <DestinationContent params={params} />
+    <Suspense fallback={<p>Loading country...</p>}>
+      <CountryContent params={params} />
     </Suspense>
   );
 }

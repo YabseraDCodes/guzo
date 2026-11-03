@@ -1,7 +1,7 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import HomeDestinationCard from "./components/HomeDestinationCard";
+import HomeCountryCard from "./components/HomeCountryCard";
 import "./homePage.css";
 import TourCard from "./components/TourCard";
 import TourSearch from "./components/TourSearch";
@@ -19,33 +19,33 @@ async function FeaturedContent() {
   ]);
 
   if (!countriesRes.ok || !toursRes.ok) {
-    throw new Error("Failed to load featured destinations and tours.");
+    throw new Error("Failed to load featured countries and tours.");
   }
 
   const countries: Country[] = await countriesRes.json();
   const tours: Tour[] = await toursRes.json();
 
-  const featuredDestinations = countries.slice(0, 3);
+  const featuredCountries = countries.slice(0, 3);
   const featuredTours = tours.slice(5, 8);
 
   return (
     <>
-      <section className="destinations-section" id="destinations">
+      <section className="countries-section" id="countries">
         <div className="section-heading">
           <div>
             <p className="eyebrow"><span /> PLACES TO DISCOVER</p>
             <h2>Find your <em>somewhere.</em></h2>
           </div>
-          <Link className="text-link" href="/destinations">
-            All destinations <span aria-hidden="true">↗</span>
+          <Link className="text-link" href="/Countries">
+            All countries <span aria-hidden="true">↗</span>
           </Link>
         </div>
 
-        <div className="destination-grid">
-          {featuredDestinations.map((destination) => (
-            <HomeDestinationCard
-              key={destination.id}
-              destination={destination}
+        <div className="country-listing-grid">
+          {featuredCountries.map((country) => (
+            <HomeCountryCard
+              key={country.id}
+              country={country}
             />
           ))}
         </div>
@@ -120,7 +120,7 @@ export default function Home() {
         <div>
           <p className="eyebrow"><span /> THE GUZO EXPERIENCE</p>
           <h2>
-            Not just a destination.
+            Not just a country.
             <br />
             <em>A whole new perspective.</em>
           </h2>
@@ -148,8 +148,8 @@ export default function Home() {
 
       <Suspense
         fallback={
-          <div className="destination-grid" aria-live="polite">
-            Loading destinations and tours...
+          <div className="country-listing-grid" aria-live="polite">
+            Loading countries and tours...
           </div>
         }
       >

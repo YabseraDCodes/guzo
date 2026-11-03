@@ -1,47 +1,48 @@
 "use client";
 
 import useSWR from "swr";
-import DestinationCard, { type Destination } from "../components/DestinationCard";
+import CountryCard from "../components/CountryCard";
 import { fetcher } from "@/lib/fetcher";
-import "./destinations.css"
+import type { Country } from "@/types/country";
+import "./countries.css";
 import type { Tour } from "@/types/tour";
 
 
-export default function DestinationPage() {
+export default function CountriesPage() {
   const {
-    data: destinations,
+    data: countries,
     error,
     isLoading,
-  } = useSWR<Destination[]>("/api/countries", fetcher);
+  } = useSWR<Country[]>("/api/countries", fetcher);
 
   const { data: tours } = useSWR<Tour[]>("/api/tours", fetcher);
 
   return (
-    <main className="destinations-page">
-      <section className="destinations-hero">
-        <div className="destinations-hero-content">
-          <span className="destinations-eyebrow">
+    <main className="countries-page">
+      <section className="countries-hero">
+        <div className="countries-hero-content">
+          <span className="countries-eyebrow">
             YOUR NEXT ADVENTURE STARTS HERE
           </span>
 
           <h1>
-            Discover places
+            Discover countries
             <br />
             <span>worth exploring.</span>
           </h1>
 
           <p>
             From unforgettable landscapes to vibrant cultures,
-            find the destination that speaks to your sense of adventure.
+            find the country that speaks to your sense of adventure.
           </p>
 
-          {!isLoading && !error && destinations && (
-            <div className="destinations-total">
-              <span className="destinations-total-number">
-                {destinations.length}
+          {!isLoading && !error && countries && (
+            <div className="countries-total">
+              <span className="countries-total-number">
+                {countries.length}
               </span>
               <span>
-                destinations
+                countries
                 <br />
                 waiting to be explored
               </span>
@@ -50,7 +51,7 @@ export default function DestinationPage() {
         </div>
 
         <div
-          className="destinations-hero-decoration"
+          className="countries-hero-decoration"
           aria-hidden="true"
         >
           <span className="hero-decoration-circle" />
@@ -60,49 +61,49 @@ export default function DestinationPage() {
       </section>
 
       <section
-        className="destinations-content"
-        aria-labelledby="destinations-heading"
+        className="countries-content"
+        aria-labelledby="countries-heading"
       >
-        <div className="destinations-section-heading">
+        <div className="countries-section-heading">
           <div>
-            <span className="destinations-eyebrow">
+            <span className="countries-eyebrow">
               FIND YOUR SOMEWHERE
             </span>
-            <h2 id="destinations-heading">
-              Explore destinations
+            <h2 id="countries-heading">
+              Explore countries
             </h2>
             <p>
               Every journey begins with a place worth discovering.
             </p>
           </div>
 
-          {!isLoading && !error && destinations && (
-            <span className="destinations-result-count">
-              {destinations.length}{" "}
-              {destinations.length === 1
-                ? "destination"
-                : "destinations"}
+          {!isLoading && !error && countries && (
+            <span className="countries-result-count">
+              {countries.length}{" "}
+              {countries.length === 1
+                ? "country"
+                : "countries"}
             </span>
           )}
         </div>
 
         {isLoading && (
-          <div className="destinations-message" role="status">
-            <span className="destinations-loader" />
+          <div className="countries-message" role="status">
+            <span className="countries-loader" />
             <h3>Finding your next adventure...</h3>
-            <p>Our destinations are on their way.</p>
+            <p>Our countries are on their way.</p>
           </div>
         )}
 
         {error && (
-          <div className="destinations-message destinations-error" role="alert">
-            <h3>We couldn't load the destinations.</h3>
+          <div className="countries-message countries-error" role="alert">
+            <h3>We couldn't load the countries.</h3>
             <p>
               Please check your connection and try again.
             </p>
             <button
               type="button"
-              className="destinations-retry"
+              className="countries-retry"
               onClick={() => window.location.reload()}
             >
               Try again
@@ -112,28 +113,28 @@ export default function DestinationPage() {
 
         {!isLoading &&
           !error &&
-          destinations &&
-          destinations.length === 0 && (
-            <div className="destinations-message">
-              <h3>No destinations just yet.</h3>
+          countries &&
+          countries.length === 0 && (
+            <div className="countries-message">
+              <h3>No countries just yet.</h3>
               <p>Check back soon for places to explore.</p>
             </div>
           )}
 
         {!isLoading &&
           !error &&
-          destinations &&
-          destinations.length > 0 && (
-            <div className="destinations-grid">
-              {destinations.map((destination) => {
+          countries &&
+          countries.length > 0 && (
+            <div className="countries-grid">
+              {countries.map((country) => {
                 const toursCount = (tours ?? []).filter(
-                  (tour) => tour.country_id === destination.id
+                  (tour) => tour.country_id === country.id
                 ).length;
 
                 return (
-                  <DestinationCard
-                    key={destination.id}
-                    destination={destination}
+                  <CountryCard
+                    key={country.id}
+                    country={country}
                     toursCount={toursCount}
                   />
                 );

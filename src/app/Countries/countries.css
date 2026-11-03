@@ -1,12 +1,12 @@
 
-.destinations-page {
+.countries-page {
   min-height: 100vh;
   overflow: hidden;
 }
 
 /* Hero section */
 
-.destinations-hero {
+.countries-hero {
   position: relative;
   display: flex;
   align-items: center;
@@ -17,13 +17,13 @@
   color: var(--guzo-ivory);
 }
 
-.destinations-hero-content {
+.countries-hero-content {
   position: relative;
   z-index: 1;
   max-width: 660px;
 }
 
-.destinations-eyebrow {
+.countries-eyebrow {
   display: inline-block;
   margin-bottom: 18px;
   color: var(--guzo-terracotta);
@@ -33,11 +33,11 @@
   line-height: 1.6;
 }
 
-.destinations-hero .destinations-eyebrow {
+.countries-hero .countries-eyebrow {
   color: var(--guzo-gold);
 }
 
-.destinations-hero h1 {
+.countries-hero h1 {
   margin: 0;
   font-size: clamp(38px, 5.2vw, 66px);
   font-weight: 800;
@@ -45,11 +45,11 @@
   letter-spacing: -2.5px;
 }
 
-.destinations-hero h1 span {
+.countries-hero h1 span {
   color: var(--guzo-gold);
 }
 
-.destinations-hero-content > p {
+.countries-hero-content > p {
   max-width: 510px;
   margin: 22px 0 0;
   color: rgba(250, 248, 242, 0.78);
@@ -57,7 +57,7 @@
   line-height: 1.9;
 }
 
-.destinations-total {
+.countries-total {
   display: inline-flex;
   align-items: center;
   gap: 14px;
@@ -66,14 +66,14 @@
   border-top: 1px solid rgba(250, 248, 242, 0.22);
 }
 
-.destinations-total-number {
+.countries-total-number {
   color: var(--guzo-gold);
   font-size: 32px;
   font-weight: 800;
   line-height: 1;
 }
 
-.destinations-total > span:last-child {
+.countries-total > span:last-child {
   color: rgba(250, 248, 242, 0.78);
   font-size: 12px;
   line-height: 1.6;
@@ -81,7 +81,7 @@
 
 /* Decorative shapes */
 
-.destinations-hero-decoration {
+.countries-hero-decoration {
   position: absolute;
   top: 0;
   right: 4%;
@@ -138,15 +138,15 @@
   box-shadow: 0 0 0 9px rgba(217, 164, 65, 0.12);
 }
 
-/* Destinations section */
+/* Countries section */
 
-.destinations-content {
+.countries-content {
   max-width: 1600px;
   margin: 0 auto;
   padding: 76px 7% 100px;
 }
 
-.destinations-section-heading {
+.countries-section-heading {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -154,11 +154,11 @@
   margin-bottom: 34px;
 }
 
-.destinations-section-heading .destinations-eyebrow {
+.countries-section-heading .countries-eyebrow {
   margin-bottom: 10px;
 }
 
-.destinations-section-heading h2 {
+.countries-section-heading h2 {
   margin: 0;
   color: var(--guzo-green);
   font-size: clamp(28px, 3vw, 38px);
@@ -167,14 +167,14 @@
   line-height: 1.2;
 }
 
-.destinations-section-heading p {
+.countries-section-heading p {
   margin: 12px 0 0;
   color: var(--guzo-muted);
   font-size: 14px;
   line-height: 1.8;
 }
 
-.destinations-result-count {
+.countries-result-count {
   flex-shrink: 0;
   padding: 10px 15px;
   border: 1px solid rgba(23, 76, 60, 0.14);
@@ -184,9 +184,9 @@
   font-weight: 700;
 }
 
-/* Responsive destination grid */
+/* Responsive country grid */
 
-.destinations-grid {
+.countries-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
@@ -194,7 +194,7 @@
 
 /* Loading, error, and empty states */
 
-.destinations-message {
+.countries-message {
   display: flex;
   min-height: 260px;
   flex-direction: column;
@@ -207,39 +207,39 @@
   text-align: center;
 }
 
-.destinations-message h3 {
+.countries-message h3 {
   margin: 18px 0 0;
   color: var(--guzo-green);
   font-size: 20px;
 }
 
-.destinations-message p {
+.countries-message p {
   margin: 10px 0 0;
   color: var(--guzo-muted);
   font-size: 14px;
   line-height: 1.7;
 }
 
-.destinations-loader {
+.countries-loader {
   width: 34px;
   height: 34px;
   border: 3px solid rgba(23, 76, 60, 0.12);
   border-top-color: var(--guzo-green);
   border-radius: 50%;
-  animation: destinations-spin 0.8s linear infinite;
+  animation: countries-spin 0.8s linear infinite;
 }
 
-@keyframes destinations-spin {
+@keyframes countries-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-.destinations-error h3 {
+.countries-error h3 {
   color: var(--guzo-terracotta);
 }
 
-.destinations-retry {
+.countries-retry {
   margin-top: 20px;
   padding: 11px 20px;
   border: none;
@@ -251,27 +251,27 @@
   transition: background 0.2s ease;
 }
 
-.destinations-retry:hover {
+.countries-retry:hover {
   background: var(--guzo-charcoal);
 }
 
 /* Tablet */
 
 @media (max-width: 1000px) {
-  .destinations-hero {
+  .countries-hero {
     min-height: 360px;
   }
 
-  .destinations-hero-decoration {
+  .countries-hero-decoration {
     right: -150px;
     opacity: 0.7;
   }
 
-  .destinations-content {
+  .countries-content {
     padding: 60px 5% 80px;
   }
 
-  .destinations-grid {
+  .countries-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
   }
@@ -280,53 +280,53 @@
 /* Mobile */
 
 @media (max-width: 600px) {
-  .destinations-hero {
+  .countries-hero {
     min-height: 340px;
     padding: 58px 6%;
   }
 
-  .destinations-hero h1 {
+  .countries-hero h1 {
     font-size: clamp(36px, 10vw, 48px);
     letter-spacing: -1.8px;
   }
 
-  .destinations-hero-content > p {
+  .countries-hero-content > p {
     max-width: 100%;
     font-size: 14px;
   }
 
-  .destinations-hero-decoration {
+  .countries-hero-decoration {
     right: -240px;
     opacity: 0.45;
   }
 
-  .destinations-content {
+  .countries-content {
     padding: 48px 6% 64px;
   }
 
-  .destinations-section-heading {
+  .countries-section-heading {
     align-items: flex-start;
     flex-direction: column;
     gap: 16px;
     margin-bottom: 26px;
   }
 
-  .destinations-section-heading h2 {
+  .countries-section-heading h2 {
     font-size: 29px;
   }
 
-  .destinations-grid {
+  .countries-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 22px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .destinations-loader {
+  .countries-loader {
     animation: none;
   }
 
-  .destinations-retry {
+  .countries-retry {
     transition: none;
   }
 }

@@ -102,8 +102,8 @@ export default function TripStatusPage() {
           Your journey starts here.
         </p>
 
-        <Link href="/destinations" className="info-button">
-          Explore Destinations
+        <Link href="/Countries" className="info-button">
+          Explore Countries
         </Link>
       </section>
 
@@ -198,7 +198,7 @@ export default function TripStatusPage() {
           </div>
         )}
 
-        <Link href="/destinations" className="info-button">
+        <Link href="/Countries" className="info-button">
           Plan Your Trip
         </Link>
       </section>

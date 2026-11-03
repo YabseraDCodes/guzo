@@ -327,7 +327,7 @@ img {
   line-height: 1.9;
 }
 
-.destinations-section {
+.countries-section {
   padding: 15px 7% 55px;
 }
 
@@ -352,13 +352,13 @@ img {
   color: var(--guzo-terracotta);
 }
 
-.destination-grid {
+.country-listing-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   width: 100%;
 }
-.destination-card {
+.country-listing-card {
   position: relative;
   display: block;
   width: 100%;
@@ -370,7 +370,7 @@ img {
   color: white;
 }
 
-.destination-image {
+.country-listing-image {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -381,7 +381,7 @@ img {
   z-index: 0;
 }
 
-.destination-card:hover .destination-image {
+.country-listing-card:hover .country-listing-image {
   transform: scale(1.05);
 }
 
@@ -450,7 +450,7 @@ img {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.destination-card:hover .card-link {
+.country-listing-card:hover .card-link {
   background: white;
   color: var(--guzo-green);
 }
@@ -533,15 +533,15 @@ img {
     padding: 65px 7%;
   }
 
-  .destination-grid {
+  .country-listing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .destination-card {
+  .country-listing-card {
     min-height: 350px;
   }
 
-  .destination-card:last-child {
+  .country-listing-card:last-child {
   grid-column: auto;
 }
 }
@@ -601,7 +601,7 @@ img {
     padding: 55px 6%;
   }
 
-  .destinations-section {
+  .countries-section {
     padding: 10px 6% 65px;
   }
 
@@ -611,12 +611,12 @@ img {
     gap: 15px;
   }
 
-  .destination-grid {
+  .country-listing-grid {
     grid-template-columns: 1fr;
   }
 
-  .destination-card,
-  .destination-card:last-child {
+  .country-listing-card,
+  .country-listing-card:last-child {
     grid-column: auto;
     min-height: 390px;
   }
@@ -632,21 +632,21 @@ img {
   }
 }
 
-.destinations-page {
+.countries-page {
   background: var(--guzo-ivory);
   color: var(--guzo-charcoal);
 }
 
-/* Destination cards: text above image */
+/* Country cards: text above image */
 
-.destination-list {
+.country-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   width: 100%;
 }
 
-.destination-tile {
+.country-tile {
   position: relative;
   width: 100%;
   min-height: 370px;
@@ -655,7 +655,7 @@ img {
   color: white;
 }
 
-.destination-tile img {
+.country-tile img {
   position: static;
   display: block;
   width: 100%;
@@ -663,11 +663,11 @@ img {
   object-fit: cover;
 }
 
-.destination-tile:hover img {
+.country-tile:hover img {
   transform: scale(1.04);
 }
 
-.destination-tile-shade {
+.country-tile-shade {
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -677,7 +677,7 @@ img {
   );
 }
 
-.destination-number {
+.country-number {
   position: absolute;
   top: 16px;
   left: 18px;
@@ -685,7 +685,7 @@ img {
   color: white;
 }
 
-.destination-tile-content {
+.country-tile-content {
   position: absolute;
   z-index: 1;
   right: 0;
@@ -695,25 +695,25 @@ img {
   color: white;
 }
 
-.destination-tile-content p {
+.country-tile-content p {
   margin: 0 0 10px;
   color: white;
   font-size: 11px;
   letter-spacing: 2px;
 }
 
-.destination-tile-content h3 {
+.country-tile-content h3 {
   margin: 0 0 10px;
   color: white;
   font-size: 26px;
 }
 
-.destination-description {
+.country-description {
   color: white;
   line-height: 1.6;
 }
 
-.destination-arrow {
+.country-arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -726,13 +726,13 @@ img {
 }
 
 @media (max-width: 560px) {
-  .destination-list {
+  .country-list {
     grid-template-columns: 1fr;
   }
 }
 
-/* Keep destination names above their images */
-.destination-tile {
+/* Keep country names above their images */
+.country-tile {
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -742,34 +742,34 @@ img {
   color: var(--guzo-charcoal);
 }
 
-.destination-tile-content {
+.country-tile-content {
   position: static;
   order: 1;
   padding: 16px 18px;
   color: var(--guzo-charcoal);
 }
 
-.destination-tile-content p {
+.country-tile-content p {
   color: var(--guzo-muted);
 }
 
-.destination-tile-content h3 {
+.country-tile-content h3 {
   color: var(--guzo-green);
   margin: 0 0 8px;
 }
 
-.destination-description {
+.country-description {
   color: var(--guzo-muted);
 }
 
-.destination-number {
+.country-number {
   position: static;
   order: 0;
   padding: 12px 18px 0;
   color: var(--guzo-muted);
 }
 
-.destination-tile img {
+.country-tile img {
   position: static;
   order: 2;
   display: block;
@@ -778,34 +778,34 @@ img {
   object-fit: cover;
 }
 
-.destination-tile-shade {
+.country-tile-shade {
   display: none;
 }
 
-.destination-arrow {
+.country-arrow {
   color: var(--guzo-green);
   border-color: var(--guzo-green);
 }
 
-/* Premium Guzo destination cards */
+/* Premium Guzo country cards */
 
-.destination-tile {
+.country-tile {
   border-radius: 14px;
   border: 1px solid rgba(23, 76, 60, 0.12);
   box-shadow: 0 8px 24px rgba(32, 40, 36, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.destination-tile:hover {
+.country-tile:hover {
   transform: translateY(-5px);
   box-shadow: 0 14px 32px rgba(32, 40, 36, 0.15);
 }
 
-.destination-tile-content {
+.country-tile-content {
   padding: 18px 22px 12px;
 }
 
-.destination-tile-content p {
+.country-tile-content p {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -813,7 +813,7 @@ img {
   margin-bottom: 9px;
 }
 
-.destination-tile-content h3 {
+.country-tile-content h3 {
   font-size: clamp(25px, 3vw, 34px);
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -821,49 +821,49 @@ img {
   margin-bottom: 10px;
 }
 
-.destination-description {
+.country-description {
   display: block;
   font-size: 14px;
   line-height: 1.8;
 }
 
-.destination-number {
+.country-number {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--guzo-gold);
 }
 
-.destination-tile img {
+.country-tile img {
   height: 300px;
   transition: transform 0.4s ease;
 }
 
-.destination-tile:hover img {
+.country-tile:hover img {
   transform: scale(1.035);
 }
 
-.destination-arrow {
+.country-arrow {
   width: 42px;
   height: 42px;
   border-radius: 50%;
   transition: background 0.25s ease, color 0.25s ease;
 }
 
-.destination-tile:hover .destination-arrow {
+.country-tile:hover .country-arrow {
   background: var(--guzo-green);
   color: white;
 }
 
-.destination-tile-content {
+.country-tile-content {
   min-height: 155px;
 }
 
-.destination-tile-content h3 {
+.country-tile-content h3 {
   min-height: 2.2em;
 }
 
-/* Destination detail page */
+/* Country detail page */
 .detail-page {
   background: var(--guzo-ivory);
   color: var(--guzo-charcoal);
