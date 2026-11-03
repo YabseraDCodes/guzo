@@ -5,7 +5,7 @@ import CountryCard from "../components/CountryCard";
 import { fetcher } from "@/lib/fetcher";
 import type { Country } from "@/types/country";
 import "./countries.css";
-import type { Tour } from "@/types/tour";
+import type { Destination } from "@/types/destination";
 
 
 export default function CountriesPage() {
@@ -15,7 +15,7 @@ export default function CountriesPage() {
     isLoading,
   } = useSWR<Country[]>("/api/countries", fetcher);
 
-  const { data: tours } = useSWR<Tour[]>("/api/tours", fetcher);
+  const { data: destinations } = useSWR<Destination[]>("/api/destination-catalog", fetcher);
 
   return (
     <main className="countries-page">
@@ -127,15 +127,15 @@ export default function CountriesPage() {
           countries.length > 0 && (
             <div className="countries-grid">
               {countries.map((country) => {
-                const toursCount = (tours ?? []).filter(
-                  (tour) => tour.country_id === country.id
+                const destinationsCount = (destinations ?? []).filter(
+                  (destination) => destination.country_id === country.id
                 ).length;
 
                 return (
                   <CountryCard
                     key={country.id}
                     country={country}
-                    toursCount={toursCount}
+                    destinationsCount={destinationsCount}
                   />
                 );
               })}

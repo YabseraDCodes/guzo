@@ -3,62 +3,51 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import "./TourSearch.css";
+import type { Destination } from "@/types/destination";
+import "./DestinationSearch.css";
 
-type Tour = {
-    id: number;
-    name: string;
-    description: string;
-    image_urls: string[];
-    location: string;
-    countries?: {
-        name: string;
-    } | null;
-    slug: string;
-};
-
-export default function TourSearch() {
-    const [tours, setTours] = useState<Tour[]>([]);
+export default function DestinationSearch() {
+    const [destinations, setDestinations] = useState<Destination[]>([]);
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        async function fetchTours() {
+        async function fetchDestinations() {
             try {
-                const response = await fetch("/api/tours");
+                const response = await fetch("/api/destination-catalog");
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch tours");
+                    throw new Error("Failed to fetch destinations");
                 }
 
                 const data = await response.json();
 
                 const items = Array.isArray(data)
                     ? data
-                    : data.tours ?? data.data ?? [];
+                    : data.destinations ?? data.data ?? [];
 
-                setTours(items);
+                setDestinations(items);
             } catch (err) {
-                console.error("Tour search error:", err);
-                setError("Could not load tours.");
+                console.error("Destination search error:", err);
+                setError("Could not load destinations.");
             } finally {
                 setLoading(false);
             }
         }
 
-        fetchTours();
+        fetchDestinations();
     }, []);
 
-    const filteredTours = tours
-        .filter((tour) => {
+    const filteredDestinations = destinations
+        .filter((destination) => {
             const searchText = query.trim().toLowerCase();
 
             if (!searchText) return false;
 
-            const name = tour.name ?? "";
-            const country = tour.countries?.name ?? "";
+            const name = destination.name ?? "";
+            const country = destination.countries?.name ?? "";
 
             return `${name} ${country}`
                 .toLowerCase()
@@ -69,10 +58,10 @@ export default function TourSearch() {
     return (
         <form
             className="search-panel"
-            action="/tours"
+            action="/destinations"
             method="get"
         >
-            <div className="tour-search-wrap">
+            <div className="destination-search-wrap">
                 <label className="search-field">
                     <span className="search-icon" aria-hidden="true">
                         ⌕
@@ -84,8 +73,8 @@ export default function TourSearch() {
                         <input
                             type="search"
                             name="search"
-                            placeholder="Search tours"
-                            aria-label="Search tours"
+                            placeholder="Search destinations"
+                            aria-label="Search destinations"
                             autoComplete="off"
                             value={query}
                             onChange={(event) => {
@@ -98,50 +87,50 @@ export default function TourSearch() {
                 </label>
 
                 {isOpen && query.trim() !== "" && (
-                    <div className="tour-dropdown">
+                    <div className="destination-dropdown">
                         {loading ? (
-                            <p className="tour-search-message">
-                                Loading tours...
+                            <p className="destination-search-message">
+                                Loading destinations...
                             </p>
                         ) : error ? (
-                            <p className="tour-search-message">
+                            <p className="destination-search-message">
                                 {error}
                             </p>
-                        ) : filteredTours.length > 0 ? (
-                            filteredTours.map((tour) => (
+                        ) : filteredDestinations.length > 0 ? (
+                            filteredDestinations.map((destination) => (
                                 <Link
-                                    key={tour.id}
-                                    href={`/tours/${tour.slug}`}
-                                    className="tour-option"
+                                    key={destination.id}
+                                    href={`/destinations/${destination.slug}`}
+                                    className="destination-option"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    <div className="tour-option-image">
-                                        {tour.image_urls?.[0] ? (
+                                    <div className="destination-option-image">
+                                        {destination.image_urls?.[0] ? (
                                             <img
-                                                src={tour.image_urls[0]}
+                                                src={destination.image_urls[0]}
                                                 alt=""
                                             />
                                         ) : (
-                                            <div className="tour-no-image">
+                                            <div className="destination-no-image">
                                                 ✦
                                             </div>
                                         )}
                                     </div>
 
-                                    <div className="tour-option-info">
-                                        <span className="tour-option-name">
-                                            {tour.name}
+                                    <div className="destination-option-info">
+                                        <span className="destination-option-name">
+                                            {destination.name}
                                         </span>
 
-                                        <span className="tour-option-country">
-                                            {tour.countries?.name ??
-                                                tour.location ??
-                                                "Explore tours"}
+                                        <span className="destination-option-country">
+                                            {destination.countries?.name ??
+                                                destination.location ??
+                                                "Explore destinations"}
                                         </span>
                                     </div>
 
                                     <span
-                                        className="tour-option-arrow"
+                                        className="destination-option-arrow"
                                         aria-hidden="true"
                                     >
                                         ↗
@@ -149,8 +138,8 @@ export default function TourSearch() {
                                 </Link>
                             ))
                         ) : (
-                            <p className="tour-search-message">
-                                No tours found for "{query}".
+                            <p className="destination-search-message">
+                                No destinations found for "{query}".
                             </p>
                         )}
                     </div>

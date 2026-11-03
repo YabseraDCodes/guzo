@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
-import TourCard, { type Tour } from "./TourCard";
+import DestinationCard from "./DestinationCard";
+import type { Destination } from "@/types/destination";
 import type { Country } from "@/types/country";
 import "./CountryDetail.css";
 
@@ -26,21 +27,21 @@ export default function CountryDetail({
     } = useSWR<Country[]>("/api/countries", fetcher);
 
     const {
-        data: tours,
-        error: toursError,
-        isLoading: toursLoading,
-    } = useSWR<Tour[]>("/api/tours", fetcher);
+        data: destinations,
+        error: destinationsError,
+        isLoading: destinationsLoading,
+    } = useSWR<Destination[]>("/api/destination-catalog", fetcher);
 
     const country = useMemo(
         () => countries?.find((item) => item.slug === slug),
         [countries, slug]
     );
 
-    const relatedTours = useMemo(
-        () => tours?.filter(
-            (tour) => tour.country_id === country?.id
+    const relatedDestinations = useMemo(
+        () => destinations?.filter(
+            (destination) => destination.country_id === country?.id
         ) ?? [],
-        [tours, country]
+        [destinations, country]
     );
 
     if (countriesLoading) {
@@ -119,9 +120,9 @@ export default function CountryDetail({
 
                     <a
                         className="country-detail-cta"
-                        href="#country-tours"
+                        href="#country-destinations"
                     >
-                        Explore tours <span aria-hidden="true">↓</span>
+                        Explore destinations <span aria-hidden="true">↓</span>
                     </a>
                 </div>
             </section>
@@ -237,55 +238,55 @@ export default function CountryDetail({
                 )}
 
                 <section
-                    className="country-detail-tours"
-                    id="country-tours"
+                    className="country-detail-destinations"
+                    id="country-destinations"
                 >
                     <div className="country-detail-section-heading">
                         <span className="country-detail-eyebrow">
                             FIND YOUR EXPERIENCE
                         </span>
-                        <h2>Tours in {country.name}</h2>
+                        <h2>Destinations in {country.name}</h2>
                         <p>
                             Turn your inspiration into your next adventure.
                         </p>
                     </div>
 
-                    {toursLoading && (
+                    {destinationsLoading && (
                         <div className="country-detail-state" role="status">
-                            Loading tours...
+                            Loading destinations...
                         </div>
                     )}
 
-                    {toursError && (
+                    {destinationsError && (
                         <div className="country-detail-state" role="alert">
                             <p>
-                                We couldn't load the tours right now.
+                                We couldn't load the destinations right now.
                                 Please try again later.
                             </p>
                         </div>
                     )}
 
-                    {!toursLoading && !toursError && relatedTours.length > 0 && (
+                    {!destinationsLoading && !destinationsError && relatedDestinations.length > 0 && (
                         <>
-                            <p className="country-detail-tour-count">
-                                {relatedTours.length}{" "}
-                                {relatedTours.length === 1 ? "tour" : "tours"}{" "}
+                            <p className="country-detail-destination-count">
+                                {relatedDestinations.length}{" "}
+                                {relatedDestinations.length === 1 ? "destination" : "destinations"}{" "}
                                 available
                             </p>
 
-                            <div className="country-detail-tours-grid">
-                                {relatedTours.map((tour) => (
-                                    <TourCard key={tour.id} tour={tour} />
+                            <div className="country-detail-destinations-grid">
+                                {relatedDestinations.map((destination) => (
+                                    <DestinationCard key={destination.id} destination={destination} />
                                 ))}
                             </div>
                         </>
                     )}
 
-                    {!toursLoading && !toursError && relatedTours.length === 0 && (
+                    {!destinationsLoading && !destinationsError && relatedDestinations.length === 0 && (
                         <div className="country-detail-state">
                             <h3>More adventures coming soon</h3>
                             <p>
-                                There are no tours listed for {country.name} yet.
+                                There are no destinations listed for {country.name} yet.
                             </p>
                         </div>
                     )}

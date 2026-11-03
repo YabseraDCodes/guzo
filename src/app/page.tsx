@@ -3,30 +3,30 @@ import { Suspense } from "react";
 import Link from "next/link";
 import HomeCountryCard from "./components/HomeCountryCard";
 import "./homePage.css";
-import TourCard from "./components/TourCard";
-import TourSearch from "./components/TourSearch";
+import DestinationCard from "./components/DestinationCard";
+import DestinationSearch from "./components/DestinationSearch";
 import type { Country } from "@/types/country";
-import type { Tour } from "@/types/tour";
+import type { Destination } from "@/types/destination";
 
 async function FeaturedContent() {
-  const [countriesRes, toursRes] = await Promise.all([
+  const [countriesRes, destinationsRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/countries`, {
       next: { revalidate: 300 },
     }),
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/tours`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/destination-catalog`, {
       next: { revalidate: 300 },
     }),
   ]);
 
-  if (!countriesRes.ok || !toursRes.ok) {
-    throw new Error("Failed to load featured countries and tours.");
+  if (!countriesRes.ok || !destinationsRes.ok) {
+    throw new Error("Failed to load featured countries and destinations.");
   }
 
   const countries: Country[] = await countriesRes.json();
-  const tours: Tour[] = await toursRes.json();
+  const destinations: Destination[] = await destinationsRes.json();
 
   const featuredCountries = countries.slice(0, 3);
-  const featuredTours = tours.slice(5, 8);
+  const featuredDestinations = destinations.slice(5, 8);
 
   return (
     <>
@@ -51,7 +51,7 @@ async function FeaturedContent() {
         </div>
       </section>
 
-      <section className="featured-tours-section">
+      <section className="featured-destinations-section">
         <div className="section-heading">
           <div>
             <p className="eyebrow">
@@ -62,19 +62,19 @@ async function FeaturedContent() {
             </h2>
           </div>
 
-          <Link className="text-link" href="/tours">
-            All tours <span aria-hidden="true">↗</span>
+          <Link className="text-link" href="/destinations">
+            All destinations <span aria-hidden="true">↗</span>
           </Link>
         </div>
 
-        <p className="featured-tours-description">
+        <p className="featured-destinations-description">
           From unforgettable landscapes to rich cultural encounters,
           discover experiences that bring Africa closer.
         </p>
 
-        <div className="featured-tours-grid">
-          {featuredTours.map((tour) => (
-            <TourCard key={tour.id} tour={tour} />
+        <div className="featured-destinations-grid">
+          {featuredDestinations.map((destination) => (
+            <DestinationCard key={destination.id} destination={destination} />
           ))}
         </div>
       </section>
@@ -103,7 +103,7 @@ export default function Home() {
             traditions. Discover Africa, one unforgettable journey at a time.
           </p>
 
-          <TourSearch />
+          <DestinationSearch />
 
           <p className="hero-note">
             <span aria-hidden="true">✳</span>Made for the curious. Rooted in Africa.
@@ -149,7 +149,7 @@ export default function Home() {
       <Suspense
         fallback={
           <div className="country-listing-grid" aria-live="polite">
-            Loading countries and tours...
+            Loading countries and destinations...
           </div>
         }
       >

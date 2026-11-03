@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/app/utils/supabase/client";
 
-import styles from "./tourForm.module.css";
+import styles from "./destinationForm.module.css";
 
-const API_URL = "@/app/api/tourPost";
+const API_URL = "/api/destinationPost";
 
 type Country = { id: number; name: string };
 

@@ -9,7 +9,7 @@ import "./Header.css";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Countries", href: "/Countries" },
-  { label: "Tours", href: "/tours" },
+  { label: "Destinations", href: "/destinations" },
   { label: "Trip Status", href: "/trip-status" },
   { label: "About", href: "/about" },
 ];

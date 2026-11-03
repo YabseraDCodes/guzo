@@ -291,7 +291,7 @@ export default function CountryPage() {
           <nav className="main-nav">
             <a href="/">Home</a>
             <a href="/Countries">Destinations</a>
-            <a href="/tours">Tours</a>
+            <a href="/destinations">Destinations</a>
           </nav>
           <a className="header-cta" href="/countries/ethiopia">Explore Africa Γåù</a>
         </header>
@@ -320,7 +320,7 @@ export default function CountryPage() {
         <nav className="main-nav">
           <a href="/">Home</a>
           <a className="nav-active" href="/countries/ethiopia">Countries</a>
-          <a href="/tours">Tours</a>
+          <a href="/destinations">Destinations</a>
         </nav>
         <a className="header-cta" href="/countries">Explore Africa Γåù</a>
       </header>

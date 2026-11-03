@@ -9,12 +9,12 @@ Built with Next.js, TypeScript, and Supabase, Guzo is designed as a reusable tem
 ## Features
 
 - **Country Discovery:** Explore countries and their tourist attractions.
-- **Tour Catalogue:** Browse tours, itineraries, durations, and highlights.
+- **Destination Catalogue:** Browse destinations, itineraries, durations, and highlights.
 - **Travel Agency Profiles:** Discover agencies offering available tours.
 - **Tour Packages:** Compare agency-specific packages, prices, durations, and included services.
 - **Direct Booking:** Select a tour, agency, and package, then submit a booking online.
 - **Booking Management:** Track booking status and allow authorized agency staff to manage bookings.
-- **Search and Filtering:** Find countries, tours, agencies, and packages.
+- **Search and Filtering:** Find countries, destinations, agencies, and packages.
 - **Role-Based Access Control:** Protect administrative features based on user roles.
 - **Admin Dashboard:** Manage platform information and tourism operations.
 - **Responsive Design:** Access the platform across desktop and mobile devices.
@@ -107,7 +107,7 @@ The required database tables, relationships, and policies must match the applica
 Guzo connects travellers with tourism businesses through a straightforward booking workflow:
 
 1. **Explore countries:** Browse available countries and their attractions.
-2. **Discover tours:** View tours offered within a selected country.
+2. **Discover destinations:** View destinations offered within a selected country.
 3. **Compare agencies:** Find agencies offering the selected tour.
 4. **Compare packages:** Review the selected agency's available packages and offerings.
 5. **Book a trip:** Choose a package and submit the required customer and travel details.
@@ -120,7 +120,7 @@ Submitting a booking does not automatically confirm the trip. The responsible ag
 
 ### Travellers
 
-- Explore countries and tours.
+- Explore countries and destinations.
 - Compare agencies and tour packages.
 - Submit bookings directly.
 - View booking details and status.

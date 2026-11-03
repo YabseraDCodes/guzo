@@ -5,8 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
-import TourCard, { type Tour } from "../components/TourCard";
-import "./TourPage.css";
+import DestinationCard from "../components/DestinationCard";
+import type { Destination } from "@/types/destination";
+import "./destinations.css";
 
 const PAGE_SIZE = 9;
 
@@ -24,7 +25,7 @@ const CATEGORIES = [
   "Adventure",
 ];
 
-type SearchableTour = Tour & {
+type SearchableDestination = Destination & {
   category?: string | null;
   location?: string | null;
   description?: string | null;
@@ -33,13 +34,13 @@ type SearchableTour = Tour & {
   countries?: { name: string } | null;
 };
 
-export default function ToursPage() {
+export default function DestinationsPage() {
   const {
-    data: tours,
+    data: destinations,
     error,
     isLoading,
     mutate,
-  } = useSWR<SearchableTour[]>("/api/destinations", fetcher);
+  } = useSWR<SearchableDestination[]>("/api/destinations", fetcher);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -54,23 +55,23 @@ export default function ToursPage() {
   }, [query]);
 
 
-  // Filter tours by category and search query.
-  const filteredTours = useMemo(() => {
-    if (!tours) return [];
+  // Filter destinations by category and search query.
+  const filteredDestinations = useMemo(() => {
+    if (!destinations) return [];
     const searchText = debouncedQuery.trim().toLowerCase();
 
-    return tours.filter((tour) => {
+    return destinations.filter((destination) => {
       const matchesCategory =
         selectedCategory === "All" ||
-        tour.category?.toLowerCase() ===
+        destination.category?.toLowerCase() ===
         selectedCategory.toLowerCase();
 
       const searchableText = [
-        tour.name,
-        tour.category,
-        tour.location,
-        tour.countries?.name,
-        tour.description,
+        destination.name,
+        destination.category,
+        destination.location,
+        destination.countries?.name,
+        destination.description,
       ]
         .filter(Boolean)
         .join(" ")
@@ -81,12 +82,12 @@ export default function ToursPage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [tours, selectedCategory, debouncedQuery]);
+  }, [destinations, selectedCategory, debouncedQuery]);
 
 
 
-  const totalTours = filteredTours.length;
-  const totalPages = Math.ceil(totalTours / PAGE_SIZE);
+  const totalDestinations = filteredDestinations.length;
+  const totalPages = Math.ceil(totalDestinations / PAGE_SIZE);
 
   // Reset to the first page when search or category changes.
   useEffect(() => {
@@ -101,14 +102,14 @@ export default function ToursPage() {
   }, [currentPage, totalPages]);
 
   // Paginate after filtering.
-  const currentTours = useMemo(() => {
+  const currentDestinations = useMemo(() => {
     const startIndex = (currentPage - 1) * PAGE_SIZE;
 
-    return filteredTours.slice(
+    return filteredDestinations.slice(
       startIndex,
       startIndex + PAGE_SIZE
     );
-  }, [filteredTours, currentPage]);
+  }, [filteredDestinations, currentPage]);
 
   // Compact pagination numbers.
   const pageNumbers = useMemo(() => {
@@ -149,7 +150,7 @@ export default function ToursPage() {
     setCurrentPage(page);
 
     document
-      .getElementById("tours-list")
+      .getElementById("destinations-list")
       ?.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -166,11 +167,11 @@ export default function ToursPage() {
   }
 
   return (
-    <main className="tours-page">
+    <main className="destinations-page">
       {/* Hero */}
-      <section className="tours-page-hero">
-        <div className="tours-page-hero-content">
-          <span className="tours-page-eyebrow">
+      <section className="destinations-page-hero">
+        <div className="destinations-page-hero-content">
+          <span className="destinations-page-eyebrow">
             FIND YOUR NEXT ADVENTURE
           </span>
 
@@ -186,12 +187,12 @@ export default function ToursPage() {
           </p>
 
           {!isLoading && !error && (
-            <div className="tours-page-total">
-              <strong>{tours?.length ?? 0}</strong>
+            <div className="destinations-page-total">
+              <strong>{destinations?.length ?? 0}</strong>
               <span>
-                {(tours?.length ?? 0) === 1
-                  ? "tour"
-                  : "tours"}{" "}
+                {(destinations?.length ?? 0) === 1
+                  ? "destination"
+                  : "destinations"}{" "}
                 to explore
               </span>
             </div>
@@ -199,27 +200,27 @@ export default function ToursPage() {
         </div>
 
         <div
-          className="tours-page-hero-decoration"
+          className="destinations-page-hero-decoration"
           aria-hidden="true"
         >
-          <span className="tours-hero-circle" />
-          <span className="tours-hero-dot" />
+          <span className="destinations-hero-circle" />
+          <span className="destinations-hero-dot" />
         </div>
       </section>
 
-      {/* Tours listing */}
+      {/* Destinations listing */}
       <section
-        className="tours-page-content"
-        id="tours-list"
-        aria-labelledby="tours-page-heading"
+        className="destinations-page-content"
+        id="destinations-list"
+        aria-labelledby="destinations-page-heading"
       >
-        <div className="tours-page-section-heading">
+        <div className="destinations-page-section-heading">
           <div>
-            <span className="tours-page-eyebrow">
+            <span className="destinations-page-eyebrow">
               CURATED FOR THE CURIOUS
             </span>
 
-            <h2 id="tours-page-heading">Explore our tours</h2>
+            <h2 id="destinations-page-heading">Explore our destinations</h2>
 
             <p>
               Find your next unforgettable experience.
@@ -227,9 +228,9 @@ export default function ToursPage() {
           </div>
 
           {!isLoading && !error && (
-            <span className="tours-page-result-count">
-              {totalTours}{" "}
-              {totalTours === 1 ? "tour" : "tours"} found
+            <span className="destinations-page-result-count">
+              {totalDestinations}{" "}
+              {totalDestinations === 1 ? "destination" : "destinations"} found
             </span>
           )}
         </div>
@@ -238,10 +239,10 @@ export default function ToursPage() {
 
         {/* Search bar */}
         {!isLoading && !error && (
-          <div className="tours-search-section">
-            <div className="tours-search">
+          <div className="destinations-search-section">
+            <div className="destinations-search">
               <form
-                className="tours-search-form"
+                className="destinations-search-form"
                 role="search"
                 onSubmit={(event) => {
                   event.preventDefault();
@@ -249,19 +250,19 @@ export default function ToursPage() {
                 }}
               >
                 <span
-                  className="tours-search-icon"
+                  className="destinations-search-icon"
                   aria-hidden="true"
                 >
                   ⌕
                 </span>
 
-                <div className="tours-search-field">
-                  <label htmlFor="tours-search-input">
+                <div className="destinations-search-field">
+                  <label htmlFor="destinations-search-input">
                     FIND YOUR EXPERIENCE
                   </label>
 
                   <input
-                    id="tours-search-input"
+                    id="destinations-search-input"
                     type="search"
                     placeholder="Search destinations, countries..."
                     autoComplete="off"
@@ -275,7 +276,7 @@ export default function ToursPage() {
                 {query && (
                   <button
                     type="button"
-                    className="tours-search-clear"
+                    className="destinations-search-clear"
                     onClick={clearSearch}
                     aria-label="Clear search"
                   >
@@ -285,7 +286,7 @@ export default function ToursPage() {
 
                 <button
                   type="submit"
-                  className="tours-search-submit"
+                  className="destinations-search-submit"
                 >
                   Search <span aria-hidden="true">→</span>
                 </button>
@@ -293,31 +294,31 @@ export default function ToursPage() {
             </div>
 
             {query.trim() !== "" && (
-              <p className="tours-search-result-hint">
-                {totalTours} matching{" "}
-                {totalTours === 1 ? "tour" : "tours"}
+              <p className="destinations-search-result-hint">
+                {totalDestinations} matching{" "}
+                {totalDestinations === 1 ? "destination" : "destinations"}
               </p>
             )}
           </div>
         )}
 
         {/* Category filters */}
-        {!isLoading && !error && (tours?.length ?? 0) > 0 && (
+        {!isLoading && !error && (destinations?.length ?? 0) > 0 && (
           <div
-            className="tours-category-bar"
+            className="destinations-category-bar"
             role="group"
-            aria-label="Filter tours by category"
+            aria-label="Filter destinations by category"
           >
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 type="button"
-                className={`tours-category-button ${selectedCategory === category ? "active" : ""
+                className={`destinations-category-button ${selectedCategory === category ? "active" : ""
                   }`}
                 onClick={() => selectCategory(category)}
                 aria-pressed={selectedCategory === category}
               >
-                {category === "All" ? "All Tours" : category}
+                {category === "All" ? "All Destinations" : category}
               </button>
             ))}
           </div>
@@ -325,25 +326,25 @@ export default function ToursPage() {
 
         {/* Loading state */}
         {isLoading && (
-          <div className="tours-page-state" role="status">
-            <span className="tours-page-loader" />
+          <div className="destinations-page-state" role="status">
+            <span className="destinations-page-loader" />
             <h3>Finding your next adventure...</h3>
-            <p>Our tours are on their way.</p>
+            <p>Our destinations are on their way.</p>
           </div>
         )}
 
         {/* Error state */}
         {error && (
           <div
-            className="tours-page-state tours-page-error"
+            className="destinations-page-state destinations-page-error"
             role="alert"
           >
-            <h3>We couldn't load the tours.</h3>
+            <h3>We couldn't load the destinations.</h3>
             <p>Please check your connection and try again.</p>
 
             <button
               type="button"
-              className="tours-page-retry"
+              className="destinations-page-retry"
               onClick={() => mutate()}
             >
               Try again
@@ -351,10 +352,10 @@ export default function ToursPage() {
           </div>
         )}
 
-        {/* No tours */}
-        {!isLoading && !error && (tours?.length ?? 0) === 0 && (
-          <div className="tours-page-state">
-            <h3>No tours available just yet.</h3>
+        {/* No destinations */}
+        {!isLoading && !error && (destinations?.length ?? 0) === 0 && (
+          <div className="destinations-page-state">
+            <h3>No destinations available just yet.</h3>
             <p>Check back soon for new adventures.</p>
           </div>
         )}
@@ -362,17 +363,17 @@ export default function ToursPage() {
         {/* No search or category matches */}
         {!isLoading &&
           !error &&
-          (tours?.length ?? 0) > 0 &&
-          totalTours === 0 && (
-            <div className="tours-page-state">
-              <h3>No matching tours found.</h3>
+          (destinations?.length ?? 0) > 0 &&
+          totalDestinations === 0 && (
+            <div className="destinations-page-state">
+              <h3>No matching destinations found.</h3>
               <p>
                 Try another search or choose a different category.
               </p>
 
               <button
                 type="button"
-                className="tours-page-retry"
+                className="destinations-page-retry"
                 onClick={() => {
                   setQuery("");
                   setSelectedCategory("All");
@@ -384,23 +385,23 @@ export default function ToursPage() {
             </div>
           )}
 
-        {/* Tour cards and pagination */}
-        {!isLoading && !error && currentTours.length > 0 && (
+        {/* Destination cards and pagination */}
+        {!isLoading && !error && currentDestinations.length > 0 && (
           <>
-            <div className="tours-page-grid" aria-live="polite">
-              {currentTours.map((tour) => (
-                <TourCard key={tour.id} tour={tour} />
+            <div className="destinations-page-grid" aria-live="polite">
+              {currentDestinations.map((destination) => (
+                <DestinationCard key={destination.id} destination={destination} />
               ))}
             </div>
 
             {totalPages > 1 && (
               <nav
-                className="tours-pagination"
-                aria-label="Tours pagination"
+                className="destinations-pagination"
+                aria-label="Destinations pagination"
               >
                 <button
                   type="button"
-                  className="tours-pagination-button tours-pagination-prev"
+                  className="destinations-pagination-button destinations-pagination-prev"
                   onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
                   aria-label="Go to previous page"
@@ -409,11 +410,11 @@ export default function ToursPage() {
                   <span>Previous</span>
                 </button>
 
-                <div className="tours-pagination-pages">
+                <div className="destinations-pagination-pages">
                   {pageNumbers.map((page, index) =>
                     page === "..." ? (
                       <span
-                        className="tours-pagination-ellipsis"
+                        className="destinations-pagination-ellipsis"
                         key={`ellipsis-${index}`}
                         aria-hidden="true"
                       >
@@ -423,7 +424,7 @@ export default function ToursPage() {
                       <button
                         type="button"
                         key={page}
-                        className={`tours-pagination-number ${currentPage === page ? "active" : ""
+                        className={`destinations-pagination-number ${currentPage === page ? "active" : ""
                           }`}
                         onClick={() => goToPage(page)}
                         aria-label={`Go to page ${page}`}
@@ -439,7 +440,7 @@ export default function ToursPage() {
 
                 <button
                   type="button"
-                  className="tours-pagination-button tours-pagination-next"
+                  className="destinations-pagination-button destinations-pagination-next"
                   onClick={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   aria-label="Go to next page"
@@ -451,7 +452,7 @@ export default function ToursPage() {
             )}
 
             {totalPages > 1 && (
-              <p className="tours-pagination-summary">
+              <p className="destinations-pagination-summary">
                 Page {currentPage} of {totalPages}
               </p>
             )}

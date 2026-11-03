@@ -9,7 +9,7 @@ import {
 } from "@/lib/booking-schema";
 import { BookingFormFields } from "./BookingFormFields";
 
-type SelectedTour = {
+type SelectedDestination = {
   name: string;
   description: string;
   image: string;
@@ -30,7 +30,7 @@ type Props = {
   initialAgentName: string;
   initialPackageName: string;
   initialPackage: SelectedPackage | null;
-  initialTour: SelectedTour | null;
+  initialDestination: SelectedDestination | null;
 };
 
 const packageImages: Record<string, string> = {
@@ -51,7 +51,7 @@ export function BookingForm({
   initialAgentName,
   initialPackageName,
   initialPackage,
-  initialTour,
+  initialDestination,
 }: Props) {
   const router = useRouter();
 
@@ -116,7 +116,7 @@ export function BookingForm({
       return;
     }
 
-    if (!initialTour) {
+    if (!initialDestination) {
       setResult({
         message:
           "We couldn't load the tour assigned to this agent. Please try selecting the tour again.",
@@ -177,7 +177,7 @@ export function BookingForm({
         booking_id: bookingId,
         ...validation.data,
         agent_name: initialAgentName || `Agent ${initialAgentId}`,
-        destination_name: initialTour.name,
+        destination_name: initialDestination.name,
         package_name: initialPackage.name,
         package_price: initialPackage.price,
         total_price:
@@ -233,14 +233,14 @@ export function BookingForm({
         <div className="booking-selections">
           {/* Selected tour card */}
           <section
-            className="booking-selection-card booking-tour-card"
-            aria-labelledby="selected-tour-title"
+            className="booking-selection-card booking-destination-card"
+            aria-labelledby="selected-destination-title"
           >
             <div className="booking-card-image">
-              {initialTour?.image ? (
+              {initialDestination?.image ? (
                 <img
-                  src={initialTour.image}
-                  alt={initialTour.name}
+                  src={initialDestination.image}
+                  alt={initialDestination.name}
                 />
               ) : (
                 <div className="booking-image-placeholder">
@@ -255,25 +255,25 @@ export function BookingForm({
                 YOUR SELECTED TOUR
               </div>
 
-              {initialTour?.category && (
+              {initialDestination?.category && (
                 <span className="booking-category">
-                  {initialTour.category}
+                  {initialDestination.category}
                 </span>
               )}
 
-              <h2 id="selected-tour-title">
-                {initialTour?.name || "Tour details unavailable"}
+              <h2 id="selected-destination-title">
+                {initialDestination?.name || "Tour details unavailable"}
               </h2>
 
-              {initialTour?.location && (
-                <p className="booking-tour-location">
+              {initialDestination?.location && (
+                <p className="booking-destination-location">
                   <span aria-hidden="true">⌖</span>
-                  {initialTour.location}
+                  {initialDestination.location}
                 </p>
               )}
 
               <p className="booking-card-description">
-                {initialTour?.description ||
+                {initialDestination?.description ||
                   "Tour description is currently unavailable."}
               </p>
 
@@ -442,7 +442,7 @@ export function BookingForm({
           <button
             className="booking-submit"
             type="submit"
-            disabled={isSubmitting || !initialPackage || !initialTour}
+            disabled={isSubmitting || !initialPackage || !initialDestination}
           >
             {isSubmitting ? "Submitting..." : "Submit booking"}
             <span aria-hidden="true">↗</span>

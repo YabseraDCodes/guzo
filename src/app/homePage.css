@@ -728,16 +728,16 @@ button:focus-visible {
   }
 }
 
-.featured-tours-section {
+.featured-destinations-section {
   padding: 75px 7% 100px;
   background: #f3f0e7;
 }
 
-.featured-tours-section .section-heading {
+.featured-destinations-section .section-heading {
   margin-bottom: 18px;
 }
 
-.featured-tours-description {
+.featured-destinations-description {
   max-width: 530px;
   margin: 0 0 35px;
   color: var(--guzo-muted);
@@ -745,7 +745,7 @@ button:focus-visible {
   line-height: 1.9;
 }
 
-.featured-tours-grid {
+.featured-destinations-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
@@ -753,21 +753,21 @@ button:focus-visible {
 }
 
 @media (max-width: 900px) {
-  .featured-tours-section {
+  .featured-destinations-section {
     padding-inline: 5%;
   }
 
-  .featured-tours-grid {
+  .featured-destinations-grid {
     gap: 18px;
   }
 }
 
 @media (max-width: 600px) {
-  .featured-tours-section {
+  .featured-destinations-section {
     padding: 60px 6% 70px;
   }
 
-  .featured-tours-grid {
+  .featured-destinations-grid {
     grid-template-columns: 1fr;
     gap: 22px;
   }

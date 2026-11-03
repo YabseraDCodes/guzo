@@ -70,12 +70,12 @@ export default function Header() {
         </Link>
 
         <Link
-          href="/Admin/TourPlace"
-          className={`staff-tab${isActive("/Admin/TourPlace") ? " active" : ""}`}
-          aria-current={isActive("/Admin/TourPlace") ? "page" : undefined}
+          href="/Admin/Destinations"
+          className={`staff-tab${isActive("/Admin/Destinations") ? " active" : ""}`}
+          aria-current={isActive("/Admin/Destinations") ? "page" : undefined}
         >
           <Map size={16} />
-          <span>Tour Packages</span>
+          <span>Destinations</span>
         </Link>
         <Link
           href="/Admin/Agents"

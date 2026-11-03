@@ -4,11 +4,11 @@ import type { Country } from "@/types/country";
 
 type CountryCardProps = {
   country: Country;
-  toursCount: number;
+  destinationsCount: number;
 };
 
 export default function CountryCard({
-  country, toursCount
+  country, destinationsCount
 }: CountryCardProps) {  
   return (
     <Link href={`/Countries/${country.slug}`}>
@@ -61,9 +61,9 @@ export default function CountryCard({
           </p>
 
           <div className="country-listing-card-footer">
-            <div className="country-listing-card-tour-info">
+            <div className="country-listing-card-destination-info">
               <span
-                className="country-listing-card-tour-icon"
+                className="country-listing-card-destination-icon"
                 aria-hidden="true"
               >
                 <svg
@@ -81,8 +81,8 @@ export default function CountryCard({
               </span>
 
               <span>
-                <strong>{toursCount}</strong>{" "}
-                {toursCount === 1 ? "tour" : "tours"}
+                <strong>{destinationsCount}</strong>{" "}
+                {destinationsCount === 1 ? "destination" : "destinations"}
                 {" "}available
               </span>
             </div>

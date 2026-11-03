@@ -221,7 +221,7 @@
 ========================================= */
 
 .country-detail-section,
-.country-detail-tours {
+.country-detail-destinations {
   max-width: 1600px;
   margin: 0 auto;
   padding: 70px 7% 90px;
@@ -446,26 +446,26 @@
 }
 
 /* =========================================
-   RELATED TOURS
+   RELATED DESTINATIONS
 ========================================= */
 
-.country-detail-tours {
+.country-detail-destinations {
   padding-top: 95px;
   padding-bottom: 110px;
 }
 
-.country-detail-tours .country-detail-section-heading {
+.country-detail-destinations .country-detail-section-heading {
   margin-bottom: 24px;
 }
 
-.country-detail-tour-count {
+.country-detail-destination-count {
   margin: 0 0 25px;
   color: var(--guzo-muted);
   font-size: 13px;
   font-weight: 600;
 }
 
-.country-detail-tours-grid {
+.country-detail-destinations-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
@@ -570,7 +570,7 @@
     gap: 36px;
   }
 
-  .country-detail-tours-grid {
+  .country-detail-destinations-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -687,11 +687,11 @@
     padding: 24px;
   }
 
-  .country-detail-tours {
+  .country-detail-destinations {
     padding: 65px 6% 75px;
   }
 
-  .country-detail-tours-grid {
+  .country-detail-destinations-grid {
     grid-template-columns: 1fr;
     gap: 22px;
   }

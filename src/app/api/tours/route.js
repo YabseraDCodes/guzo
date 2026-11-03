@@ -4,7 +4,7 @@ import { createClient } from "@/app/utils/supabase/server";
 export async function GET() {
   const supabase = await createClient();
 
-  // A tour belongs to one destination and one agency. Packages belong to the tour.
+  // The existing database stores destination catalog records in the tours table.
   const { data, error } = await supabase
     .from("tours")
     .select(`
@@ -54,13 +54,13 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const tours = (data ?? []).map((tour) => {
-    const destination = tour.destination;
-    const agency = tour.agency;
+  const destinations = (data ?? []).map((record) => {
+    const place = record.destination;
+    const agency = record.agency;
 
     // Keep the current UI contract while exposing the new relational data.
     const packages = Object.fromEntries(
-      (tour.packages ?? [])
+      (record.packages ?? [])
         .filter((pkg) => pkg.is_active !== false)
         .map((pkg) => {
           const hotel = pkg.hotel_details ?? {};
@@ -81,19 +81,19 @@ export async function GET() {
     );
 
     return {
-      id: tour.id,
-      name: tour.name,
-      slug: tour.slug,
-      description: tour.description ?? destination?.description ?? "",
-      image_urls: destination?.image_urls ?? (tour.image ? [tour.image] : []),
-      location: destination?.location ?? destination?.name ?? "",
-      category: destination?.category ?? "",
-      country_id: destination?.country_id,
-      countries: destination?.countries ?? null,
-      destination,
+      id: record.id,
+      name: record.name,
+      slug: record.slug,
+      description: record.description ?? place?.description ?? "",
+      image_urls: place?.image_urls ?? (record.image ? [record.image] : []),
+      location: place?.location ?? place?.name ?? "",
+      category: place?.category ?? "",
+      country_id: place?.country_id,
+      countries: place?.countries ?? null,
+      destination: place,
       agency: agency ? { ...agency, packages } : null,
     };
   });
 
-  return NextResponse.json(tours);
+  return NextResponse.json(destinations);
 }

@@ -1,59 +1,50 @@
 
 import Link from "next/link";
-import "./TourCard.css"
+import "./DestinationCard.css"
+import type { Destination } from "@/types/destination";
 
-export type Tour = {
-    id: number;
-    country_id: number;
-    name: string;
-    description: string;
-    image_urls: string[];
-    location: string;
-    slug: string;
+type DestinationCardProps = {
+    destination: Destination;
 };
 
-type TourCardProps = {
-    tour: Tour;
-};
+export default function DestinationCard({ destination }: DestinationCardProps) {
+    const image = destination.image_urls?.[0];
 
-export default function TourCard({ tour }: TourCardProps) {
-    const image = tour.image_urls?.[0];
-
-    const tourSlug = tour.slug
+    const destinationSlug = destination.slug
     ?.trim()
     .toLowerCase()
-    .replace(/\s+/g, "-") || String(tour.id);
+    .replace(/\s+/g, "-") || String(destination.id);
 
     return (
-        <article className="tour-card">
+        <article className="destination-card">
             <Link
-                href={`/tours/${tourSlug}`}
-                className="tour-card-link"
-                aria-label={`Explore ${tour.name}`}
+                href={`/destinations/${destinationSlug}`}
+                className="destination-card-link"
+                aria-label={`Explore ${destination.name}`}
             >
-                <div className="tour-card-image">
+                <div className="destination-card-image">
                     {image ? (
                         <img
                             src={image}
-                            alt={tour.name}
+                            alt={destination.name}
                             loading="lazy"
                         />
                     ) : (
-                        <div className="tour-card-image-placeholder">
+                        <div className="destination-card-image-placeholder">
                             <span aria-hidden="true">✦</span>
                             <span>Discover somewhere new</span>
                         </div>
                     )}
 
-                    <div className="tour-card-image-overlay" />
+                    <div className="destination-card-image-overlay" />
 
-                    <span className="tour-card-explore">
-                        Explore tour <span aria-hidden="true">↗</span>
+                    <span className="destination-card-explore">
+                        Explore destination <span aria-hidden="true">↗</span>
                     </span>
                 </div>
 
-                <div className="tour-card-body">
-                    <div className="tour-card-location">
+                <div className="destination-card-body">
+                    <div className="destination-card-location">
                         <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -74,16 +65,16 @@ export default function TourCard({ tour }: TourCardProps) {
                             />
                         </svg>
 
-                        <span>{tour.location}</span>
+                        <span>{destination.location}</span>
                     </div>
 
-                    <h3>{tour.name}</h3>
+                    <h3>{destination.name}</h3>
 
-                    <p>{tour.description}</p>
+                    <p>{destination.description}</p>
 
-                    <div className="tour-card-footer">
+                    <div className="destination-card-footer">
                         <span>Discover this experience</span>
-                        <span className="tour-card-arrow" aria-hidden="true">
+                        <span className="destination-card-arrow" aria-hidden="true">
                             →
                         </span>
                     </div>

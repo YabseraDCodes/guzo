@@ -21,9 +21,9 @@ const workspaceLinks = [
     number: "01",
   },
   {
-    title: "Tour packages",
-    description: "Create and update the journeys travelers can discover.",
-    href: "/Admin/TourPlace",
+    title: "Destinations",
+    description: "Create and update the destinations travelers can discover.",
+    href: "/Admin/Destinations",
     icon: Map,
     number: "02",
   },
