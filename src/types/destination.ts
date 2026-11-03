@@ -26,25 +26,37 @@ export type DestinationAgency = {
   packages: Record<string, DestinationPackage>;
 };
 
-export type Destination = {
-  id: number;
-  name: string;
-  description: string;
-  image_urls: string[];
-  location: string;
-  slug: string;
-  country_id: number;
-  category: string;
-  countries: {
-    name: string;
-  } | null;
-  agency?: DestinationAgency | null;
-};
+// export type Destination = {
+//   id: number;
+//   name: string;
+//   description: string;
+//   image_urls: string[];
+//   location: string;
+//   slug: string;
+//   country_id: number;
+//   category: string;
+//   countries: {
+//     name: string;
+//   } | null;
+//   agency?: DestinationAgency | null;
+// };
 
 
 
 export type Country = {
   name: string;
+};
+
+export type Destination = {
+  id: number;
+  name: string;
+  slug: string;
+  category: string;
+  location: string;
+  countries: Country;
+  country_id: number;
+  image_urls: string[];
+  description: string;
 };
 
 export type Tour = {

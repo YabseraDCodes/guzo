@@ -23,7 +23,7 @@ const workspaceLinks = [
   {
     title: "Destinations",
     description: "Create and update the destinations travelers can discover.",
-    href: "/Admin/Destinations",
+    href: "/Admin/TourPlace",
     icon: Map,
     number: "02",
   },

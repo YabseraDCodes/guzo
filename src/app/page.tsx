@@ -13,7 +13,7 @@ async function FeaturedContent() {
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/countries`, {
       next: { revalidate: 300 },
     }),
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/destination-catalog`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/destinations`, {
       next: { revalidate: 300 },
     }),
   ]);

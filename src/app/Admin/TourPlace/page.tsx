@@ -21,7 +21,7 @@ export default function DestinationsPage() {
     data: destinations,
     error,
     isLoading,
-  } = useSWR<DestinationSummary[]>("/api/destination-catalog", fetcher);
+  } = useSWR<DestinationSummary[]>("/api/tours", fetcher);
 
   if (isLoading) {
     return <p className="packages-message">Loading destinations...</p>;
@@ -48,7 +48,7 @@ export default function DestinationsPage() {
            {destinations.length} {destinations.length === 1 ? "Destination" : "Destinations"}
          </span>
      
-         <Link href="/Admin/forms/destinationForm" className="add-agent-button">
+         <Link href="/Admin/forms/tourForm" className="add-agent-button">
            <Plus size={16} />
            Add destination
          </Link>

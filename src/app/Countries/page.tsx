@@ -15,7 +15,7 @@ export default function CountriesPage() {
     isLoading,
   } = useSWR<Country[]>("/api/countries", fetcher);
 
-  const { data: destinations } = useSWR<Destination[]>("/api/destination-catalog", fetcher);
+  const { data: destinations } = useSWR<Destination[]>("/api/destinations", fetcher);
 
   return (
     <main className="countries-page">

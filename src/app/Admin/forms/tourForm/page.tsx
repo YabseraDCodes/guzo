@@ -5,7 +5,7 @@ import { createClient } from "@/app/utils/supabase/client";
 
 import styles from "./destinationForm.module.css";
 
-const API_URL = "/api/destinationPost";
+const API_URL = "/api/tourPost";
 
 type Country = { id: number; name: string };
 

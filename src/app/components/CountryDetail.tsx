@@ -30,7 +30,7 @@ export default function CountryDetail({
         data: destinations,
         error: destinationsError,
         isLoading: destinationsLoading,
-    } = useSWR<Destination[]>("/api/destination-catalog", fetcher);
+    } = useSWR<Destination[]>("/api/destinations", fetcher);
 
     const country = useMemo(
         () => countries?.find((item) => item.slug === slug),

@@ -4,21 +4,23 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetcher } from "@/lib/fetcher";
 import AgentCard from "@/app/components/AgentCard";
-import type { Destination } from "@/types/destination";
+import type { Tour, Destination } from "@/types/destination";
 import "./DestinationDetailClient.css";
 
 export default function DestinationDetailClient({ slug }: { slug: string }) {
-    const [destination, setDestination] = useState<Destination | null>(null);
+    const [destination, setDestination] = useState<Tour | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let cancelled = false;
 
         async function getDestination() {
+
             setLoading(true);
             try {
-                const destinations: Destination[] = await fetcher("/api/tours");
-                const selectedDestination = destinations.find((item) => item.slug === slug);
+
+                const tours: Tour[] = await fetcher("/api/tours");
+                const selectedDestination = tours.find((item) => item.destination.slug === slug);
                 if (!cancelled) setDestination(selectedDestination ?? null);
             } catch (error) {
                 console.error("Failed to fetch destination details:", error);
@@ -26,7 +28,7 @@ export default function DestinationDetailClient({ slug }: { slug: string }) {
             } finally {
                 if (!cancelled) setLoading(false);
             }
-        } 
+        }
 
         getDestination();
         return () => { cancelled = true; };

@@ -22,7 +22,8 @@ export async function GET() {
         location,
         category,
         country_id,
-        countries ( name )
+        countries ( name ),
+        slug
       ),
       agency:agencies_test (
         id,

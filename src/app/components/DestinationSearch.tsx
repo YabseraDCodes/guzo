@@ -16,7 +16,7 @@ export default function DestinationSearch() {
     useEffect(() => {
         async function fetchDestinations() {
             try {
-                const response = await fetch("/api/destination-catalog");
+                const response = await fetch("/api/destinations");
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch destinations");
