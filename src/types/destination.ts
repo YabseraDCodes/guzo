@@ -9,11 +9,7 @@ export type DestinationPackage = {
     image?: string;
   };
   includes: string[];
-  itinerary: {
-    day: string;
-    title: string;
-    description: string;
-  }[];
+  itinerary: DestinationItineraryDay[];
 };
 
 export type DestinationAgency = {
@@ -24,6 +20,12 @@ export type DestinationAgency = {
   rating: number | null;
   contact_info: string | null;
   packages: Record<string, DestinationPackage>;
+};
+
+export type DestinationItineraryDay = {
+  day?: string;
+  title?: string;
+  description?: string;
 };
 
 // export type Destination = {
@@ -65,12 +67,13 @@ export type Tour = {
   slug: string;
   description: string;
   image_urls: string[];
+  image?: string | null;
   location: string;
   category: string;
   country_id: number;
   countries: Country;
   destination: Destination;
-  agency: Agency;
+  agency: Agency | null;
 };
 
 export type Agency = {
@@ -80,7 +83,7 @@ export type Agency = {
   rating: number;
   description: string;
   contact_info: string;
-  packages: Packages;
+  packages: Record<string, DestinationPackage>;
 };
 
 export type Packages = {

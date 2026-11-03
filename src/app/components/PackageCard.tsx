@@ -5,6 +5,8 @@ type Package = {
     price: number;
     duration: string;
     hotel: {
+        name?: string;
+        image?: string;
         ranking: number;
         description: string;
     };

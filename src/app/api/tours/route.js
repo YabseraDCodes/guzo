@@ -86,6 +86,8 @@ export async function GET() {
       name: record.name,
       slug: record.slug,
       description: record.description ?? place?.description ?? "",
+      // Tour cover and destination gallery are distinct fields in the source data.
+      image: record.image ?? null,
       image_urls: place?.image_urls ?? (record.image ? [record.image] : []),
       location: place?.location ?? place?.name ?? "",
       category: place?.category ?? "",
