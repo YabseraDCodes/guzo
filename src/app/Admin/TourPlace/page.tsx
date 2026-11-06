@@ -2,9 +2,9 @@
 import {fetcher} from "@/lib/fetcher"
 import useSWR from "swr";
 import { Pencil, Trash2 ,Plus} from "lucide-react";
-import "./TourPlaces.css";
+import "./destinations.css";
 import Link from "next/link";
-type Package = {
+type DestinationSummary = {
   id: number;
   name: string;
   description: string;
@@ -16,48 +16,48 @@ type Package = {
 };
 
 
-export default function PackagesPage() {
+export default function DestinationsPage() {
   const {
-    data: packages,
+    data: destinations,
     error,
     isLoading,
-  } = useSWR<Package[]>("/api/tours", fetcher);
+  } = useSWR<DestinationSummary[]>("/api/tours", fetcher);
 
   if (isLoading) {
-    return <p className="packages-message">Loading packages...</p>;
+    return <p className="packages-message">Loading destinations...</p>;
   }
 
   if (error) {
-    return <p className="packages-message">Failed to load packages.</p>;
+    return <p className="packages-message">Failed to load destinations.</p>;
   }
 
-  if (!packages || packages.length === 0) {
-    return <p className="packages-message">No packages found.</p>;
+  if (!destinations || destinations.length === 0) {
+    return <p className="packages-message">No destinations found.</p>;
   }
 
   return (
     <section className="packages-page">
       <div className="agents-heading">
        <div>
-         <h1>Tour Packages</h1>   
-         <p>Manage your available tour packages.</p>
+         <h1>Destinations</h1>
+         <p>Manage your available destinations.</p>
        </div>
      
        <div className="agents-heading-actions">
          <span className="agents-count">
-           {packages.length} {packages.length === 1 ? "Tour" : "Tours"}
+           {destinations.length} {destinations.length === 1 ? "Destination" : "Destinations"}
          </span>
      
-         <Link href="/../Admin/forms/tourForm" className="add-agent-button">
+         <Link href="/Admin/forms/tourForm" className="add-agent-button">
            <Plus size={16} />
-           Add Tour
+           Add destination
          </Link>
        </div>
      </div>
      
  
       <div className="packages-grid">
-        {packages.map((item) => (
+        {destinations.map((item) => (
           <article className="package-card" key={item.id}>
             <div className="package-image-wrapper">
               <img

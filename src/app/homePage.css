@@ -333,9 +333,9 @@ button:focus-visible {
   line-height: 2;
 }
 
-/* Destinations */
+/* Countries */
 
-.destinations-section {
+.countries-section {
   padding: 36px 7% 105px;
 }
 
@@ -363,7 +363,7 @@ button:focus-visible {
   transform: translate(3px, -3px);
 }
 
-.destination-grid {
+.country-listing-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 25px;
@@ -371,9 +371,9 @@ button:focus-visible {
 }
 
 /* These styles work with common card markup.
-   Keep your existing HomeDestinationCard structure. */
+   Keep your existing HomeCountryCard structure. */
 
-.destination-grid > * {
+.country-listing-grid > * {
   min-width: 0;
   overflow: hidden;
   border-radius: 5px;
@@ -384,18 +384,18 @@ button:focus-visible {
     box-shadow 0.35s ease;
 }
 
-.destination-grid > *:hover {
+.country-listing-grid > *:hover {
   box-shadow: 0 18px 40px rgba(21, 39, 29, 0.13);
   transform: translateY(-7px);
 }
 
-.destination-grid img {
+.country-listing-grid img {
   width: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.2, 0.65, 0.3, 1);
 }
 
-.destination-grid > *:hover img {
+.country-listing-grid > *:hover img {
   transform: scale(1.045);
 }
 
@@ -510,11 +510,11 @@ button:focus-visible {
     max-width: 600px;
   }
 
-  .destination-grid {
+  .country-listing-grid {
     gap: 18px;
   }
 
-  .destinations-section {
+  .countries-section {
     padding-inline: 5%;
   }
 
@@ -644,7 +644,7 @@ button:focus-visible {
     line-height: 1.9;
   }
 
-  .destinations-section {
+  .countries-section {
     padding: 25px 6% 70px;
   }
 
@@ -659,7 +659,7 @@ button:focus-visible {
     padding-bottom: 6px;
   }
 
-  .destination-grid {
+  .country-listing-grid {
     grid-template-columns: 1fr;
     gap: 22px;
   }
@@ -728,16 +728,16 @@ button:focus-visible {
   }
 }
 
-.featured-tours-section {
+.featured-destinations-section {
   padding: 75px 7% 100px;
   background: #f3f0e7;
 }
 
-.featured-tours-section .section-heading {
+.featured-destinations-section .section-heading {
   margin-bottom: 18px;
 }
 
-.featured-tours-description {
+.featured-destinations-description {
   max-width: 530px;
   margin: 0 0 35px;
   color: var(--guzo-muted);
@@ -745,7 +745,7 @@ button:focus-visible {
   line-height: 1.9;
 }
 
-.featured-tours-grid {
+.featured-destinations-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
@@ -753,21 +753,21 @@ button:focus-visible {
 }
 
 @media (max-width: 900px) {
-  .featured-tours-section {
+  .featured-destinations-section {
     padding-inline: 5%;
   }
 
-  .featured-tours-grid {
+  .featured-destinations-grid {
     gap: 18px;
   }
 }
 
 @media (max-width: 600px) {
-  .featured-tours-section {
+  .featured-destinations-section {
     padding: 60px 6% 70px;
   }
 
-  .featured-tours-grid {
+  .featured-destinations-grid {
     grid-template-columns: 1fr;
     gap: 22px;
   }

@@ -36,7 +36,7 @@ export default function LoginForm() {
           <p className={styles.formEyebrow}>GUZO ADMINISTRATION</p>
           <h2>Welcome back</h2>
           <p className={styles.description}>
-            Sign in to manage destinations, tours, and bookings.
+            Sign in to manage destinations, packages, and bookings.
           </p>
 
           <label htmlFor="email">Email address</label>

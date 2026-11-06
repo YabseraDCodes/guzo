@@ -75,7 +75,7 @@ export default function Header() {
           aria-current={isActive("/Admin/TourPlace") ? "page" : undefined}
         >
           <Map size={16} />
-          <span>Tour Packages</span>
+          <span>Destinations</span>
         </Link>
         <Link
           href="/Admin/Agents"

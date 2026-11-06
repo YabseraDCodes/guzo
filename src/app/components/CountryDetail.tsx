@@ -4,40 +4,18 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
-import TourCard, { type Tour } from "./TourCard";
-import "./DestinationDetailCard.css"
+import DestinationCard from "./DestinationCard";
+import type { Destination } from "@/types/destination";
+import type { Country } from "@/types/country";
+import "./CountryDetail.css";
 
-type Attraction = {
-    name: string;
-    description: string;
-};
-
-export type Country = {
-    id: number;
-    name: string;
-    slug: string;
-    region: string;
-    capital: string;
-    short_description: string;
-    description: string;
-    languages: string[];
-    currency: string;
-    best_time_to_visit: string;
-    time_zone: string;
-    cover_image_url: string;
-    hero_image_url: string;
-    attractions: Attraction[];
-    travel_tips: string[];
-    is_featured: boolean;
-};
-
-type DestinationDetailPageProps = {
+type CountryDetailProps = {
     slug: string;
 };
 
-export default function DestinationDetailPage({
+export default function CountryDetail({
     slug,
-}: DestinationDetailPageProps) {
+}: CountryDetailProps) {
     const [showAllAttractions, setShowAllAttractions] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
     const [showTips, setShowTips] = useState(false);
@@ -49,28 +27,28 @@ export default function DestinationDetailPage({
     } = useSWR<Country[]>("/api/countries", fetcher);
 
     const {
-        data: tours,
-        error: toursError,
-        isLoading: toursLoading,
-    } = useSWR<Tour[]>("/api/tours", fetcher);
+        data: destinations,
+        error: destinationsError,
+        isLoading: destinationsLoading,
+    } = useSWR<Destination[]>("/api/destinations", fetcher);
 
     const country = useMemo(
         () => countries?.find((item) => item.slug === slug),
         [countries, slug]
     );
 
-    const relatedTours = useMemo(
-        () => tours?.filter(
-            (tour) => tour.country_id === country?.id
+    const relatedDestinations = useMemo(
+        () => destinations?.filter(
+            (destination) => destination.country_id === country?.id
         ) ?? [],
-        [tours, country]
+        [destinations, country]
     );
 
     if (countriesLoading) {
         return (
-            <main className="destination-detail-page">
-                <div className="destination-detail-state" role="status">
-                    Loading destination...
+            <main className="country-detail-page">
+                <div className="country-detail-state" role="status">
+                    Loading country...
                 </div>
             </main>
         );
@@ -78,9 +56,9 @@ export default function DestinationDetailPage({
 
     if (countriesError) {
         return (
-            <main className="destination-detail-page">
-                <div className="destination-detail-state" role="alert">
-                    <h1>Unable to load this destination</h1>
+            <main className="country-detail-page">
+                <div className="country-detail-state" role="alert">
+                    <h1>Unable to load this country</h1>
                     <p>Please try again in a moment.</p>
                 </div>
             </main>
@@ -89,11 +67,11 @@ export default function DestinationDetailPage({
 
     if (!country) {
         return (
-            <main className="destination-detail-page">
-                <div className="destination-detail-state">
-                    <h1>Destination not found</h1>
-                    <Link href="/destinations">
-                        Explore all destinations
+            <main className="country-detail-page">
+                <div className="country-detail-state">
+                    <h1>Country not found</h1>
+                    <Link href="/Countries">
+                        Explore all countries
                     </Link>
                 </div>
             </main>
@@ -107,53 +85,53 @@ export default function DestinationDetailPage({
         : attractions.slice(0, 3);
 
     return (
-        <main className="destination-detail-page">
-            <section className="destination-detail-hero">
+        <main className="country-detail-page">
+            <section className="country-detail-hero">
                 <img
-                    className="destination-detail-hero-image"
+                    className="country-detail-hero-image"
                     src={country.hero_image_url || country.cover_image_url}
                     alt={`${country.name} landscape`}
                     fetchPriority="high"
                 />
 
-                <div className="destination-detail-hero-overlay" />
+                <div className="country-detail-hero-overlay" />
 
-                <div className="destination-detail-hero-content">
+                <div className="country-detail-hero-content">
                     <Link
-                        href="/destinations"
-                        className="destination-detail-back"
+                        href="/Countries"
+                        className="country-detail-back"
                     >
                         <span aria-hidden="true">←</span>
-                        All destinations
+                        All countries
                     </Link>
 
-                    <span className="destination-detail-eyebrow">
+                    <span className="country-detail-eyebrow">
                         {country.region}
                     </span>
 
                     <h1>{country.name}</h1>
                     <p>{country.short_description}</p>
 
-                    <div className="destination-detail-hero-meta">
+                    <div className="country-detail-hero-meta">
                         <span>{country.capital}</span>
-                        <span className="destination-detail-meta-divider" />
+                        <span className="country-detail-meta-divider" />
                         <span>{country.best_time_to_visit}</span>
                     </div>
 
                     <a
-                        className="destination-detail-cta"
-                        href="#destination-tours"
+                        className="country-detail-cta"
+                        href="#country-destinations"
                     >
-                        Explore tours <span aria-hidden="true">↓</span>
+                        Explore destinations <span aria-hidden="true">↓</span>
                     </a>
                 </div>
             </section>
 
-            <div className="destination-detail-content">
-                <section className="destination-detail-overview">
-                    <div className="destination-detail-intro">
-                        <span className="destination-detail-eyebrow">
-                            YOUR DESTINATION
+            <div className="country-detail-content">
+                <section className="country-detail-overview">
+                    <div className="country-detail-intro">
+                        <span className="country-detail-eyebrow">
+                            ABOUT THIS COUNTRY
                         </span>
                         <h2>A little about {country.name}</h2>
 
@@ -168,7 +146,7 @@ export default function DestinationDetailPage({
                         {country.description.length > 180 && (
                             <button
                                 type="button"
-                                className="destination-detail-text-button"
+                                className="country-detail-text-button"
                                 onClick={() =>
                                     setShowDescription((value) => !value)
                                 }
@@ -179,16 +157,16 @@ export default function DestinationDetailPage({
                         )}
                     </div>
 
-                    <div className="destination-detail-facts">
-                        <div className="destination-fact">
-                            <span className="destination-fact-label">
+                    <div className="country-detail-facts">
+                        <div className="country-fact">
+                            <span className="country-fact-label">
                                 Capital
                             </span>
                             <strong>{country.capital}</strong>
                         </div>
 
-                        <div className="destination-fact">
-                            <span className="destination-fact-label">
+                        <div className="country-fact">
+                            <span className="country-fact-label">
                                 Languages
                             </span>
                             <strong>
@@ -196,15 +174,15 @@ export default function DestinationDetailPage({
                             </strong>
                         </div>
 
-                        <div className="destination-fact">
-                            <span className="destination-fact-label">
+                        <div className="country-fact">
+                            <span className="country-fact-label">
                                 Currency
                             </span>
                             <strong>{country.currency}</strong>
                         </div>
 
-                        <div className="destination-fact">
-                            <span className="destination-fact-label">
+                        <div className="country-fact">
+                            <span className="country-fact-label">
                                 Time zone
                             </span>
                             <strong>{country.time_zone}</strong>
@@ -213,9 +191,9 @@ export default function DestinationDetailPage({
                 </section>
 
                 {attractions.length > 0 && (
-                    <section className="destination-detail-section">
-                        <div className="destination-detail-section-heading">
-                            <span className="destination-detail-eyebrow">
+                    <section className="country-detail-section">
+                        <div className="country-detail-section-heading">
+                            <span className="country-detail-eyebrow">
                                 WORTH DISCOVERING
                             </span>
                             <h2>Highlights of {country.name}</h2>
@@ -224,14 +202,14 @@ export default function DestinationDetailPage({
                             </p>
                         </div>
 
-                        <div className="destination-attractions-grid">
+                        <div className="country-attractions-grid">
                             {visibleAttractions.map((attraction) => (
                                 <article
-                                    className="destination-attraction"
+                                    className="country-attraction"
                                     key={attraction.name}
                                 >
                                     <span
-                                        className="destination-attraction-marker"
+                                        className="country-attraction-marker"
                                         aria-hidden="true"
                                     >
                                         ✦
@@ -245,7 +223,7 @@ export default function DestinationDetailPage({
                         {attractions.length > 3 && (
                             <button
                                 type="button"
-                                className="destination-detail-text-button"
+                                className="country-detail-text-button"
                                 onClick={() =>
                                     setShowAllAttractions((value) => !value)
                                 }
@@ -260,71 +238,71 @@ export default function DestinationDetailPage({
                 )}
 
                 <section
-                    className="destination-detail-tours"
-                    id="destination-tours"
+                    className="country-detail-destinations"
+                    id="country-destinations"
                 >
-                    <div className="destination-detail-section-heading">
-                        <span className="destination-detail-eyebrow">
+                    <div className="country-detail-section-heading">
+                        <span className="country-detail-eyebrow">
                             FIND YOUR EXPERIENCE
                         </span>
-                        <h2>Tours in {country.name}</h2>
+                        <h2>Destinations in {country.name}</h2>
                         <p>
                             Turn your inspiration into your next adventure.
                         </p>
                     </div>
 
-                    {toursLoading && (
-                        <div className="destination-detail-state" role="status">
-                            Loading tours...
+                    {destinationsLoading && (
+                        <div className="country-detail-state" role="status">
+                            Loading destinations...
                         </div>
                     )}
 
-                    {toursError && (
-                        <div className="destination-detail-state" role="alert">
+                    {destinationsError && (
+                        <div className="country-detail-state" role="alert">
                             <p>
-                                We couldn't load the tours right now.
+                                We couldn't load the destinations right now.
                                 Please try again later.
                             </p>
                         </div>
                     )}
 
-                    {!toursLoading && !toursError && relatedTours.length > 0 && (
+                    {!destinationsLoading && !destinationsError && relatedDestinations.length > 0 && (
                         <>
-                            <p className="destination-detail-tour-count">
-                                {relatedTours.length}{" "}
-                                {relatedTours.length === 1 ? "tour" : "tours"}{" "}
+                            <p className="country-detail-destination-count">
+                                {relatedDestinations.length}{" "}
+                                {relatedDestinations.length === 1 ? "destination" : "destinations"}{" "}
                                 available
                             </p>
 
-                            <div className="destination-detail-tours-grid">
-                                {relatedTours.map((tour) => (
-                                    <TourCard key={tour.id} tour={tour} />
+                            <div className="country-detail-destinations-grid">
+                                {relatedDestinations.map((destination) => (
+                                    <DestinationCard key={destination.id} destination={destination} />
                                 ))}
                             </div>
                         </>
                     )}
 
-                    {!toursLoading && !toursError && relatedTours.length === 0 && (
-                        <div className="destination-detail-state">
+                    {!destinationsLoading && !destinationsError && relatedDestinations.length === 0 && (
+                        <div className="country-detail-state">
                             <h3>More adventures coming soon</h3>
                             <p>
-                                There are no tours listed for {country.name} yet.
+                                There are no destinations listed for {country.name} yet.
                             </p>
                         </div>
                     )}
                 </section>
 
                 {tips.length > 0 && (
-                    <section className="destination-detail-tips">
+                    <section className="country-detail-tips">
                         <button
                             type="button"
-                            className="destination-detail-tips-toggle"
+                            className="country-detail-tips-toggle"
                             onClick={() => setShowTips((value) => !value)}
                             aria-expanded={showTips}
                         >
                             <span>
                                 <strong>Travel tips</strong>
-                                <span className="destination-detail-tips-subtitle">
+                                <span className="country-detail-tips-subtitle">
                                     Useful things to know before you go
                                 </span>
                             </span>
@@ -334,11 +312,11 @@ export default function DestinationDetailPage({
                         </button>
 
                         {showTips && (
-                            <ul className="destination-tips-list">
+                            <ul className="country-tips-list">
                                 {tips.map((tip, index) => (
                                     <li key={`${index}-${tip}`}>
                                         <span
-                                            className="destination-tip-check"
+                                            className="country-tip-check"
                                             aria-hidden="true"
                                         >
                                             ✓

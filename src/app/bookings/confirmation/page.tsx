@@ -255,7 +255,7 @@ export default function BookingConfirmationPage() {
         <div className="confirmation-actions">
           <Link
             className="booking-confirmation-link"
-            href="/tours"
+            href="/destinations"
           >
             Make another booking <span aria-hidden="true">→</span>
           </Link>
