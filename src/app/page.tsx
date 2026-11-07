@@ -1,4 +1,4 @@
-
+import BookingChart from "@/app/chart/carts"
 import { Suspense } from "react";
 import Link from "next/link";
 import HomeDestinationCard from "./components/HomeDestinationCard";
@@ -50,7 +50,7 @@ async function FeaturedContent() {
           ))}
         </div>
       </section>
-
+<BookingChart />
       <section className="featured-tours-section">
         <div className="section-heading">
           <div>

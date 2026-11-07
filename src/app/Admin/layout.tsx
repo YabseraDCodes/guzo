@@ -15,7 +15,7 @@ export default function AdminLayout({
         <button type="submit">Log out</button>
       </form>
 
-      <main className="admin-main">
+      <main className="flex-1 min-w-0">
         {children}
       </main>
 

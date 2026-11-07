@@ -1,5 +1,5 @@
 export const instant = false;
-
+import BookingChart from "./component/charts/bookingChart";
 import Link from "next/link";
 import { MapPin, Compass, ArrowRight } from "lucide-react";
 import "./overview.css";
@@ -34,11 +34,8 @@ export default async function AdminOverviewPage() {
           <MapPin size={22} />
           <div>
             <h3>Your role matters</h3>
-            <p>
-              Keep destination information accurate, tour agent details
-              up to date, and bookings organized. Every detail helps travelers
-              explore with confidence.
-            </p>
+            <div className="flex-1 min-w-0">
+            <BookingChart /></div>
           </div>
         </div>
 

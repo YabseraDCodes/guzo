@@ -11,12 +11,12 @@ export async function GET() {
     user_email,
     agent_id,
     agents (
-      name
+      name,id,contact_info
     ),
     team_number,
     package,
     status,
-    created_at`)
+    travel_date`)
     
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
