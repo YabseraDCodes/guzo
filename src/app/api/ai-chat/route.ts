@@ -53,6 +53,29 @@ function relationArray(value: any): any[] {
     return Array.isArray(value) ? value : [value];
 }
 
+function isCountryListQuestion(message: string): boolean {
+    const query = normalizeText(message);
+
+    return (
+        /\b(which|what|list|show|all)\b.*\b(countries|country)\b/.test(query) ||
+        /\b(countries|country)\b.*\b(available|listed|on guzo)\b/.test(query)
+    );
+}
+
+function countryMentioned(query: string, countryName: string): boolean {
+    const normalizedName = normalizeText(countryName);
+    const knownAliases: Record<string, string[]> = {
+        egypt: ["eygpt"],
+    };
+
+    return (
+        query.includes(normalizedName) ||
+        (knownAliases[normalizedName] ?? []).some((alias) =>
+            query.includes(alias)
+        )
+    );
+}
+
 function getRelevantCatalog(catalog: Catalog, message: string) {
     const query = normalizeText(message);
 
@@ -76,7 +99,7 @@ function getRelevantCatalog(catalog: Catalog, message: string) {
     // 1. Identify countries mentioned in the question.
     const matchedCountries = catalog.countries.filter(
         (country: any) =>
-            query.includes(normalizeText(country.name))
+            countryMentioned(query, country.name)
     );
 
     const matchedCountryIds = new Set(
@@ -88,6 +111,30 @@ function getRelevantCatalog(catalog: Catalog, message: string) {
             normalizeText(country.name)
         )
     );
+
+    // A country availability question only needs the country list. Sending
+    // all tours, packages, agencies, and itineraries makes the prompt needlessly
+    // large and can exceed provider limits.
+    const asksForCountryList = isCountryListQuestion(message);
+
+    if (asksForCountryList && matchedCountries.length === 0) {
+        return {
+            countries: catalog.countries,
+            destinations: [],
+            tours: [],
+            agencies: [],
+            legacyAgents: [],
+            sourceStatus: catalog.sourceStatus,
+            sourceErrors: catalog.sourceErrors,
+            catalogCounts: {
+                totalCountries: catalog.countries.length,
+                totalDestinations: catalog.destinations.length,
+                totalTours: catalog.tours.length,
+                totalAgencies: catalog.agencies.length,
+                totalLegacyAgents: catalog.legacyAgents.length,
+            },
+        };
+    }
 
     // 2. Identify destinations mentioned in the question
     // or belonging to a country mentioned in the question.
@@ -276,67 +323,126 @@ function getRelevantCatalog(catalog: Catalog, message: string) {
     };
 }
 
-function buildTourismContext(catalog: ReturnType<typeof getRelevantCatalog>) {
-    return JSON.stringify(
-        {
-            instructions: {
-                purpose:
-                    "Use this information to answer questions about GUZO.",
-                important:
-                    "Only claim that a record exists when it appears in the supplied data.",
-                agencyRelationships:
-                    "An agency is associated with a destination only when the supplied relationships establish that connection.",
-                missingInformation:
-                    "Do not invent missing information.",
-            },
+function buildTourismContext(
+    catalog: ReturnType<typeof getRelevantCatalog>,
+    message: string
+) {
+    const query = normalizeText(message);
+    const asksPackageDetails = /\b(package|price|cost|hotel|include|itinerary)\b/.test(query);
+    const asksContactDetails = /\b(contact|email|phone|call|reach)\b/.test(query);
+    const asksItinerary = /\b(itinerary|day by day|schedule)\b/.test(query);
+    const shorten = (value: unknown, maxLength: number) =>
+        String(value ?? "").slice(0, maxLength);
 
-            dataCoverage: {
-                ...catalog.catalogCounts,
-                retrievedSources: catalog.sourceStatus,
-                failedSources: catalog.sourceErrors,
-            },
-
-            countries: catalog.countries,
-
-            destinations: catalog.destinations,
-
-            tours: catalog.tours,
-
-            agencies: catalog.agencies,
-
-            legacyAgents: catalog.legacyAgents,
-
-            platformInformation: {
-                purpose:
-                    "GUZO is an African tourism discovery and multi-agency booking platform.",
-
-                travelerFeatures: [
-                    "Discover African countries and destinations.",
-                    "Explore available tours.",
-                    "Compare agencies and travel packages.",
-                    "Submit booking requests.",
-                    "Retrieve booking information using the platform's booking lookup process.",
-                ],
-
-                bookingProcess: [
-                    "Select a country and destination.",
-                    "Explore available tours.",
-                    "Select an agency and package.",
-                    "Complete the booking request form.",
-                    "Submit the request and receive a booking reference.",
-                ],
-
-                bookingRules: [
-                    "A submitted booking is a request, not a confirmed reservation.",
-                    "The AI assistant must not submit bookings on behalf of travelers.",
-                    "Online payments are not part of the current MVP.",
-                    "Travelers must use the existing booking form.",
-                ],
-            },
+    const context: any = {
+        instructions: {
+            purpose: "Answer GUZO questions using only the supplied catalog records.",
+            accuracy: "Do not invent missing countries, destinations, agencies, prices, or relationships.",
+            coverage: "The included record counts may be limited to fit provider limits. Say when the supplied records do not contain the answer.",
         },
-        null,
-        2
-    );
+        dataCoverage: {
+            ...catalog.catalogCounts,
+            suppliedRecords: {
+                destinations: catalog.destinations.length,
+                tours: catalog.tours.length,
+                agencies: catalog.agencies.length,
+                legacyAgents: catalog.legacyAgents.length,
+            },
+            retrievedSources: catalog.sourceStatus,
+            failedSources: catalog.sourceErrors,
+        },
+        countries: catalog.countries.map((country: any) => ({
+            id: country.id,
+            name: country.name,
+            region: country.region,
+            capital: country.capital,
+        })),
+        destinations: catalog.destinations.map((destination: any) => ({
+            id: destination.id,
+            name: destination.name,
+            location: destination.location,
+            category: destination.category,
+            country: destination.country,
+            description: shorten(destination.description, 240),
+        })),
+        tours: catalog.tours.map((tour: any) => ({
+            id: tour.id,
+            name: tour.name,
+            description: shorten(tour.description, 240),
+            destinations: relationArray(tour.destinations).map((destination: any) => ({
+                id: destination.id,
+                name: destination.name,
+            })),
+            agencies: relationArray(tour.agencies).map((agency: any) => ({
+                id: agency.id,
+                name: agency.name,
+            })),
+            ...(asksPackageDetails ? {
+                packages: relationArray(tour.packages).map((pkg: any) => ({
+                    name: pkg.name,
+                    description: shorten(pkg.description, 160),
+                    price: pkg.price,
+                    duration: pkg.duration,
+                    ...(asksItinerary ? {
+                        itinerary: Array.isArray(pkg.itinerary)
+                            ? pkg.itinerary.slice(0, 8).map((step: unknown) =>
+                                shorten(
+                                    typeof step === "string" ? step : JSON.stringify(step),
+                                    180
+                                )
+                            )
+                            : [],
+                    } : {}),
+                })),
+            } : {}),
+        })),
+        agencies: catalog.agencies.map((agency: any) => ({
+            id: agency.id,
+            name: agency.name,
+            rating: agency.rating,
+            description: shorten(agency.description, 200),
+            ...(asksContactDetails ? { contact_info: agency.contact_info } : {}),
+        })),
+        legacyAgents: catalog.legacyAgents.map((agency: any) => ({
+            id: agency.id,
+            name: agency.name,
+            rating: agency.rating,
+            description: shorten(agency.description, 200),
+            ...(asksContactDetails ? { contact_info: agency.contact_info } : {}),
+            destinations: relationArray(agency.destinations).map((destination: any) => ({
+                name: destination.name,
+            })),
+        })),
+    };
+
+    // Keep the full request under Groq's 8,000 token-per-minute request limit.
+    // JSON uses roughly 3-4 characters per token, so 14,000 chars leaves room
+    // for the system instructions, user message, and generated answer.
+    const recordGroups = [
+        context.tours,
+        context.agencies,
+        context.legacyAgents,
+        context.destinations,
+    ];
+
+    while (JSON.stringify(context).length > 14_000) {
+        const largestGroup = recordGroups.reduce((largest, group) =>
+            group.length > largest.length ? group : largest
+        );
+
+        if (largestGroup.length <= 1) break;
+
+        largestGroup.pop();
+        context.dataCoverage.trimmedToFitProviderLimit = true;
+        context.dataCoverage.suppliedRecords = {
+            destinations: context.destinations.length,
+            tours: context.tours.length,
+            agencies: context.agencies.length,
+            legacyAgents: context.legacyAgents.length,
+        };
+    }
+
+    return JSON.stringify(context);
 }
 
 async function getGeminiResponse(
@@ -358,6 +464,12 @@ async function getGeminiResponse(
                 ${tourismContext}
             `,
             maxOutputTokens: 800,
+            httpOptions: {
+                retryOptions: { attempts: 1 },
+            },
+            // Don't let a slow Gemini response hold the chat request open;
+            // the route will fall back to Groq when this deadline expires.
+            abortSignal: AbortSignal.timeout(12_000),
         },
     });
 
@@ -425,6 +537,38 @@ export async function POST(request: Request) {
             );
         }
 
+        // Step 1: Retrieve all public tourism catalog sources.
+        const tourismData = await getTourismData();
+
+        // Step 2: Select relevant records for this question.
+        const relevantCatalog = getRelevantCatalog(
+            tourismData,
+            message
+        );
+
+        // A catalog list is deterministic; don't send it through an AI model,
+        // where it could add unverified details or wait on provider retries.
+        if (isCountryListQuestion(message)) {
+            const names = relevantCatalog.countries
+                .map((country: any) => country.name)
+                .filter(Boolean);
+            const reply = names.length > 0
+                ? `GUZO currently has these countries available:\n\n${names.map((name: string) => `- ${name}`).join("\n")}`
+                : "There are currently no countries in the GUZO catalog.";
+
+            return NextResponse.json({
+                reply,
+                provider: "catalog",
+                catalog: {
+                    countries: relevantCatalog.countries.length,
+                    destinations: relevantCatalog.destinations.length,
+                    tours: relevantCatalog.tours.length,
+                    agencies: relevantCatalog.agencies.length,
+                    legacyAgents: relevantCatalog.legacyAgents.length,
+                },
+            });
+        }
+
         const hasGemini = !!process.env.GEMINI_API_KEY;
         const hasGroq = !!process.env.GROQ_API_KEY;
 
@@ -435,17 +579,8 @@ export async function POST(request: Request) {
             );
         }
 
-        // Step 1: Retrieve all public tourism catalog sources.
-        const tourismData = await getTourismData();
-
-        // Step 2: Select relevant records for this question.
-        const relevantCatalog = getRelevantCatalog(
-            tourismData,
-            message
-        );
-
         // Step 3: Prepare the information for the AI.
-        const tourismContext = buildTourismContext(relevantCatalog);
+        const tourismContext = buildTourismContext(relevantCatalog, message);
 
         console.log("GUZO AI catalog retrieval:", {
             countries: relevantCatalog.countries.length,
@@ -509,12 +644,13 @@ export async function POST(request: Request) {
         );
 
     } catch (error) {
-        console.error("AI chat error:", error);
+        const requestId = crypto.randomUUID();
+        console.error(`[AI chat ${requestId}] Request failed:`, error);
 
         return NextResponse.json(
             {
-                error:
-                    "Unable to retrieve tourism information or get an AI response. Please try again.",
+                error: "Unable to process the AI request.",
+                requestId,
             },
             { status: 500 }
         );

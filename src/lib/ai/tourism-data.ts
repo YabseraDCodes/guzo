@@ -82,20 +82,10 @@ export async function getTourismData() {
 
         supabase
             .from("agents")
-            .select(`
-                id,
-                name,
-                description,
-                destination_id,
-                contact_info,
-                packages,
-                rating,
-                destinations (
-                    id,
-                    name,
-                    countries ( name )
-                )
-            `)
+            // Read the columns that exist in the current table schema.
+            // This legacy table does not have destination_id, and its
+            // destination relationship is not needed for country answers.
+            .select("*")
             .order("name"),
     ]);
 
@@ -113,7 +103,12 @@ export async function getTourismData() {
         if (result.error) {
             console.error(
                 `GUZO AI: Failed to retrieve ${source}:`,
-                result.error.message
+                {
+                    message: result.error.message,
+                    code: result.error.code,
+                    details: result.error.details,
+                    hint: result.error.hint,
+                }
             );
 
             sourceErrors.push(source);
