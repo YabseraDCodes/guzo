@@ -1,71 +1,150 @@
 import { createClient } from "@/app/utils/supabase/server";
 
+function relationArray(value: any): any[] {
+    if (!value) return [];
+    return Array.isArray(value) ? value : [value];
+}
+
 export async function getTourismData() {
     const supabase = await createClient();
 
-    const { data, error } = await supabase
-        .from("tours")
-        .select(`
-            id,
-            name,
-            slug,
-            description,
-            image,
-            destination:destinations (
-                id,
-                name,
-                description,
-                image_urls,
-                location,
-                category,
-                country_id,
-                slug,
-                countries ( name )
-            ),
-            agency:agencies_test (
-                id,
-                name,
-                slug,
-                description,
-                rating,
-                contact_info
-            ),
-            packages:packages_test (
-                id,
-                name,
-                description,
-                price,
-                duration,
-                hotel_name,
-                hotel_image,
-                hotel_ranking,
-                hotel_description,
-                hotel_details,
-                includes,
-                itinerary,
-                is_active
-            )
-        `)
-        .order("name")
-        .limit(100);
+    // Retrieve each main catalog source independently.
+    const [
+        countriesResult,
+        destinationsResult,
+        toursResult,
+        agenciesResult,
+        legacyAgentsResult,
+    ] = await Promise.all([
+        supabase
+            .from("countries")
+            .select("*")
+            .order("name"),
 
-    if (error) {
-        console.error("Tourism data error:", error.message);
-        throw new Error("Unable to retrieve tourism information.");
+        supabase
+            .from("destinations")
+            .select(`
+                *,
+                countries ( name )
+            `)
+            .order("name"),
+
+        supabase
+            .from("tours")
+            .select(`
+                id,
+                name,
+                slug,
+                description,
+                image,
+                destination:destinations (
+                    id,
+                    name,
+                    slug,
+                    description,
+                    location,
+                    category,
+                    country_id,
+                    image_urls,
+                    countries ( name )
+                ),
+                agency:agencies_test (
+                    id,
+                    name,
+                    slug,
+                    description,
+                    rating,
+                    contact_info
+                ),
+                packages:packages_test (
+                    id,
+                    name,
+                    description,
+                    price,
+                    duration,
+                    hotel_name,
+                    hotel_image,
+                    hotel_ranking,
+                    hotel_description,
+                    hotel_details,
+                    includes,
+                    itinerary,
+                    is_active
+                )
+            `)
+            .order("name")
+            .limit(200),
+
+        supabase
+            .from("agencies_test")
+            .select("*")
+            .order("name"),
+
+        supabase
+            .from("agents")
+            .select(`
+                id,
+                name,
+                description,
+                destination_id,
+                contact_info,
+                packages,
+                rating,
+                destinations (
+                    id,
+                    name,
+                    countries ( name )
+                )
+            `)
+            .order("name"),
+    ]);
+
+    const sourceErrors: string[] = [];
+
+    const results = [
+        ["countries", countriesResult],
+        ["destinations", destinationsResult],
+        ["tours", toursResult],
+        ["agencies_test", agenciesResult],
+        ["agents", legacyAgentsResult],
+    ] as const;
+
+    for (const [source, result] of results) {
+        if (result.error) {
+            console.error(
+                `GUZO AI: Failed to retrieve ${source}:`,
+                result.error.message
+            );
+
+            sourceErrors.push(source);
+        }
     }
 
-    const tours = (data ?? []).map((record) => {
+    const countries = countriesResult.data ?? [];
 
-        // Supabase returns these relationships as arrays.
-        // Our current application expects one destination and agency per tour.
-        const destination = record.destination?.[0] ?? null;
-        const agency = record.agency?.[0] ?? null;
+    // Keep every destination and normalize its country relationship.
+    const destinations = (destinationsResult.data ?? []).map(
+        (destination: any) => {
+            const country = relationArray(destination.countries)[0] ?? null;
 
-        const country = destination?.countries?.[0] ?? null;
+            return {
+                ...destination,
+                country: country?.name ?? "Unknown",
+            };
+        }
+    );
 
-        const packages = (record.packages ?? [])
-            .filter((pkg) => pkg.is_active !== false)
-            .map((pkg) => {
+    // Preserve every destination, agency and package relationship.
+    const tours = (toursResult.data ?? []).map((tour: any) => ({
+        ...tour,
+
+        destinations: relationArray(tour.destination),
+
+        agencies: relationArray(tour.agency),
+
+        packages: relationArray(tour.packages)
+            .filter((pkg: any) => pkg.is_active !== false)
+            .map((pkg: any) => {
                 const hotel = pkg.hotel_details ?? {};
 
                 return {
@@ -78,7 +157,8 @@ export async function getTourismData() {
                     hotel: {
                         name: pkg.hotel_name ?? hotel.name ?? "",
                         image: pkg.hotel_image ?? hotel.image ?? "",
-                        ranking: pkg.hotel_ranking ?? hotel.ranking ?? null,
+                        ranking:
+                            pkg.hotel_ranking ?? hotel.ranking ?? null,
                         description:
                             pkg.hotel_description ??
                             hotel.description ??
@@ -88,43 +168,46 @@ export async function getTourismData() {
                     includes: pkg.includes ?? [],
                     itinerary: pkg.itinerary ?? [],
                 };
-            });
+            }),
+    }));
 
-        return {
-            id: record.id,
-            name: record.name,
-            slug: record.slug,
-            description: record.description ?? destination?.description ?? "",
-            image: record.image,
+    const agencies = agenciesResult.data ?? [];
 
-            destination: destination
-                ? {
-                    id: destination.id,
-                    name: destination.name,
-                    description: destination.description,
-                    location: destination.location,
-                    category: destination.category,
-                    country: country?.name ?? "Unknown",
-                    country_id: destination.country_id,
-                    slug: destination.slug,
-                    image_urls: destination.image_urls,
-                }
-                : null,
+    const legacyAgents = (legacyAgentsResult.data ?? []).map(
+        (agent: any) => ({
+            ...agent,
+            destinations: relationArray(agent.destinations),
+        })
+    );
 
-            agency: agency
-                ? {
-                    id: agency.id,
-                    name: agency.name,
-                    slug: agency.slug,
-                    description: agency.description,
-                    rating: agency.rating,
-                    contact_info: agency.contact_info,
-                }
-                : null,
+    const totalRecords =
+        countries.length +
+        destinations.length +
+        tours.length +
+        agencies.length +
+        legacyAgents.length;
 
-            packages,
-        };
-    });
+    if (totalRecords === 0 && sourceErrors.length > 0) {
+        throw new Error(
+            `Unable to retrieve GUZO catalog data. Failed sources: ${sourceErrors.join(", ")}`
+        );
+    }
 
-    return { tours };
+    return {
+        countries,
+        destinations,
+        tours,
+        agencies,
+        legacyAgents,
+
+        sourceStatus: {
+            countries: !countriesResult.error,
+            destinations: !destinationsResult.error,
+            tours: !toursResult.error,
+            agencies: !agenciesResult.error,
+            legacyAgents: !legacyAgentsResult.error,
+        },
+
+        sourceErrors,
+    };
 }
