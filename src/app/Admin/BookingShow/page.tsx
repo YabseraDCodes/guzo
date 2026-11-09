@@ -21,7 +21,7 @@ type Booking = {
   } | null;
 };
 
-const filters = ["All", "Pending", "Confirmed", "Cancelled"];
+const filters = ["All", "Pending", "Completed", "Cancelled"];
 
 
 
@@ -45,6 +45,13 @@ export default function BookingsPage() {
     );
   });
 
+  function countFor(filter: string) {
+    return filter === "All"
+      ? bookings.length
+      : bookings.filter((b) => b.status.toLowerCase() === filter.toLowerCase())
+          .length;
+  }
+
   function formatDate(value: string) {
     if (!value) return "—";
 
@@ -63,8 +70,8 @@ export default function BookingsPage() {
 
   function getStatusClass(status: string) {
     switch (status.toLowerCase()) {
-      case "confirmed":
-        return "confirmed";
+      case "completed":
+        return "completed";
       case "cancelled":
         return "cancelled";
       default:
@@ -102,7 +109,7 @@ export default function BookingsPage() {
               }`}
               onClick={() => setActiveFilter(filter)}
             >
-              {filter}
+              {filter} <span className="filter-count">{countFor(filter)}</span>
             </button>
           ))}
         </div>
@@ -130,7 +137,7 @@ export default function BookingsPage() {
               <tr>
                 <th>Booking ID</th>
                 <th>Customer</th>
-                <th>Agent ID</th>
+                <th>Agent</th>
                 <th>Team Size</th>
                 <th>Package</th>
                 <th>Created At</th>
@@ -159,7 +166,7 @@ export default function BookingsPage() {
                     </div>
                   </td>
 
-                  <td>{booking.agents?.name}</td>
+                  <td className="agent-cell">{booking.agents?.name ?? "—"}</td>
 
                   <td>{booking.team_number}</td>
 

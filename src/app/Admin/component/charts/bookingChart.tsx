@@ -1,5 +1,3 @@
-
-
 "use client";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
@@ -17,9 +15,8 @@ import {
 export default function BookingChart() {
   const { data: bookingData } = useSWR("/api/bookinGet", fetcher);
 
-  const bookings = bookingData || [];
+  const bookings = Array.isArray(bookingData) ? bookingData : [];
 
-  
   const countMonth = (month: number, status: string) =>
     bookings.filter(
       (item: any) =>
@@ -33,50 +30,31 @@ export default function BookingChart() {
     month: name,
     pending: countMonth(i + 1, "pending"),
     completed: countMonth(i + 1, "completed"),
-    declined: countMonth(i + 1, "cancelled"),
-    
+    cancelled: countMonth(i + 1, "cancelled"),
   }));
 
   return (
-    <div style={{ background: "#fdfdff", padding: 16, borderRadius: 8 }}>
-      <ResponsiveContainer width="100%" height={350}>
-        <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#cfcfdf" />
-          <XAxis dataKey="month" stroke="#2f2f30" />
-          <YAxis allowDecimals={false} stroke="#1e1e1f" />
-          <Tooltip
-            contentStyle={{ background: "#272729", border: "none", color: "#fff" }}
-          />
-          <Legend verticalAlign="top" align="right" />
+    <section className="dash-card">
+      <div className="dash-card-header">
+        <h2>Bookings per Month</h2>
+      </div>
 
-          <Line
-            type="monotone"
-            dataKey="pending"
-            name="Pending"
-            stroke="#5b9bff"
-            strokeWidth={2}
-            dot={{ r: 4 }}
+      <ResponsiveContainer width="100%" height={320}>
+        <LineChart data={data} margin={{ top: 10, right: 16, left: -16, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#e4ebe6" />
+          <XAxis dataKey="month" stroke="#718078" tickLine={false} />
+          <YAxis allowDecimals={false} stroke="#718078" tickLine={false} axisLine={false} />
+          <Tooltip
+            contentStyle={{ background: "#172b25", border: "none", borderRadius: 8, color: "#fff" }}
+            itemStyle={{ color: "#fff" }}
           />
-          <Line
-            type="monotone"
-            dataKey="completed"
-            name="Completed"
-            stroke="#22c55e"
-            strokeWidth={2}
-            dot={{ r: 4 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="declined"
-            name="Declined"
-            stroke="#ef4444"
-            strokeWidth={2}
-            dot={{ r: 4 }}
-          />
+          <Legend verticalAlign="top" align="right" iconType="circle" />
+
+          <Line type="monotone" dataKey="pending" name="Pending" stroke="#5b9bff" strokeWidth={2} dot={{ r: 3 }} />
+          <Line type="monotone" dataKey="completed" name="Completed" stroke="#22c55e" strokeWidth={2} dot={{ r: 3 }} />
+          <Line type="monotone" dataKey="cancelled" name="Cancelled" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
         </LineChart>
       </ResponsiveContainer>
-    </div>
+    </section>
   );
 }
-
-

@@ -1,7 +1,6 @@
-import Header from "./component/header";
-import Footer from "./component/footer";
+import Sidebar from "./component/sidebar";
 import { logout } from "@/app/login/actions";
-
+import "./admin-layout.css";
 
 export default function AdminLayout({
   children,
@@ -9,17 +8,29 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="admin-layout">
-      <Header />
-      <form action={logout}>
-        <button type="submit">Log out</button>
-      </form>
+    <div className="admin-shell">
+      <Sidebar
+        footer={
+          <form action={logout}>
+            <button type="submit" className="logout-button">
+              Log out
+            </button>
+          </form>
+        }
+      />
 
-      <main className="flex-1 min-w-0">
-        {children}
-      </main>
+      <div className="admin-body">
+        <header className="admin-topbar">
+          <h1>Admin Dashboard</h1>
 
-      <Footer />
+          <div className="admin-profile">
+            <span className="admin-avatar">A</span>
+            <span>Admin</span>
+          </div>
+        </header>
+
+        <main className="admin-main">{children}</main>
+      </div>
     </div>
   );
 }

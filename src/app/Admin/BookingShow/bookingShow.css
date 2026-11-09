@@ -1,32 +1,209 @@
-
-.traveller-phone {
-  margin-top: 4px;
-  color: #78908d;
-  font-size: 11px;
+.admin-shell .bookings-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.package-name {
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #dce7e2;
-  border-radius: 20px;
-  background: #f3f7f5;
-  color: #14745b;
-  font-size: 11px;
+.admin-shell .bookings-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-shell .bookings-heading h2 {
+  margin: 0;
+}
+
+.admin-shell .refresh-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  color: #24362d;
+  background: #ffffff;
+  font-size: 13px;
   font-weight: 600;
-  text-transform: capitalize;
+  cursor: pointer;
 }
 
-.bookings-table th,
-.bookings-table td {
-  padding: 15px 12px;
+.admin-shell .refresh-button:hover:not(:disabled) {
+  background: var(--soft);
 }
 
-.tracking-id {
+.admin-shell .refresh-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.admin-shell .spinning {
+  animation: bookings-spin 1s linear infinite;
+}
+
+@keyframes bookings-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- filters ---------- */
+.admin-shell .bookings-toolbar {
+  margin-bottom: 16px;
+}
+
+.admin-shell .booking-filters {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: #ffffff;
+}
+
+.admin-shell .filter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 24px;
+  color: #334e50;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-shell .filter-button:hover {
+  background: var(--soft);
+}
+
+.admin-shell .filter-button.selected {
+  color: #ffffff;
+  background: var(--green);
+}
+
+.admin-shell .filter-count {
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: 12px;
+  background: rgb(20 116 91 / 12%);
+  font-size: 11px;
+  text-align: center;
+}
+
+.admin-shell .filter-button.selected .filter-count {
+  background: rgb(255 255 255 / 25%);
+}
+
+/* ---------- table ---------- */
+.admin-shell .bookings-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.admin-shell .bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-shell .bookings-table th {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  background: #f7faf8;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.admin-shell .bookings-table td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #edf1ee;
+  vertical-align: middle;
+}
+
+.admin-shell .bookings-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-shell .bookings-table tbody tr:hover {
+  background: #fafcfb;
+}
+
+.admin-shell .tracking-id {
+  color: var(--muted);
   font-size: 11px;
   overflow-wrap: anywhere;
 }
 
-.booking-date {
+.admin-shell .traveller-name {
+  font-weight: 600;
+}
+
+.admin-shell .traveller-email,
+.admin-shell .traveller-phone {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.admin-shell .agent-cell {
+  font-weight: 600;
+}
+
+.admin-shell .package-name {
+  display: inline-block;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--green);
+  background: #f3f7f5;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.admin-shell .booking-date {
   min-width: 145px;
+  color: #52685b;
+}
+
+/* ---------- messages ---------- */
+.admin-shell .bookings-message {
+  padding: 40px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  color: #63736a;
+  background: #ffffff;
+  text-align: center;
+}
+
+.admin-shell .error-message {
+  color: #b91c1c;
+}
+
+.admin-shell .error-message button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.admin-shell .bookings-count {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
 }

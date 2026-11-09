@@ -4,22 +4,18 @@ import { createClient } from "@/app/utils/supabase/server";
 export async function GET() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from("bookings")
-    .select(` id,
+  const { data, error } = await supabase.from("bookings").select(` id,
     user_name,
     user_email,
     agent_id,
     agents (
-      name,id,contact_info
-    ),
+      name,id,contact_info,rating),
     team_number,
     package,
     status,
-    travel_date`)
-    
+    travel_date`);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
-
