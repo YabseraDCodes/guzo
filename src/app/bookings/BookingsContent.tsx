@@ -9,7 +9,7 @@ type BookingSearchParams = {
 
 type UnknownRecord = Record<string, unknown>;
 
-type SelectedTour = {
+type SelectedDestination = {
   name: string;
   description: string;
   image: string;
@@ -108,7 +108,7 @@ export default async function BookingsContent({
 
   let initialAgentName = "";
   let initialPackage: SelectedPackage | null = null;
-  let initialTour: SelectedTour | null = null;
+  let initialDestination: SelectedDestination | null = null;
 
   if (/^\d+$/.test(initialAgentId)) {
     const supabase = await createClient();
@@ -145,12 +145,12 @@ export default async function BookingsContent({
 
         if (destinationError) {
           throw new Error(
-            `Unable to load the assigned tour: ${destinationError.message}`
+            `Unable to load the assigned destination: ${destinationError.message}`
           );
         }
 
         if (destination) {
-          initialTour = {
+          initialDestination = {
             name: getString(destination.name),
             description: getString(destination.description),
             image: getFirstImage(destination.image_urls),
@@ -168,7 +168,7 @@ export default async function BookingsContent({
       initialAgentName={initialAgentName}
       initialPackageName={requestedPackageName}
       initialPackage={initialPackage}
-      initialTour={initialTour}
+      initialDestination={initialDestination}
     />
   );
 }

@@ -50,14 +50,14 @@ The exact installed versions are defined in [`package.json`](../package.json) an
 ```text
 src/
 ├── app/
-│   ├── Admin/              # Admin overview, bookings, agents, tours, and forms
+│   ├── Admin/              # Admin overview, bookings, agents, destinations, and forms
 │   ├── api/                # Next.js Route Handlers
 │   ├── bookings/           # Public booking form and confirmation
 │   ├── components/         # Shared public UI components
-│   ├── destinations/       # Destination catalogue and detail pages
+│   ├── Countries/          # Country catalogue and detail pages
 │   ├── login/              # Sign-in form and authentication actions
 │   ├── trip-status/        # Booking lookup/status page
-│   ├── tours/              # Tour catalogue and detail pages
+│   ├── destinations/       # Destination catalogue and detail pages
 │   ├── layout.tsx          # Root document layout and metadata
 │   └── page.tsx            # Home page
 ├── lib/
@@ -76,11 +76,11 @@ docs/
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home page with featured destinations and tours |
+| `/` | Home page with featured countries and destinations |
+| `/Countries` | Country catalogue |
+| `/Countries/[slug]` | Country details |
 | `/destinations` | Destination catalogue |
-| `/destinations/[slug]` | Destination details |
-| `/tours` | Tour catalogue |
-| `/tours/[slug]` | Tour details and associated agents |
+| `/destinations/[slug]` | Destination details and associated agents |
 | `/bookings` | Submit a booking |
 | `/bookings/confirmation` | Booking confirmation view |
 | `/trip-status` | Look up booking status |
@@ -93,9 +93,9 @@ docs/
 | `/login` | Sign in with email and password |
 | `/Admin` | Administrator overview and links to management areas |
 | `/Admin/BookingShow` | View and filter bookings |
-| `/Admin/TourPlace` | View tour packages |
+| `/Admin/Destinations` | Manage destinations |
 | `/Admin/Agents` | View tour agents |
-| `/Admin/forms/tourForm` | Add a tour/destination record |
+| `/Admin/forms/destinationForm` | Add a destination record |
 | `/Admin/forms/agentForm` | Add an agent record |
 | `/staff` | Staff dashboard |
 | `/unauthorized` | Access-denied page |
@@ -106,7 +106,7 @@ The current application supports this high-level path:
 
 ```mermaid
 flowchart TD
-    A[Browse destinations and tours] --> B[View tour details]
+    A[Browse destinations] --> B[View destination details]
     B --> C[Review associated agents]
     C --> D[Choose an agent and package]
     D --> E[Enter contact and travel details]
@@ -151,15 +151,15 @@ These endpoints are implemented as Next.js Route Handlers under `src/app/api`.
 | Method | Path | Purpose |
 | --- | --- | --- |
 | `GET` | `/api/countries` | Return countries ordered by name |
-| `GET` | `/api/tours` | Return destinations with selected country fields |
+| `GET` | `/api/destination-catalog` | Return destinations with selected country fields |
 | `GET` | `/api/agents` | Return agents ordered by name |
 | `GET` | `/api/adminagent` | Return agents with destination and country names |
 | `GET` | `/api/bookinGet` | Return booking details with associated agent name |
 | `POST` | `/api/bookingPost` | Validate required booking fields and insert a booking |
-| `POST` | `/api/tourPost` | Insert a destination/tour record |
+| `POST` | `/api/destinationPost` | Insert a destination record |
 | `POST` | `/api/agentPost` | Insert an agent record |
 
-The existing endpoint names are part of the current application contract. Preserve them when making changes unless the client calls are migrated at the same time.
+The `/api/destination-catalog` handler adapts existing Supabase `tours` records for the renamed destination catalogue. Legacy `/tours`, `/api/tours`, `/api/tourPost`, `/Admin/TourPlace`, and `/Admin/forms/tourForm` paths redirect to their new names. `/api/destinations` continues to serve rows from the separate `destinations` table.
 
 ## Authentication and access control
 

@@ -23,11 +23,7 @@ type Agent = {
     name: string;
     description: string;
     rating: number;
-    packages: {
-        golden: Package;
-        silver: Package;
-        economy: Package;
-    };
+    packages: Record<string, Package>;
     contact_info: string;
 };
 

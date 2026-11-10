@@ -5,6 +5,8 @@ type Package = {
     price: number;
     duration: string;
     hotel: {
+        name?: string;
+        image?: string;
         ranking: number;
         description: string;
     };
@@ -38,7 +40,8 @@ export default function PackageCard({
     const normalizedPackageName = packageName.toLowerCase();
 
     const hotelImage =
-        hotelImages[normalizedPackageName] ??
+        pkg.hotel.image ||
+        hotelImages[normalizedPackageName] ||
         "/images/hotels/economy.jpg";
 
     const hotelRating = Math.max(

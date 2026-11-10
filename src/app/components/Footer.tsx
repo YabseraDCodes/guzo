@@ -25,8 +25,8 @@ export default function Footer() {
         <div className="footer-links-group">
           <h2>Explore</h2>
           <nav aria-label="Explore">
-            <Link href="/destinations">Destinations</Link>
-            <Link href="/tours">Explore tours</Link>
+            <Link href="/Countries">Countries</Link>
+            <Link href="/destinations">Explore destinations</Link>
             <Link href="/about">About GUZO</Link>
           </nav>
         </div>
@@ -35,8 +35,8 @@ export default function Footer() {
           <h2>Your journey</h2>
           <nav aria-label="Your journey">
             <Link href="/trip-status">Track your booking</Link>
-            <Link href="/tours">Find a tour</Link>
-            <Link href="/destinations">Discover Africa</Link>
+            <Link href="/destinations">Find a destination</Link>
+            <Link href="/Countries">Explore countries</Link>
           </nav>
         </div>
 
