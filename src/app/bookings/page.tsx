@@ -6,6 +6,7 @@ export default function BookingsPage({
   searchParams,
 }: {
   searchParams: Promise<{
+    destinationId?: string | string[];
     agentId?: string | string[];
     packageName?: string | string[];
   }>;

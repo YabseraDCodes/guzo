@@ -3,6 +3,7 @@ import { BookingForm } from "./BookingForm";
 import { createClient } from "@/app/utils/supabase/server";
 
 type BookingSearchParams = {
+  destinationId?: string | string[];
   agentId?: string | string[];
   packageName?: string | string[];
 };
@@ -56,42 +57,51 @@ function getSelectedPackage(
   packages: unknown,
   packageName: string
 ): SelectedPackage | null {
-  if (!isRecord(packages) || !packageName) return null;
+  if (!packageName) return null;
 
   const requestedName = packageName.trim().toLowerCase();
-
-  const matchingKey = Object.keys(packages).find(
-    (key) => key.toLowerCase() === requestedName
-  );
-
-  if (!matchingKey) return null;
-
-  const selected = packages[matchingKey];
+  const selected = Array.isArray(packages)
+    ? packages.find(
+        (item) =>
+          isRecord(item) &&
+          getString(item.name).toLowerCase() === requestedName &&
+          item.is_active !== false
+      )
+    : isRecord(packages)
+      ? packages[
+          Object.keys(packages).find(
+            (key) => key.toLowerCase() === requestedName
+          ) ?? ""
+        ]
+      : null;
 
   if (!isRecord(selected)) return null;
 
-  const price = selected.price;
+  const price = Number(selected.price);
 
   if (
-    typeof price !== "number" ||
     !Number.isFinite(price) ||
     price < 0
   ) {
     return null;
   }
 
-  const hotel = isRecord(selected.hotel) ? selected.hotel : {};
+  const hotelDetails = isRecord(selected.hotel_details)
+    ? selected.hotel_details
+    : {};
+  const hotel = isRecord(selected.hotel) ? selected.hotel : hotelDetails;
 
-  const rawRating = Number(hotel.ranking);
+  const rawRating = Number(selected.hotel_ranking ?? hotel.ranking);
   const hotelRating = Number.isFinite(rawRating)
     ? Math.max(0, Math.min(5, Math.round(rawRating)))
     : 0;
 
   return {
-    name: matchingKey,
+    name: getString(selected.name) || requestedName,
     price,
     duration: getString(selected.duration),
-    hotelDescription: getString(hotel.description),
+    hotelDescription:
+      getString(selected.hotel_description) || getString(hotel.description),
     hotelRating,
   };
 }
@@ -103,6 +113,7 @@ export default async function BookingsContent({
 }) {
   const selected = await searchParams;
 
+  const initialDestinationId = firstValue(selected.destinationId);
   const initialAgentId = firstValue(selected.agentId);
   const requestedPackageName = firstValue(selected.packageName);
 
@@ -110,55 +121,61 @@ export default async function BookingsContent({
   let initialPackage: SelectedPackage | null = null;
   let initialDestination: SelectedDestination | null = null;
 
-  if (/^\d+$/.test(initialAgentId)) {
+  if (/^\d+$/.test(initialDestinationId) && /^\d+$/.test(initialAgentId)) {
     const supabase = await createClient();
 
-    const { data: agent, error: agentError } = await supabase
-      .from("agents")
-      .select("id, name, destination_id, packages")
-      .eq("id", Number(initialAgentId))
-      .maybeSingle();
+    // Booking links carry a destination ID and an agency ID. Resolve them
+    // through the same normalized tour relations used by /api/tours; the
+    // legacy agents.destination_id column is not present in this database.
+    const { data: tours, error: tourError } = await supabase
+      .from("tours")
+      .select(`
+        destination:destinations (
+          id, name, description, image_urls, location, category
+        ),
+        agency:agencies_test (
+          id, name
+        ),
+        packages:packages_test (
+          name, price, duration, hotel_description, hotel_ranking,
+          hotel_details, is_active
+        )
+      `)
+      .eq("destination_id", Number(initialDestinationId));
 
-    if (agentError) {
+    if (tourError) {
       throw new Error(
-        `Unable to load the selected tour agent: ${agentError.message}`
+        `Unable to load the selected tour: ${tourError.message}`
       );
     }
 
-    if (agent) {
-      initialAgentName = agent.name ?? "";
+    const matchingTour = (tours ?? []).find((tour) => {
+      const agency = Array.isArray(tour.agency) ? tour.agency[0] : tour.agency;
+      return isRecord(agency) && String(agency.id) === initialAgentId;
+    });
 
+    if (matchingTour) {
+      const agency = Array.isArray(matchingTour.agency)
+        ? matchingTour.agency[0]
+        : matchingTour.agency;
+      const destination = Array.isArray(matchingTour.destination)
+        ? matchingTour.destination[0]
+        : matchingTour.destination;
+
+      if (isRecord(agency)) initialAgentName = getString(agency.name);
+      if (isRecord(destination)) {
+        initialDestination = {
+          name: getString(destination.name),
+          description: getString(destination.description),
+          image: getFirstImage(destination.image_urls),
+          location: getString(destination.location),
+          category: getString(destination.category),
+        };
+      }
       initialPackage = getSelectedPackage(
-        agent.packages,
+        matchingTour.packages,
         requestedPackageName
       );
-
-      if (agent.destination_id != null) {
-        const { data: destination, error: destinationError } =
-          await supabase
-            .from("destinations")
-            .select(
-              "id, name, description, image_urls, location, category"
-            )
-            .eq("id", agent.destination_id)
-            .maybeSingle();
-
-        if (destinationError) {
-          throw new Error(
-            `Unable to load the assigned destination: ${destinationError.message}`
-          );
-        }
-
-        if (destination) {
-          initialDestination = {
-            name: getString(destination.name),
-            description: getString(destination.description),
-            image: getFirstImage(destination.image_urls),
-            location: getString(destination.location),
-            category: getString(destination.category),
-          };
-        }
-      }
     }
   }
 
