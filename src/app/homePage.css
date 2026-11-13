@@ -134,7 +134,7 @@ button:focus-visible {
       rgba(13, 35, 25, 0.38),
       transparent 45%
     ),
-    url("https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2400&q=90");
+    url("/images/hero.jpg");
   background-size: cover;
   background-position: center 55%;
   isolation: isolate;
